@@ -1,0 +1,136 @@
+/*Estilos generales*/
+:root {
+    --primario: #e23939;
+    --gris-claro: #B8B8B8;
+    --sombra: 0 0 13px 0 rgba(185,185,185, .25);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+html {
+    font-size: 62.5%;
+}
+
+/*Icono antes del título */
+.tCat::before {
+    content: "\1F4F7"; 
+    color: #ffc300;
+    margin-right: 1px;
+}
+
+/*Icono después del título */
+.tCat::after {
+    content: "\1F697";
+    color: #ffc300;
+    margin-right: 1px;
+}
+
+/*Estilo para el título*/
+.tCat {
+    text-align: center;
+    color: #ffc300;
+    font-size: 30px;
+}
+
+/*Contenedor de todo los paquetes*/
+.contenedor-paquetes{
+   grid-template-columns: repeat(auto-fit, minmax(280px,280px));
+    display: grid;
+    max-width: 1100px;
+    justify-content: center;
+    margin: auto;
+    gap: 20px;
+    padding-bottom: 50px;
+    padding: 20px;
+    column-count: 3;
+    grid-auto-rows: 1fr;
+}
+
+/*Estilo para cada paquete*/
+.tour {
+    max-width: 270px;
+    box-shadow: 0 3px 10px rgb(0 0 0 /20%); /*color y sombra*/
+    padding-bottom: 34px;
+    margin-bottom: 40px;
+    padding: 20px;
+}
+
+/*Estilo para las imágenes*/
+.tour img {
+    width: 100%;
+    height: 170px;
+}
+
+/*Estilo para la ventana modal (descripción de los paquetes)*/
+.info {
+    padding: 15px;
+}
+
+.info h2 {
+    font-size: 1.6rem;
+}
+
+.info p {
+    font-size: 1.5rem;
+}
+
+.precio {
+    display: flex;
+}
+
+.info h2, .info p {
+    color: #222;
+    margin-bottom: 15px;
+}
+
+/* Estilos para el formulario */
+.formulario {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.formulario input[type="file"],
+.formulario input[type="text"],
+.formulario input[type="number"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+/* Estilos para las etiquetas label*/
+.formulario label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+/* Estilos para el botón*/
+.formulario input[type="submit"] {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+/*Resaltado cuando se pasa por el botón*/
+.formulario input[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
+/* Ajustar el diseño para el contenedor del formulario */
+fieldset {
+  border: none;
+  padding: 0;
+}

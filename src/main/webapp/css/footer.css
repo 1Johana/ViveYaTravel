@@ -1,0 +1,50 @@
+/* Estilos generales */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+/* Estilos para el footer */
+footer {
+    background-color: #666;
+    color: #fff;
+    padding: 10px 0;
+}
+
+.contFooter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.empresa, .informacion, .cuenta, .cliente {
+    margin-bottom: 30px;
+}
+
+.tf {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+ul li {
+    margin-bottom: 10px;
+}
+
+ul li a{
+    text-decoration: none;
+    color: white;
+    margin-bottom: 10px;
+}
+
+ul li a:hover{
+    color: #085394;
+}
+

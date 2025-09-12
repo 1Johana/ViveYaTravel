@@ -1,0 +1,40 @@
+/* Estilos para la tabla */
+.tablaRep {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    margin-left: 80px;
+    max-width: 1000px;
+}
+
+/* Estilos para las celdas de la tabla */
+.tablaRep td, .tablaRep th {
+    border: 1px solid #dddddd;
+    padding: 8px;
+    text-align: left;
+}
+
+/* Estilos para la cabecera de la tabla */
+.tablaRep thead {
+    background-color: #4887c5;
+    color: white;
+}
+
+/* Estilos para las filas impares de la tabla */
+.tablaRep tbody tr:nth-child(odd) {
+    background-color: #f9f9f9;
+}
+
+/* Estilos para las filas pares de la tabla */
+.tablaRep tbody tr:nth-child(even) {
+    background-color: #ffffff;
+}
+
+/*Estilo para los íconos de descarga*/
+a i {
+    margin-top: 80px;
+    margin-left: 200px;
+}
+
+

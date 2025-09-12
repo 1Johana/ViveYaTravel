@@ -1,0 +1,107 @@
+/* Estilos generales */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+/* Estilos para el header */
+.header {
+    width: 100%;
+    background-color: #085394;
+    color: white;
+    padding: 1px 0;
+    height: 90px;  /*Ajusta el alto del div*/
+    z-index: 99;
+    position: relative; /* Asegurar que el header esté por encima del modal cuando no esté activo */
+}
+
+.contHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    height: 90px; /*Ajusta el alto del div*/
+    margin: 0 auto;
+}
+
+/* Cambios en la header */
+.logo {
+    padding-top: 40px; /*Bajar el div*/
+    z-index: 9; /* Le da prioridad sobre otros */
+}
+
+img .logo {
+    width: 111px;
+}
+
+.usuario {
+    margin-left: 10px; /* Espacio entre el mensaje de bienvenida y el ícono de usuario */
+}
+
+/*.logo, .usuario, .carrito {
+    width: 100px;  Ajustar el tamaño
+}*/
+
+.carrito {
+    color: #fff;
+    font-size: 25px;
+}
+
+.navbar {
+    padding-top: 10px;
+}
+
+/* Menú de navegación */
+.navbar nav ul.menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.navbar nav ul.menu li {
+    display: inline-block;
+    margin-right: 20px;
+}
+
+.navbar nav ul.menu li a {
+    text-decoration: none;
+    color: #fff;
+    font-weight: bold;
+}
+
+/* Cambia el color al pasar el mouse */
+.navbar nav ul.menu li a:hover {
+    background-color: white;
+    color: #085394; 
+}
+
+.usuario {
+    color: white;
+    font-size: 25px;
+}
+
+.usuario:hover {
+    color: black;
+}
+
+.usuario a {
+    color: white;
+    font-size: 15px;
+    text-decoration: none;
+}
+
+.usuario-container {
+    display: flex;
+    align-items: center;
+    margin-left: auto; /*Contenedor de usuario a la derecha*/
+}
+
+.usuario-container .usuario {
+    margin-left: 10px; /* Espacio entre el mensaje de bienvenida y el ícono de usuario */
+}
+
+.cerrar {
+    font-size: 25px;
+    color: #C40C0C;
+}

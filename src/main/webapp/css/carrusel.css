@@ -1,0 +1,59 @@
+.carrusel-body{
+    height: 500px;
+/*    display: flex;*/
+/*    align-items: center;
+    justify-self: center;*/
+}
+
+.contenedor-carrusel{
+    position: relative;
+    width: 100%;   /*Ancho*/
+    height: 400px;
+    overflow: hidden;
+}
+
+.carruseles{
+    width: 300%;
+    height: 100%;
+    display: flex;  /*Poner las imagenes de un lado a otro*/
+}
+
+.slider-section{
+    width: calc(100% / 3);
+    height: 100%;
+}
+
+.slider-section img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.btn-left,
+.btn-right{
+    display: flex;
+    position: absolute;
+    top: 50%;
+    font-size: 1.5rem;
+    background-color: transparent;
+    border-radius: 50%;
+    padding: 5px;
+    font-weight: 600;
+    cursor: pointer;
+    color: #ffffff81;
+    transform: translate(0, -50%);
+    transition: .5s ease;  
+}
+
+.btn-left:hover,
+.btn-right:hover {
+    background-color: #333333d4;
+    color: #fff;
+}
+
+.btn-left{
+    left: 10px;
+}
+.btn-right{
+    right: 10px;
+}

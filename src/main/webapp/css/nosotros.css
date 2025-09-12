@@ -1,0 +1,66 @@
+/*Estilo del encabezado "NOSOTROS"*/
+.nosotros{
+    text-align: center; /*alinea el encabezado al centro de la pagina*/
+    color: #085394;/*define el color del texto*/
+    font-size: 40px; /*define el tamaño de la fuente del texto.*/      
+}
+/*Estilo del contenido de "NOSOTROS"*/
+.nosotros-text{
+    text-align: center;/*alinea el texto al centro de la pagina*/
+    justify-content: center;/*justifica el contenido agrupado al centro de la pagina*/
+    color: black;/*define el color del texto*/
+    font-size: 30px; /*define el tamaño de la fuente del texto.*/ 
+    line-height: 1.5;/*aplica el interlineado*/
+}
+/*Estilo del contenedor para vision y mision*/
+ .contenedor-nosotros {
+    display: flex;/*establece al contenedor como un contenedor flexible*/
+    justify-content: space-between; /*justifica el contenido del contenedor dando un espacio entre la vision y mision*/
+    align-items: flex-start;/*define la alineación de los elementos hijos dentro de un contenedor flexible*/
+    margin: auto;/*ejecuta un margen automatico*/
+    margin-bottom: 40px;
+}
+/*Estilo de la clase vision y mision*/
+.vision, .mision {
+    width: 50%; /*define la anchura de los elementos vision y mision*/
+}  
+/*Estilo del encabezado de la vision y mision*/
+.vision-heading, .mision-heading{
+    text-align: center;/*alinea el encabezado al centro*/
+    color: #085394;/*define el color del texto*/
+    font-size: 25px;/*define el tamaño de la fuente del texto.*/
+}
+/*Estilo de la informacion de la vision y mision*/
+ .vision-text,.mision-text {
+    text-align: center;/*alinea la información al centro de su espacio*/
+    justify-content: center; /*justifica el contenido agrupado al centro de la pagina*/
+    display: flex;/*justifica el contenido agrupado al centro de la pagina*/
+    color: black;/*define el color del texto*/
+    font-size: 20px; /*define el tamaño de la fuente del texto.*/
+    line-height: 1.5;/*aplica el interlineado*/
+}
+/*Estilo de las imagenes de la vision y mision*/
+  .vision-img,.mision-img{
+    display: flex;/*establece la imagen como flexible*/
+   justify-content: center;/*justifica la imagen al centro del contenedor*/
+  }
+  .ustedes{
+      width: 50%; 
+  }
+  .ustedes-heading{
+   text-align: left; /*alinea el encabezado al centro de la pagina*/
+    color: #085394;/*define el color del texto*/
+    font-size: 30px;
+    margin-top: 50px;
+  }
+  .video-container {
+    display: flex; /*establece el video como flexible*/
+    justify-content: space-between; /*justifica el video al centro del contenedor*/
+    margin-top: 20px; /*proporciona un margen a la parte superior del controlador*/
+    margin-bottom: 60px;/*proporciona un margen a la parte inferior del controlador*/
+}
+  .video-container iframe {
+    width: 49%;
+    height: 315px;
+}
+
