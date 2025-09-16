@@ -52,11 +52,7 @@ public class correo {
         // Manejo de excepciones: imprimir la traza de la excepción
         e.printStackTrace();
     }
-}
-
-    
-    
-    
+}  
 }
 
 

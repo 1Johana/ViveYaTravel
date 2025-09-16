@@ -47,19 +47,19 @@
                     <label>Apellido</label>
                 </div>
                 <div class="registro">
-                    <input type="text" maxlength="9" name="nroCelular" id="celular" required>
+                    <input type="text" maxlength="9" oninput="this.value = this.value.replace(/[^0-9]/g, '')" name="nroCelular" id="celular" required>
                     <label>Celular</label>
                 </div>
                 <div class="registro">
-                    <input type="text" maxlength="8" name="nroDni" id="dni" required>
+                    <input type="text" maxlength="8" oninput="this.value = this.value.replace(/[^0-9]/g, '')" name="nroDni" id="dni" required>
                     <label>DNI</label>
                 </div>
                 <div class="registro">
-                    <input type="text" name="correoElectronico" id="correoElectronico" required>
+                    <input type="mail" name="correoElectronico" id="correoElectronico" required>
                     <label>Correo Electronico</label>
                 </div>
                 <div class="registro">
-                    <input type="password" name="clave" id="password" required>
+                    <input type="password" minlength="8" name="clave" id="password" required>
                     <label>Contraseña</label>
                 </div>
                 <input type="submit" name="registrar" id="Registrar" value="Registrarte">

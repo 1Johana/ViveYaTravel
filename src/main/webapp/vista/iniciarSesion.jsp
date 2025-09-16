@@ -45,15 +45,17 @@
                     <input type="password" name="clave" id="clave" required>
                     <label>Contraseña</label>
                 </div>
+                
+                <input type="submit" name="verificar" id="Verificar" value="iniciar">
+                
                 <div class="recordar">
                     ¿Olvidaste tu contraseña?
                 </div>
-                <input type="submit" name="verificar" id="Verificar" value="iniciar">
                 <div class="registrarse">
-                    Crear <a href="${pageContext.request.contextPath}/vista/registrar.jsp">cuenta</a>
+                     <a href="${pageContext.request.contextPath}/vista/registrar.jsp">Crear cuenta</a>
                 </div>
                 <div class="volver">
-                    Volver al <a href="${pageContext.request.contextPath}/vista/index.jsp">inicio</a>
+                     <a href="${pageContext.request.contextPath}/vista/index.jsp">Volver al inicio</a>
                 </div>
             </form>
         </div>
