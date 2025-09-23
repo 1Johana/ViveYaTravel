@@ -159,7 +159,7 @@ public class usuarioDAO {
     public boolean existeUsuarioPorCorreo(String correoElectronico) throws SQLException {
         PreparedStatement ps = null;
         ResultSet rs = null;
-        String cadSQL = "SELECT COUNT(*) FROM usuario WHERE correoElectronico = ?"; //Verifica si existe un dni que ya esta siendo usado
+        String cadSQL = "SELECT COUNT(*) FROM usuario WHERE correoElectronico = ?"; //Verifica si existe un correo que ya esta siendo usado
         boolean existeCorreo = false;
         try {
             ps = cn.prepareStatement(cadSQL);
