@@ -9,45 +9,63 @@
         <footer>
             <div class="contFooter">
                 <div class="empresa">
-                    <p class="tf">Empresa</p>
-                    <ul>
-                        <!--<li>
-                            Los mejores en viajes de turismo lo encuentras en Vive Ya Travel. ¡Atrévete a viajar!
-                        </li> -->
-                        <li>Atencion: 8:00 a.m. a 10:00 p.m.</li>
-                        <li>Celular: 917-457-834</li>
-                        <li>EmaiL: viveyatravel@gmail.com</li>
+                    <h3>Nuestra empresa</h3>
+                    <p> Tu viaje soñado comienza aquí<br>
+                        Más que recuerdos, creamos <br>
+                        experiencias inolvidables. <br> 
+                        ¡Atrévete a viajar sin miedos!<br> 
+                        Vive Ya, ViveYaTravel.
+                        
+                    <p>Síguenos en:</p>
+                    <ul class="social-icons">
+                        <li>
+                            <a href="https://www.instagram.com/viveyatravel/" target="_blank">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.facebook.com/viveyatravel/" target="_blank">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.tiktok.com/@viveyatravel/" target="_blank">
+                                <i class="fab fa-tiktok"></i>
+                            </a>
+                        </li>
                     </ul>
+                    
                 </div>
+
                 <div class="informacion">
-                    <p class="tf">Información</p>
+                    <h3>Información</h3>
                     <ul>
-                        <li><a href="nosotros.jsp">Nuestra historia</a></li>
+                        <li><a href="nosotros.jsp">Nosotros</a></li>
+                        <li><a href="politica-privacidad.jsp">Política de privacidad</a></li>
+                        <li><a href="terminos-condiciones.jsp">Términos y condiciones</a></li>
                         <li><a href="preguntasFrecuentes.jsp">Preguntas frecuentes</a></li>
-                        <li><a href="sugerencias.jsp">Sugerencias</a></li>
-                    </ul> 
+                    </ul>
                 </div>
 
                 <div class="cuenta">
-                    <p class="tf">Mi cuenta</p>
-
+                    <h3>Mi cuenta</h3>
                     <ul>
-                        <li><a href="cuenta.jsp">Mis datos</a></li>
-                        <li><a href="tours.jsp">Mis tours</a></li>
+                        <li><a href="mi-cuenta.jsp">Mi cuenta</a></li>
+                        <li><a href="mis-compras.jsp">Mis compras</a></li>
+                        <li><a href="eliminar-cuenta.jsp">Eliminar mi cuenta</a></li>
+                        <li><a href="sugerencias.jsp">Sugerencias</a></li>
                     </ul>
                 </div>
 
-
-                <div class="cliente">
-                    <p class="tf">Atención al cliente</p>
-
+                <div class="contacto">
+                    <h3>Contacto</h3>
                     <ul>
-                        <li><a href="#">Política de privacidad</a></li>
                         <li><a href="libroReclamaciones.jsp">Libro de reclamaciones</a></li>
+                        <li><a href="contactanos.jsp">Contáctanos</a></li>
+                        <img src="../img/pago.png" alt="contacto" width="200" height="auto"/>
                     </ul>
                 </div>
             </div>
-
         </footer>
     </body>
 </html>

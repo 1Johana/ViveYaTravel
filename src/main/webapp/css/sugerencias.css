@@ -1,31 +1,75 @@
+/* Estilos para el body */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f2f5;
     margin: 0;
     padding: 0;
 }
 
 .form-container {
-    max-width: 600px;
-    margin: 50px auto;
-    padding: 20px;
-    background-color: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 500px;
+    margin: 30px auto;
+    padding: 30px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
+
+/* Estilos para el título del formulario */
 .formulario {
     text-align: center;
     color: #333;
+    font-size: 24px;
+    margin-bottom: 25px; 
 }
+
+/* Estilos para el formulario */
 form {
     display: flex;
     flex-direction: column;
 }
+
 label {
-    margin-top: 10px;
-    color: #333;
-}
-input, textarea {
-    margin-top: 5px;
-    padding: 10px;
+    margin-top: 20px;
+    font-size: 14px;
+    color: #555;
+    font-weight: bold;
 }
 
+/* Estilos para los campos de entrada y el área de texto */
+input, textarea {
+    width: 100%;
+    padding: 12px;
+    margin-top: 8px;
+    font-size: 16px;
+    border: 1px solid #ddd; 
+    border-radius: 4px;
+    box-sizing: border-box; /* Asegura que el padding no cambie el ancho */
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+input:focus, textarea:focus {
+    border-color: #5d9e5d; /* Color al enfocar el campo */
+    box-shadow: 0 0 5px rgba(93, 158, 93, 0.5); 
+    outline: none;
+}
+
+/* Estilos para el botón de enviar */
+button[type="submit"] {
+    background-color: #5d9e5d; /* Un verde vibrante pero elegante */
+    color: white;
+    padding: 15px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 25px;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+button[type="submit"]:hover {
+    background-color: #4a804a; /* Un verde más oscuro al pasar el mouse */
+    transform: translateY(-2px); /* Un pequeño efecto de levantamiento */
+}

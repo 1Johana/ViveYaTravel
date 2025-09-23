@@ -7,44 +7,85 @@ body {
 
 /* Estilos para el footer */
 footer {
-    background-color: #666;
+    background-color: lightslategray;
     color: #fff;
-    padding: 10px 0;
+    padding: 25px 0; /* Agregué más padding para mayor altura */
 }
 
 .contFooter {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    max-width: 1200px;
+    align-items: stretch;
+    max-width: 1300px;
     margin: 0 auto;
+    flex-wrap: wrap;
+    gap: 30px; /* Agregué un espacio entre columnas para un mejor diseño */
 }
 
-.empresa, .informacion, .cuenta, .cliente {
-    margin-bottom: 30px;
-}
-
-.tf {
+/* Estilos de los títulos h3 */
+.contFooter h3 {
+    font-size: 24px;
     font-weight: bold;
-    font-size: 18px;
+    color: lightblue;
+    margin-bottom: 20px;
 }
 
+/* Estilos para cada columna */
+.empresa, .informacion, .cuenta, .contacto {
+    margin-bottom: 10px;
+    text-align: left;
+    min-width: 200px;
+}
+
+/* Estilos para el slogan y el texto */
+.empresa p {
+    font-size: 16px;
+    line-height: 2;
+    margin-bottom: 10px; /* Ajuste del espacio */
+}
+
+/* Estilos para los iconos sociales */
+.social-icons {
+    display: flex;
+    gap: 15px;
+    list-style: none;
+    padding: 0;
+    margin-bottom: 10px;
+}
+
+.social-icons li a {
+    width: 35px;
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    border: 1px solid lightblue;
+    transition: background-color 0.3s;
+}
+
+.social-icons li a:hover {
+    background-color: lightblue;
+}
+
+/* Estilos de las listas de enlaces */
 ul {
     list-style: none;
     padding: 0;
+    margin: 0;
 }
 
 ul li {
-    margin-bottom: 10px;
+    margin-bottom: 25px;
 }
 
-ul li a{
+ul li a {
     text-decoration: none;
-    color: white;
-    margin-bottom: 10px;
+    color: #fff;
+    transition: color 0.3s;
 }
 
-ul li a:hover{
-    color: #085394;
+ul li a:hover {
+    color: lightblue;
 }
 
