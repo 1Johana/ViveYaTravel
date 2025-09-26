@@ -17,6 +17,7 @@ public class srvPromocion extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8"); //Para que pueda insertar caracteres especiales
         response.setContentType("text/html;charset=UTF-8");
        
         String accion = request.getParameter("accion");

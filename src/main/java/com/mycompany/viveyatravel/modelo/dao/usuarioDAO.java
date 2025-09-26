@@ -131,6 +131,54 @@ public class usuarioDAO {
         }
     }
 
+    //Obtener nombre de usuario segun correo
+    public usuario obtenerPorCorreo(String correo) throws SQLException {
+        String sql = "SELECT * FROM usuario WHERE correoElectronico = ?";
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        usuario u = null;
+
+        try {
+            ps = cn.prepareStatement(sql);
+            ps.setString(1, correo);
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                u = new usuario();
+                u.setIdUsuario(rs.getInt("idUsuario"));
+                u.setNombre(rs.getString("nombre"));
+                u.setApellido(rs.getString("apellido"));
+                u.setCorreoElectronico(rs.getString("correoElectronico"));
+                // otros campos si quieres
+            }
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ps != null && !ps.isClosed()) {
+                ps.close();
+            }
+        }
+        return u;
+    }
+
+    public void actualizarClave(usuario u) throws SQLException {
+        String sql = "UPDATE usuario SET clave = ? WHERE correoElectronico = ?";
+        PreparedStatement ps = null;
+        try {
+            ps = cn.prepareStatement(sql);
+            ps.setString(1, u.getClave());
+            ps.setString(2, u.getCorreoElectronico());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new SQLException("Error al actualizar clave: " + e.getMessage());
+        } finally {
+            if (ps != null && !ps.isClosed()) {
+                ps.close();
+            }
+        }
+    }
+
     public boolean existeUsuarioPorDni(int nroDni) throws SQLException {
         PreparedStatement ps = null;
         ResultSet rs = null;
