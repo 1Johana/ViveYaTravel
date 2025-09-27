@@ -37,6 +37,7 @@
                                     <th>PRECIO</th>
                                     <th>CANTIDAD</th>
                                     <th>SUBTOTAL</th>
+                                    <th>ACCIONES</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -52,6 +53,16 @@
                                         <td>
                                             S/. 
                                             <fmt:formatNumber value="${car.subtotal}" type="number" minFractionDigits="2" maxFractionDigits="2"/>
+                                        </td>
+                                        <td>
+                                            <!-- Botón eliminar -->
+                                            <form action="srvPromocion" method="post" style="display:inline;">
+                                                <input type="hidden" name="accion" value="eliminar">
+                                                <input type="hidden" name="idPaquete" value="${car.idPaquete}">
+                                                <button type="submit" class="btn btn-danger btn-sm">
+                                                    <i class='bx bx-trash'></i> Eliminar
+                                                </button>
+                                            </form>
                                         </td>
                                     </tr>
 

@@ -4,6 +4,7 @@ import com.mycompany.viveyatravel.modelo.dao.PaqueteDAO;
 import com.mycompany.viveyatravel.modelo.dto.Paquete;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -27,6 +28,9 @@ public class srvPromocion extends HttpServlet {
             switch (accion) {
                 case "agregar":
                     agregarAlCarrito(request, response);
+                    break;
+                case "eliminar":
+                    eliminarDelCarrito(request, response);
                     break;
                 case "verCarrito":
                     request.getRequestDispatcher("/vista/car.jsp").forward(request, response);
@@ -70,7 +74,6 @@ public class srvPromocion extends HttpServlet {
             return;
         }
 
-        // Recuperar carrito de sesión
         List<Paquete> carrito = (List<Paquete>) request.getSession().getAttribute("carrito");
         if (carrito == null) {
             carrito = new ArrayList<>();
@@ -79,7 +82,6 @@ public class srvPromocion extends HttpServlet {
         boolean existe = false;
         for (Paquete p : carrito) {
             if (p.getIdPaquete() == paquete.getIdPaquete()) {
-                // Si ya existe en carrito → aumentar cantidad y recalcular subtotal
                 p.setCantidad(p.getCantidad() + 1);
                 existe = true;
                 break;
@@ -87,14 +89,39 @@ public class srvPromocion extends HttpServlet {
         }
 
         if (!existe) {
-            // Si es nuevo en carrito → inicializamos cantidad y subtotal
             paquete.setCantidad(1);
             carrito.add(paquete);
         }
 
         request.getSession().setAttribute("carrito", carrito);
+        response.sendRedirect(request.getContextPath() + "/srvPromocion?accion=verCarrito");
+    }
 
-        // redirige al carrito para evitar repost
+    @SuppressWarnings("unchecked")
+    private void eliminarDelCarrito(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        String idStr = request.getParameter("idPaquete");
+        if (idStr == null || idStr.isEmpty()) {
+            response.sendRedirect(request.getContextPath() + "/srvPromocion?accion=verCarrito");
+            return;
+        }
+
+        int idPaquete = Integer.parseInt(idStr);
+        List<Paquete> carrito = (List<Paquete>) request.getSession().getAttribute("carrito");
+
+        if (carrito != null) {
+            Iterator<Paquete> it = carrito.iterator();
+            while (it.hasNext()) {
+                Paquete p = it.next();
+                if (p.getIdPaquete() == idPaquete) {
+                    it.remove();
+                    break;
+                }
+            }
+            request.getSession().setAttribute("carrito", carrito);
+        }
+
         response.sendRedirect(request.getContextPath() + "/srvPromocion?accion=verCarrito");
     }
 
