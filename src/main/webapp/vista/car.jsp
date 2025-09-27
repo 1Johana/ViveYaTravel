@@ -21,7 +21,7 @@
             <div class="row">
                 <div class="col-sm-8">
 
-                    <!-- Inicializo total para que siempre exista -->
+                    <!-- Inicializo total -->
                     <c:set var="total" value="0" scope="page"/>
 
                     <c:if test="${empty sessionScope.carrito}">
@@ -46,13 +46,11 @@
                                         <td>${i.index + 1}</td>
                                         <td>${car.nombrePaquete}</td>
                                         <td>
-                                            S/. 
-                                            <fmt:formatNumber value="${car.precioPaquete}" type="number" minFractionDigits="2" maxFractionDigits="2"/>
+                                            S/. <fmt:formatNumber value="${car.precioPaquete}" type="number" minFractionDigits="2" maxFractionDigits="2"/>
                                         </td>
                                         <td>${car.cantidad}</td>
                                         <td>
-                                            S/. 
-                                            <fmt:formatNumber value="${car.subtotal}" type="number" minFractionDigits="2" maxFractionDigits="2"/>
+                                            S/. <fmt:formatNumber value="${car.subtotal}" type="number" minFractionDigits="2" maxFractionDigits="2"/>
                                         </td>
                                         <td>
                                             <!-- Botón eliminar -->
@@ -80,7 +78,14 @@
                             <h3>Generar compra</h3>
                         </div>
                         <div class="card-body">
-                            <label>Total:</label>
+                            <label>Subtotal:</label>
+                            <input type="text" readonly class="form-control" 
+                                   value="S/. <fmt:formatNumber value='${total}' type='number' minFractionDigits='2' maxFractionDigits='2'/>">
+
+                            <label>Descuento:</label>
+                            <input type="text" readonly class="form-control" value="S/. 0.00">
+
+                            <label>Total a Pagar:</label>
                             <input type="text" readonly class="form-control" 
                                    value="S/. <fmt:formatNumber value='${total}' type='number' minFractionDigits='2' maxFractionDigits='2'/>">
                         </div>
