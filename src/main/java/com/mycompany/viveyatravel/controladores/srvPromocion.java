@@ -18,7 +18,7 @@ public class srvPromocion extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.setCharacterEncoding("UTF-8"); //Para que pueda insertar caracteres especiales
+        request.setCharacterEncoding("UTF-8"); 
         response.setContentType("text/html;charset=UTF-8");
 
         String accion = request.getParameter("accion");
@@ -29,7 +29,6 @@ public class srvPromocion extends HttpServlet {
                     agregarAlCarrito(request, response);
                     break;
                 case "verCarrito":
-                    // muestra carrito
                     request.getRequestDispatcher("/vista/car.jsp").forward(request, response);
                     break;
                 default:
@@ -67,21 +66,36 @@ public class srvPromocion extends HttpServlet {
 
         Paquete paquete = paqdao.get(idPaquete);
         if (paquete == null) {
-            // paquete no encontrado; redirige a promociones
             response.sendRedirect(request.getContextPath() + "/srvPromocion");
             return;
         }
 
+        // Recuperar carrito de sesión
         List<Paquete> carrito = (List<Paquete>) request.getSession().getAttribute("carrito");
         if (carrito == null) {
             carrito = new ArrayList<>();
         }
 
-        carrito.add(paquete);
+        boolean existe = false;
+        for (Paquete p : carrito) {
+            if (p.getIdPaquete() == paquete.getIdPaquete()) {
+                // Si ya existe en carrito → aumentar cantidad y recalcular subtotal
+                p.setCantidad(p.getCantidad() + 1);
+                existe = true;
+                break;
+            }
+        }
+
+        if (!existe) {
+            // Si es nuevo en carrito → inicializamos cantidad y subtotal
+            paquete.setCantidad(1);
+            carrito.add(paquete);
+        }
+
         request.getSession().setAttribute("carrito", carrito);
 
-        // redirige para evitar repost al recargar la página
-        response.sendRedirect(request.getContextPath() + "/srvPromocion");
+        // redirige al carrito para evitar repost
+        response.sendRedirect(request.getContextPath() + "/srvPromocion?accion=verCarrito");
     }
 
     @Override

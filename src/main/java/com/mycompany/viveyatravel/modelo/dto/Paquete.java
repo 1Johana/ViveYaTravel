@@ -1,7 +1,7 @@
 package com.mycompany.viveyatravel.modelo.dto;
 
 public class Paquete {
-    //Atributos 
+    // Atributos de la BD
     int idPaquete;
     String nombrePaquete;
     String descripcionPaquete;
@@ -10,10 +10,15 @@ public class Paquete {
     String categoria;
     String detallePaquete;
 
-    //Constructor
+    // Atributos para carrito
+    int cantidad;
+    double subtotal;
+
+    // Constructor vacío
     public Paquete() {
     }
 
+    // Constructor con BD
     public Paquete(int idPaquete, String nombrePaquete, String descripcionPaquete, double precioPaquete, String imagen, String categoria, String detallePaquete) {
         this.idPaquete = idPaquete;
         this.nombrePaquete = nombrePaquete;
@@ -24,7 +29,7 @@ public class Paquete {
         this.detallePaquete = detallePaquete;
     }
 
-    //Métodos getter y setter
+    // Getters y Setters de BD
     public int getIdPaquete() {
         return idPaquete;
     }
@@ -81,6 +86,17 @@ public class Paquete {
         this.detallePaquete = detallePaquete;
     }
 
-    
-    
+    // Getters y Setters para carrito
+    public int getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
+        this.subtotal = this.cantidad * this.precioPaquete; // recalculamos subtotal
+    }
+
+    public double getSubtotal() {
+        return subtotal;
+    }
 }
