@@ -80,7 +80,12 @@
                                     <!-- Bottones -->    
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                        <button type="button" class="btn btn-primary">Reservar</button>
+                                        <!-- Botón Reservar que manda al servlet -->
+    <form action="srvPromocion" method="post">
+        <input type="hidden" name="accion" value="agregar">
+        <input type="hidden" name="idPaquete" value="${o.getIdPaquete()}">
+        <button type="submit" class="btn btn-primary">Reservar</button>
+    </form>  
                                     </div>
                                 </div>
                             </div>
