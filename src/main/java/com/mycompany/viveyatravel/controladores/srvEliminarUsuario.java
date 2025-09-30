@@ -21,7 +21,7 @@ public class srvEliminarUsuario extends HttpServlet {
             try {
                 String idStr = request.getParameter("idUsuario");
                 if (idStr == null || idStr.trim().isEmpty()) {
-                    response.sendRedirect(request.getContextPath() + "/vista/error.jsp");
+                    response.sendRedirect(request.getContextPath() + "/vista/iniciarSesion.jsp");
                     return;
                 }
 
@@ -36,12 +36,12 @@ public class srvEliminarUsuario extends HttpServlet {
                     request.getSession().invalidate(); // cerrar sesión
                     response.sendRedirect(request.getContextPath() + "/index.jsp");
                 } else {
-                    response.sendRedirect(request.getContextPath() + "/vista/error.jsp");
+                    response.sendRedirect(request.getContextPath() + "/vista/iniciarSesion.jsp");
                 }
 
             } catch (Exception e) {
                 e.printStackTrace();
-                response.sendRedirect(request.getContextPath() + "/vista/error.jsp");
+                response.sendRedirect(request.getContextPath() + "/vista/iniciarSesion.jsp");
             }
         } else {
             response.sendRedirect(request.getContextPath() + "/index.jsp");

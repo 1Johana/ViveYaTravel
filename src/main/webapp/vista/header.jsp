@@ -45,7 +45,7 @@
                 <ul class="menu2">
                     <li>
                         <a href="#">
-                            <p class="username">Hola, <%= cliente.getNombre() %></p>
+                            <p class="username">Hola, <%= cliente.getNombre()%></p>
                             <img class="imagen" src="${pageContext.request.contextPath}/img/user.png" alt=""/>
                             <i class="fa-solid fa-chevron-down" style="color: #fff"></i>
                         </a>
@@ -60,11 +60,22 @@
                                     <i class="fa-solid fa-arrow-right-from-bracket"></i> Cerrar sesión
                                 </a>
                             </li>
+                            <li class="delete">
+                                <form action="${pageContext.request.contextPath}/srvEliminarUsuario" method="post" 
+                                      onsubmit="return confirm('¿Seguro que quieres eliminar tu cuenta? Esta acción no se puede deshacer.');">
+                                    <input type="hidden" name="idUsuario" value="<%= cliente.getIdUsuario()%>"/>
+                                    <input type="hidden" name="eliminar" value="Eliminar"/>
+                                    <button type="submit" style="background:none;border:none;color:blue;cursor:pointer;">
+                                        <i class="fa-solid fa-trash"></i> Eliminar cuenta
+                                    </button>
+                                </form>
+                            </li>
+
                         </ul>
                     </li>
                 </ul>
-                <% 
-                    } else { 
+                <%
+                } else {
                 %>
                 <p class="bienvenido">Bienvenido invitado</p>
                 <div class="usuario">
@@ -79,7 +90,7 @@
     </div>
 
     <!-- Modal de edición de perfil -->
-    <% if (cliente != null) { %>
+    <% if (cliente != null) {%>
     <input type="checkbox" id="btn-modal">
     <div class="container-modal">
         <div class="content-modal">
@@ -89,35 +100,35 @@
             <h2>Editar Perfil</h2>
             <form action="${pageContext.request.contextPath}/srvActualizarUsuario" method="POST">
                 <input type="hidden" name="accion" value="actualizar">
-                <input type="hidden" name="idUsuario" value="<%= cliente.getIdUsuario() %>">
+                <input type="hidden" name="idUsuario" value="<%= cliente.getIdUsuario()%>">
 
                 <div class="update">
-                    <input type="text" name="nombre" id="nombre" value="<%= cliente.getNombre() %>" required>
+                    <input type="text" name="nombre" id="nombre" value="<%= cliente.getNombre()%>" required>
                     <label for="nombre">Nombre:</label>
                 </div>
 
                 <div class="update">
-                    <input type="text" name="apellido" id="apellido" value="<%= cliente.getApellido() %>" required>
+                    <input type="text" name="apellido" id="apellido" value="<%= cliente.getApellido()%>" required>
                     <label for="apellido">Apellido:</label>
                 </div>
 
                 <div class="update">
-                    <input type="text" name="nroCelular" id="celular" value="<%= cliente.getNroCelular() %>" required>
+                    <input type="text" name="nroCelular" id="celular" value="<%= cliente.getNroCelular()%>" required>
                     <label for="nroCelular">Nro Celular:</label>
                 </div>
 
                 <div class="update">
-                    <input type="text" name="nroDni" id="dni" value="<%= cliente.getNroDni() %>" required>
+                    <input type="text" name="nroDni" id="dni" value="<%= cliente.getNroDni()%>" required>
                     <label for="nroDni">Nro DNI:</label>
                 </div>
 
                 <div class="update">
-                    <input type="email" name="correoElectronico" id="correoElectronico" value="<%= cliente.getCorreoElectronico() %>" required>
+                    <input type="email" name="correoElectronico" id="correoElectronico" value="<%= cliente.getCorreoElectronico()%>" required>
                     <label for="correoElectronico">Correo Electrónico:</label>
                 </div>
 
                 <div class="update">
-                    <input type="password" id="password" name="clave" value="<%= cliente.getClave() %>" required>
+                    <input type="password" id="password" name="clave" value="<%= cliente.getClave()%>" required>
                     <label for="clave">Clave:</label>
                 </div>
 
@@ -126,6 +137,6 @@
         </div>
         <label for="btn-modal" class="cerrar-modal"></label>
     </div>
-    <% } %>
+    <% }%>
 
 </header>
