@@ -1,5 +1,4 @@
 package com.mycompany.viveyatravel.util;
-
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 

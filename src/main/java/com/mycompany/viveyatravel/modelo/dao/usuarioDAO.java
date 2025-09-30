@@ -213,7 +213,6 @@ public class usuarioDAO {
         }
         return existeCorreo;
     }
-
 //----------------------
     public List<usuario> repUsuario() {
         List<usuario> repUsuario = new ArrayList<>();
