@@ -2,142 +2,130 @@
 <%@page import="com.mycompany.viveyatravel.modelo.dto.usuario"%>
 <!DOCTYPE html>
 <header>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" 
+          integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" 
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="${pageContext.request.contextPath}/css/header.css" rel="stylesheet" type="text/css"/>
     <link href="${pageContext.request.contextPath}/css/headerValidacionUsuario.css" rel="stylesheet" type="text/css"/>
+
     <div class="header">
         <div class="contHeader">
+
+            <!-- Logo -->
             <div class="logo">
-                <a href="index.jsp"><img src="https://www.viveyatravel.com/imagenes/logo-web-vive-ya-travel-2.png" class="logo"></a>
+                <a href="index.jsp">
+                    <img src="https://www.viveyatravel.com/imagenes/logo-web-vive-ya-travel-2.png" class="logo">
+                </a>
             </div>
+
+            <!-- Navbar -->
             <div class="navbar">
                 <nav>
                     <ul class="menu">
-                        <!--Para encontrar la ruta request.getContextPath()%> -->
                         <li><a href="<%=request.getContextPath()%>/PaqueteControlador">TOURS</a></li>
                         <li><a href="<%=request.getContextPath()%>/srvPromocion">PROMOCIONES</a></li>
                         <li><a href="${pageContext.request.contextPath}/vista/nosotros.jsp">NOSOTROS</a></li>
                     </ul>
                 </nav>
             </div>
+
+            <!-- Carrito -->
             <div class="carro">
-                <a href="<%=request.getContextPath()%>/vista/car.jsp"><img class="carrito"/><i class="fa-solid fa-cart-shopping carrito"></i></a>
+                <a href="<%=request.getContextPath()%>/vista/car.jsp">
+                    <i class="fa-solid fa-cart-shopping carrito"></i>
+                </a>
             </div>
+
+            <!-- Usuario -->
             <div class="usuario-container">
-                <!--Cuando entra un usuario se carga esta seccion -->
                 <%
                     usuario cliente = (usuario) session.getAttribute("cliente"); // Movido aquí para scope global en el bloque
                     if (cliente != null) {
                 %>
                 <ul class="menu2">
-                    <li><a href="#">
-                            <p class="username">
-                                <%
-                                    out.print("Hola, " + cliente.getNombre());
-                                %>
-                            </p>
+                    <li>
+                        <a href="#">
+                            <p class="username">Hola, <%= cliente.getNombre() %></p>
                             <img class="imagen" src="${pageContext.request.contextPath}/img/user.png" alt=""/>
-                            <i class="fa-solid fa-chevron-down" style="color: #fff"></i></a>
+                            <i class="fa-solid fa-chevron-down" style="color: #fff"></i>
+                        </a>
                         <ul>
                             <li>
                                 <div class="boton-modal">
-                                    <label for="btn-modal">
-                                        Editar perfil
-                                    </label>
+                                    <label for="btn-modal">Editar perfil</label>
                                 </div>
                             </li>
-                            <!-- NUEVA OPCIÓN: Eliminar Perfil -->
-                            <li>
-                                <div class="boton-modal-eliminar">
-                                    <label for="btn-modal-eliminar">
-                                        Eliminar Perfil
-                                    </label>
-                                </div>
+                            <li class="close">
+                                <a href="${pageContext.request.contextPath}/srvUsuario?accion=cerrar">
+                                    <i class="fa-solid fa-arrow-right-from-bracket"></i> Cerrar sesión
+                                </a>
                             </li>
-                            <li class="close"><a href="${pageContext.request.contextPath}/srvUsuario?accion=cerrar"><i class="fa-solid fa-arrow-right-from-bracket"></i> Cerrar sesión</a></li>
                         </ul>
                     </li>
                 </ul>
-                <%
-                } else {
+                <% 
+                    } else { 
                 %>
-                <!--En caso contrario de no haber iniciado sesion -->
-                <p class="bienvenido">
-                    <% out.print("Bienvenido invitado"); %> 
-                </p>
+                <p class="bienvenido">Bienvenido invitado</p>
                 <div class="usuario">
-                    <a href="${pageContext.request.contextPath}/vista/iniciarSesion.jsp"><i class="fa-solid fa-user usuario"></i></a>
+                    <a href="${pageContext.request.contextPath}/vista/iniciarSesion.jsp">
+                        <i class="fa-solid fa-user usuario"></i>
+                    </a>
                 </div>
-                <% }%>
+                <% } %>
             </div>
+
         </div>
     </div>
-    
-    <%-- MODAL EXISTENTE PARA EDITAR PERFIL (sin cambios) --%>
-    <%if (cliente != null) {%>
+
+    <!-- Modal de edición de perfil -->
+    <% if (cliente != null) { %>
     <input type="checkbox" id="btn-modal">
     <div class="container-modal">
         <div class="content-modal">
-            <!--<h2>Editar Perfil</h2>-->
             <div class="btn-cerrar">
                 <label for="btn-modal"><i class="fa-solid fa-xmark"></i></label>
             </div>
             <h2>Editar Perfil</h2>
             <form action="${pageContext.request.contextPath}/srvActualizarUsuario" method="POST">
                 <input type="hidden" name="accion" value="actualizar">
-                <input type="hidden" name="idUsuario" value="<%= cliente.getIdUsuario()%>">
+                <input type="hidden" name="idUsuario" value="<%= cliente.getIdUsuario() %>">
+
                 <div class="update">
-                    <input type="text" name="nombre" id="nombre" value="<%= cliente.getNombre()%>" required>
+                    <input type="text" name="nombre" id="nombre" value="<%= cliente.getNombre() %>" required>
                     <label for="nombre">Nombre:</label>
                 </div>
+
                 <div class="update">
-                    <input type="text" name="apellido" id="apellido" value="<%= cliente.getApellido()%>" required>
+                    <input type="text" name="apellido" id="apellido" value="<%= cliente.getApellido() %>" required>
                     <label for="apellido">Apellido:</label>
                 </div>
+
                 <div class="update">
-                    <input type="text" name="nroCelular" id="celular" value="<%= cliente.getNroCelular()%>" required>
+                    <input type="text" name="nroCelular" id="celular" value="<%= cliente.getNroCelular() %>" required>
                     <label for="nroCelular">Nro Celular:</label>
                 </div>
+
                 <div class="update">
-                    <input type="text" name="nroDni" id="dni" value="<%= cliente.getNroDni()%>" required>
+                    <input type="text" name="nroDni" id="dni" value="<%= cliente.getNroDni() %>" required>
                     <label for="nroDni">Nro DNI:</label>
                 </div>
+
                 <div class="update">
-                    <input type="email" name="correoElectronico" id="correoElectronico" value="<%= cliente.getCorreoElectronico()%>" required>
+                    <input type="email" name="correoElectronico" id="correoElectronico" value="<%= cliente.getCorreoElectronico() %>" required>
                     <label for="correoElectronico">Correo Electrónico:</label>
                 </div>
+
                 <div class="update">
-                    <input type="password" id="password" name="clave" value="<%= cliente.getClave()%>" required>
+                    <input type="password" id="password" name="clave" value="<%= cliente.getClave() %>" required>
                     <label for="clave">Clave:</label>
                 </div>
+
                 <input type="submit" name="actualizar" id="Actualizar" value="Actualizar">
             </form>
         </div>
         <label for="btn-modal" class="cerrar-modal"></label>
     </div>
-    
-    <%-- NUEVO MODAL PARA ELIMINAR PERFIL --%>
-    <input type="checkbox" id="btn-modal-eliminar">
-    <div class="container-modal-eliminar">
-        <div class="content-modal-eliminar">
-            <div class="btn-cerrar">
-                <label for="btn-modal-eliminar"><i class="fa-solid fa-xmark"></i></label>
-            </div>
-            <h2>Eliminar Perfil</h2>
-            <p style="color: red; font-weight: bold; margin-bottom: 15px;">
-                <i class="fa-solid fa-exclamation-triangle"></i> 
-                Advertencia: Esta acción eliminará permanentemente tu perfil de la base de datos. No podrás recuperar la información y se cerrará tu sesión. ¿Estás seguro?
-            </p>
-            <form action="${pageContext.request.contextPath}/srvEliminarUsuario" method="POST" 
-                  onsubmit="return confirm('¿Estás absolutamente seguro? Esto eliminará tu perfil de forma irreversible y cerrará la sesión.');">
-                <input type="hidden" name="idUsuario" value="<%= cliente.getIdUsuario()%>">
-                <input type="hidden" name="eliminar" value="Eliminar"> <!-- Para compatibilidad con el servlet -->
-                <div style="text-align: center; margin: 20px 0;">
-                    <input type="submit" name="eliminar" value="Eliminar Mi Perfil" class="btn-eliminar" style="background-color: #f44336; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer;">
-                </div>
-            </form>
-        </div>
-        <label for="btn-modal-eliminar" class="cerrar-modal-eliminar"></label>
-    </div>
-    <%}%>
+    <% } %>
+
 </header>

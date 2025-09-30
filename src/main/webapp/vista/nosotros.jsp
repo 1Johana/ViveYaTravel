@@ -10,6 +10,7 @@
     </head>
     <jsp:include page="header.jsp"/>       
      <!-- Encabezado NOSOTROS -->
+     
         <h1 class="nosotros"> NOSOTROS</h1> 
         <p class="nosotros-text">  <!-- clase para colocar la información  sobre la empresa -->
                 Somos una agencia de turismo con más de 5 años de experiencia en el
@@ -57,6 +58,6 @@
         </div>
                  
     <!-- FOOTER-->
-    <jsp:include page="footer.jsp"/>0
+    <jsp:include page="footer.jsp"/>
 
 </html>

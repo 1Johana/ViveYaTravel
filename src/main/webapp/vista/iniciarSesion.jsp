@@ -49,7 +49,7 @@
                 <input type="submit" name="verificar" id="Verificar" value="iniciar">
                 
                 <div class="recordar">
-                    ¿Olvidaste tu contraseña?
+                    <a href="${pageContext.request.contextPath}/vista/cambioClave.jsp">¿Olvidaste tu contraseña?</a>
                 </div>
                 <div class="registrarse">
                      <a href="${pageContext.request.contextPath}/vista/registrar.jsp">Crear cuenta</a>
