@@ -30,6 +30,12 @@ public class srvRegistroUsuario extends HttpServlet {
                 String correoElectronico = request.getParameter("correoElectronico");
                 String clave = request.getParameter("clave");
 
+                String regexCorreo = "^[a-zA-Z0-9._%+-]+@(gmail\\.com|hotmail\\.com)$";
+                if (!correoElectronico.matches(regexCorreo)) {
+                    response.sendRedirect("./vista/registrar.jsp?registro=formatoCorreo");
+                    return; // detenemos aquí si no cumple
+                }
+
                 //Convierte la cadena de texto a enteros, el nroCelular y el DNI
                 int nroCelular = 0;
                 if (nroCelularStr != null && !nroCelularStr.isEmpty()) {

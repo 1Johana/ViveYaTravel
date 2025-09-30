@@ -1,6 +1,5 @@
-<%@page import="com.mycompany.viveyatravel.modelo.dto.usuario"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-
+<%@page import="com.mycompany.viveyatravel.modelo.dto.usuario"%>
 <!DOCTYPE html>
 <header>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -27,7 +26,7 @@
             <div class="usuario-container">
                 <!--Cuando entra un usuario se carga esta seccion -->
                 <%
-                    usuario cliente = (usuario) session.getAttribute("cliente");
+                    usuario cliente = (usuario) session.getAttribute("cliente"); // Movido aquí para scope global en el bloque
                     if (cliente != null) {
                 %>
                 <ul class="menu2">
@@ -44,6 +43,14 @@
                                 <div class="boton-modal">
                                     <label for="btn-modal">
                                         Editar perfil
+                                    </label>
+                                </div>
+                            </li>
+                            <!-- NUEVA OPCIÓN: Eliminar Perfil -->
+                            <li>
+                                <div class="boton-modal-eliminar">
+                                    <label for="btn-modal-eliminar">
+                                        Eliminar Perfil
                                     </label>
                                 </div>
                             </li>
@@ -65,7 +72,9 @@
             </div>
         </div>
     </div>
-            <%if (cliente != null) {%>
+    
+    <%-- MODAL EXISTENTE PARA EDITAR PERFIL (sin cambios) --%>
+    <%if (cliente != null) {%>
     <input type="checkbox" id="btn-modal">
     <div class="container-modal">
         <div class="content-modal">
@@ -105,6 +114,30 @@
             </form>
         </div>
         <label for="btn-modal" class="cerrar-modal"></label>
-        <%}%>
     </div>
+    
+    <%-- NUEVO MODAL PARA ELIMINAR PERFIL --%>
+    <input type="checkbox" id="btn-modal-eliminar">
+    <div class="container-modal-eliminar">
+        <div class="content-modal-eliminar">
+            <div class="btn-cerrar">
+                <label for="btn-modal-eliminar"><i class="fa-solid fa-xmark"></i></label>
+            </div>
+            <h2>Eliminar Perfil</h2>
+            <p style="color: red; font-weight: bold; margin-bottom: 15px;">
+                <i class="fa-solid fa-exclamation-triangle"></i> 
+                Advertencia: Esta acción eliminará permanentemente tu perfil de la base de datos. No podrás recuperar la información y se cerrará tu sesión. ¿Estás seguro?
+            </p>
+            <form action="${pageContext.request.contextPath}/srvEliminarUsuario" method="POST" 
+                  onsubmit="return confirm('¿Estás absolutamente seguro? Esto eliminará tu perfil de forma irreversible y cerrará la sesión.');">
+                <input type="hidden" name="idUsuario" value="<%= cliente.getIdUsuario()%>">
+                <input type="hidden" name="eliminar" value="Eliminar"> <!-- Para compatibilidad con el servlet -->
+                <div style="text-align: center; margin: 20px 0;">
+                    <input type="submit" name="eliminar" value="Eliminar Mi Perfil" class="btn-eliminar" style="background-color: #f44336; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer;">
+                </div>
+            </form>
+        </div>
+        <label for="btn-modal-eliminar" class="cerrar-modal-eliminar"></label>
+    </div>
+    <%}%>
 </header>

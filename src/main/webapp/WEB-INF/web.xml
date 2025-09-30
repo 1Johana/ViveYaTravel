@@ -72,6 +72,14 @@
         <servlet-name>srvActualizarUsuario</servlet-name>
         <url-pattern>/srvActualizarUsuario</url-pattern>
     </servlet-mapping>
+       <servlet>
+       <servlet-name>srvEliminarUsuario</servlet-name>
+       <servlet-class>com.mycompany.viveyatravel.controladores.srvEliminarUsuario</servlet-class>
+   </servlet>
+   <servlet-mapping>
+       <servlet-name>srvEliminarUsuario</servlet-name>
+       <url-pattern>/srvEliminarUsuario</url-pattern>
+   </servlet-mapping>
     <servlet-mapping>
         <servlet-name>srvReporteUsuarios</servlet-name>
         <url-pattern>/srvReporteUsuarios</url-pattern>
