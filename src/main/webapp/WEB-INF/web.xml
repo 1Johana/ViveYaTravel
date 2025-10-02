@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app version="4.0" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd">
+<web-app version="4.0" 
+         xmlns="http://xmlns.jcp.org/xml/ns/javaee" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee 
+                             http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd">
+
     <servlet>
         <servlet-name>Controlador</servlet-name>
         <servlet-class>com.mycompany.viveyatravel.controladores.Controlador</servlet-class>
@@ -40,6 +45,9 @@
         <servlet-name>srvReportePDF</servlet-name>
         <servlet-class>com.mycompany.viveyatravel.controladores.srvReportePDF</servlet-class>
     </servlet>
+
+    <!-- SERVLET srvPago ELIMINADO DEL WEB.XML -->
+
     <servlet-mapping>
         <servlet-name>Controlador</servlet-name>
         <url-pattern>/Controlador</url-pattern>
@@ -80,9 +88,8 @@
         <servlet-name>srvReportePDF</servlet-name>
         <url-pattern>/srvReportePDF</url-pattern>
     </servlet-mapping>
+
     <session-config>
-        <session-timeout>
-            30
-        </session-timeout>
+        <session-timeout>30</session-timeout>
     </session-config>
 </web-app>

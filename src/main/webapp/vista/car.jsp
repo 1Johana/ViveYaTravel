@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta charset="UTF-8">
         <title>Carrito</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
@@ -19,9 +19,8 @@
         <div class="container mt-4">
             <h3>Carrito</h3>
             <div class="row">
+                <!-- Tabla de paquetes -->
                 <div class="col-sm-8">
-
-                    <!-- Inicializo total -->
                     <c:set var="total" value="0" scope="page"/>
 
                     <c:if test="${empty sessionScope.carrito}">
@@ -53,7 +52,6 @@
                                             S/. <fmt:formatNumber value="${car.subtotal}" type="number" minFractionDigits="2" maxFractionDigits="2"/>
                                         </td>
                                         <td>
-                                            <!-- Botón eliminar -->
                                             <form action="srvPromocion" method="post" style="display:inline;">
                                                 <input type="hidden" name="accion" value="eliminar">
                                                 <input type="hidden" name="idPaquete" value="${car.idPaquete}">
@@ -63,8 +61,6 @@
                                             </form>
                                         </td>
                                     </tr>
-
-                                    <!-- acumular total -->
                                     <c:set var="total" value="${total + car.subtotal}" scope="page"/>
                                 </c:forEach>
                             </tbody>
@@ -72,6 +68,7 @@
                     </c:if>
                 </div>
 
+                <!-- Resumen y botones -->
                 <div class="col-sm-4">
                     <div class="card">
                         <div class="card-header">
@@ -90,7 +87,8 @@
                                    value="S/. <fmt:formatNumber value='${total}' type='number' minFractionDigits='2' maxFractionDigits='2'/>">
                         </div>
                         <div class="card-footer">
-                            <a href="#" class="btn btn-info btn-block">Realizar Pago</a>
+                            <!-- Botón para ir a la simulación de pago -->
+                            <a href="${pageContext.request.contextPath}/vista/pago.jsp" class="btn btn-info btn-block">Realizar Pago</a>
                             <a href="#" class="btn btn-danger btn-block">Generar Compra</a>
                         </div>
                     </div>
