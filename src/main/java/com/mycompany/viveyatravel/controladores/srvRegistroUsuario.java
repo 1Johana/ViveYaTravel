@@ -1,5 +1,4 @@
 package com.mycompany.viveyatravel.controladores;
-
 import com.mycompany.viveyatravel.modelo.dao.correo;
 import com.mycompany.viveyatravel.modelo.dao.usuarioDAO;
 import com.mycompany.viveyatravel.modelo.dto.usuario;
@@ -29,6 +28,12 @@ public class srvRegistroUsuario extends HttpServlet {
                 String nroDniStr = request.getParameter("nroDni");
                 String correoElectronico = request.getParameter("correoElectronico");
                 String clave = request.getParameter("clave");
+
+                String regexCorreo = "^[a-zA-Z0-9._%+-]+@(gmail\\.com|hotmail\\.com)$";
+                if (!correoElectronico.matches(regexCorreo)) {
+                    response.sendRedirect("./vista/registrar.jsp?registro=formatoCorreo");
+                    return; // detenemos aquí si no cumple
+                }
 
                 //Convierte la cadena de texto a enteros, el nroCelular y el DNI
                 int nroCelular = 0;

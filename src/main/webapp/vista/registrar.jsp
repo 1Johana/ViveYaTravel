@@ -35,6 +35,17 @@
             %>
 
         </div>
+        <%
+            String formatoCorreo = request.getParameter("registro");
+            if ("formatoCorreo".equals(formatoCorreo)) {
+        %>
+        <div class="alert alert-dismissible alert-danger">
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <strong>¡Error!</strong> Solo se permiten correos <b>@gmail.com</b> o <b>@hotmail.com</b>.
+        </div>
+        <%
+            }
+        %>
         <div class="formularioRegistro">
             <h1>Registrarse</h1>
             <p>Es rápido y fácil</p>
@@ -56,8 +67,10 @@
                     <label>DNI</label>
                 </div>
                 <div class="registro">
-                    <input type="email" name="correoElectronico" id="correoElectronico" required>
-                    <label>Correo Electronico</label>
+                    <input type="email" name="correoElectronico" id="correoElectronico" required
+                           pattern="^[a-zA-Z0-9._%+-]+@(gmail\.com|hotmail\.com)$"
+                           title="Solo se permiten correos @gmail.com o @hotmail.com">
+                    <label>Correo Electrónico</label>
                 </div>
                 <div class="registro">
                     <input type="password" name="clave" id="password" required

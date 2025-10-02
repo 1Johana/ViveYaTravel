@@ -3,6 +3,7 @@ package com.mycompany.viveyatravel.modelo.dao;
 import com.mycompany.viveyatravel.modelo.dto.cargo;
 import com.mycompany.viveyatravel.modelo.dto.usuario;
 import com.mycompany.viveyatravel.servicios.ConectarBD;
+import com.mycompany.viveyatravel.util.HashUtil;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -51,14 +52,17 @@ public class usuarioDAO {
         PreparedStatement ps = null;   //Para preparar la consulta
         ResultSet rs = null;
         //La consulta desde la base de datos
-        String cadSQL = "SELECT u.idUsuario, u.nombre, u.apellido, u.nroCelular, u.nroDni, c.nombreCargo FROM usuario u\n"
-                + "inner join cargo c on u.idCargo = c.idCargo\n"
-                + "where u.correoElectronico = '" + user.getCorreoElectronico() + "' "
-                + "AND u.clave = '" + user.getClave() + "'";
+        String claveHash = HashUtil.hashPassword(user.getClave());
+
+        String cadSQL = "SELECT u.idUsuario, u.nombre, u.apellido, u.nroCelular, u.nroDni, c.nombreCargo FROM usuario u "
+                + "INNER JOIN cargo c ON u.idCargo = c.idCargo "
+                + "WHERE u.correoElectronico = ? AND u.clave = ?";
         try {
             ps = cn.prepareStatement(cadSQL);
+            ps.setString(1, user.getCorreoElectronico());
+            ps.setString(2, claveHash); // 🔒 compara con la clave hasheada
             rs = ps.executeQuery();
-            if (rs.next() == true) {  //Si encuentra una consulta, realiza el bloque de codigo
+            if (rs.next()) {
                 usu = new usuario();
                 usu.setIdUsuario(rs.getInt("idUsuario"));
                 usu.setNombre(rs.getString("nombre"));
@@ -66,23 +70,18 @@ public class usuarioDAO {
                 usu.setNroCelular(rs.getInt("nroCelular"));
                 usu.setNroDni(rs.getInt("nroDni"));
                 usu.setCorreoElectronico(user.getCorreoElectronico());
-                usu.setClave(user.getClave());
                 usu.setCargo(new cargo());
                 usu.getCargo().setNombreCargo(rs.getString("nombreCargo"));
-
             }
-        } catch (Exception e) {  //Manejo de execpciones
+        } catch (Exception e) {
             System.out.println("Error " + e.getMessage());
-        } finally { //Cierre del Resulset y preparedStatement
-            if (rs != null && rs.isClosed() == false) {
+        } finally {
+            if (rs != null && !rs.isClosed()) {
                 rs.close();
             }
-            rs = null;
-            if (ps != null && ps.isClosed() == false) {
+            if (ps != null && !ps.isClosed()) {
                 ps.close();
             }
-            ps = null;
-
         }
         return usu;
     }
@@ -90,8 +89,9 @@ public class usuarioDAO {
     public usuario registrar(usuario user) throws SQLException {
         usuario usu = null;
         PreparedStatement ps = null;
-        ResultSet rs = null;
-        String cadSQL = "INSERT INTO usuario (nombre, apellido, nroCelular, nroDni, correoElectronico, clave, idCargo) VALUES (?, ?, ?, ?, ?, ?, 1)";
+
+        String cadSQL = "INSERT INTO usuario (nombre, apellido, nroCelular, nroDni, correoElectronico, clave, idCargo) "
+                + "VALUES (?, ?, ?, ?, ?, ?, 1)";
         try {
             ps = cn.prepareStatement(cadSQL);
             ps.setString(1, user.getNombre());
@@ -99,13 +99,19 @@ public class usuarioDAO {
             ps.setInt(3, user.getNroCelular());
             ps.setInt(4, user.getNroDni());
             ps.setString(5, user.getCorreoElectronico());
-            ps.setString(6, user.getClave());
+
+            // 🔒 Encripta la contraseña antes de guardarla
+            String claveHash = HashUtil.hashPassword(user.getClave());
+            ps.setString(6, claveHash);
 
             ps.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Error al registrar el usuario: " + e.getMessage());
+        } finally {
+            if (ps != null && !ps.isClosed()) {
+                ps.close();
+            }
         }
-
         return usu;
     }
 
@@ -119,7 +125,7 @@ public class usuarioDAO {
             ps.setInt(3, user.getNroCelular());
             ps.setInt(4, user.getNroDni());
             ps.setString(5, user.getCorreoElectronico());
-            ps.setString(6, user.getClave());
+            ps.setString(6, HashUtil.hashPassword(user.getClave()));
             ps.setInt(7, user.getIdUsuario());
             ps.executeUpdate();
         } catch (SQLException e) {
@@ -129,6 +135,33 @@ public class usuarioDAO {
                 ps.close();
             }
         }
+    }
+
+    public boolean eliminar(usuario u) {
+        boolean resp = false;
+        PreparedStatement ps = null;
+
+        try {
+            String sql = "DELETE FROM usuario WHERE idUsuario = ?";
+            ps = cn.prepareStatement(sql);
+            ps.setInt(1, u.getIdUsuario());
+
+            int filas = ps.executeUpdate();
+            if (filas > 0) {
+                resp = true; // si eliminó al menos 1 fila
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (ps != null) {
+                    ps.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return resp;
     }
 
     //Obtener nombre de usuario segun correo
@@ -177,6 +210,7 @@ public class usuarioDAO {
                 ps.close();
             }
         }
+
     }
 
     public boolean existeUsuarioPorDni(int nroDni) throws SQLException {
@@ -228,8 +262,8 @@ public class usuarioDAO {
         }
         return existeCorreo;
     }
-
 //----------------------
+
     public List<usuario> repUsuario() {
         List<usuario> repUsuario = new ArrayList<>();
         String reporte = "SELECT idUsuario, nombre, apellido, nroCelular, nroDni, correoElectronico FROM usuario WHERE idCargo = 1";

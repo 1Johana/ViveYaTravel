@@ -1,5 +1,4 @@
 package com.mycompany.viveyatravel.controladores;
-
 import com.mycompany.viveyatravel.modelo.dto.usuario;
 import com.mycompany.viveyatravel.modelo.dao.usuarioDAO;
 import java.io.IOException;
