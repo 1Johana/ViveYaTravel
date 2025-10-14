@@ -1,0 +1,101 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : 2 oct. 2025, 12:46:31
+    Author     : Lenovo
+*/
+/* Efecto blur en imagen de fondo para Contactanos */
+.blur-background {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+.background-img {
+    position: absolute;
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%;
+    object-fit: cover; /* cubre y estira sin distorsión */
+    filter: blur(6px);
+    z-index: 0;
+}
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+.content-page {
+    position: relative;
+    z-index: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* centrado vertical */
+    padding: 20px;
+}
+.main-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px;
+    width: 100%;
+    max-width: 1000px;
+}
+.info-panel {
+    flex: 1;
+    min-width: 280px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+    padding: 18px 22px;
+    font-size: 1rem;
+}
+.card-title {
+    font-weight: bold;
+    color: #1a386b;
+    margin-bottom: 8px;
+}
+.section-title {
+    display: inline-block;
+    padding: 12px 20px;
+    background-color: rgba(26,56,107,0.8);
+    color: white;
+    font-size: 2rem;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+.title-container {
+    display: flex;
+    justify-content: center;
+}
+.map-panel {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.responsive-map {
+    width: 100%;
+    max-width: 550px;
+    height: 340px;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.12);
+}
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+

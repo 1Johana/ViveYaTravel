@@ -1,0 +1,54 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : 2 oct. 2025, 12:22:07
+    Author     : Lenovo
+*/
+
+/* Diseño del fondo y fuente general */
+/* 🔹 Ajusta la posición y proporciones del contenedor principal */
+.container {
+    text-align: center;
+    background-color: #ffffff;
+    margin: 80px auto; /* separa del header y centra */
+    padding: 40px 60px;
+    border-radius: 15px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    max-width: 900px;
+}
+
+/* 🔹 Mejora el título */
+.container h1 {
+    font-size: 2.2em;
+    color: #001f4d; /* azul noche */
+    text-align: center;
+    margin-bottom: 30px;
+    position: relative;
+    display: inline-block;
+    font-weight: bold;
+}
+.container h1::after {
+    content: "";
+    display: block;
+    width: 400px;         /* largo de la línea */
+    height: 4px;          /* grosor */
+    background-color: #ff7b00; /* anaranjado */
+    margin: 10px auto 0 auto;  /* centrado */
+    border-radius: 2px;
+}
+
+/* 🔹 Listas */
+.container ul.contenido {
+    list-style-type: disc;
+    list-style-position: inside;
+    padding-left: 40px;
+    color: #333;
+}
+
+.container ul.contenido li {
+    text-align: justify;
+    margin-bottom: 12px;
+    line-height: 1.6;
+}

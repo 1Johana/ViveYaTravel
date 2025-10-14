@@ -42,7 +42,7 @@
                     <ul>
                         <li><a href="nosotros.jsp">Nosotros</a></li>
                         <li><a href="politica-privacidad.jsp">Política de privacidad</a></li>
-                        <li><a href="terminos-condiciones.jsp">Términos y condiciones</a></li>
+                        <li><a href="Terminos y Condiciones.jsp">Términos y condiciones</a></li>
                         <li><a href="preguntasFrecuentes.jsp">Preguntas frecuentes</a></li>
                     </ul>
                 </div>
@@ -61,7 +61,7 @@
                     <h3>Contacto</h3>
                     <ul>
                         <li><a href="libroReclamaciones.jsp">Libro de reclamaciones</a></li>
-                        <li><a href="contactanos.jsp">Contáctanos</a></li>
+                        <li><a href="Contactanos.jsp">Contactanos</a></li>
                         <img src="../img/pago.png" alt="contacto" width="200" height="auto"/>
                     </ul>
                 </div>

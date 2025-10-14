@@ -1,0 +1,81 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package com.mycompany.viveyatravel.controladores;
+
+import com.mycompany.viveyatravel.modelo.dto.Reclamacion;
+import com.mycompany.viveyatravel.modelo.dao.ReclamacionDAO;
+import java.io.IOException;
+import java.util.List;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet(name = "ReclamacionController", urlPatterns = {"/reclamaciones"})
+public class ReclamacionController extends HttpServlet{
+    private ReclamacionDAO dao;
+    
+@Override
+    public void init() throws ServletException {
+        dao = new ReclamacionDAO(); // tu clase DAO que maneja BD
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        // Acción: listar todos los reclamos del Libro de Reclamaciones
+        List<Reclamacion> lista = dao.obtenerTodos();
+        request.setAttribute("lista", lista);
+         // Si viene el parámetro "exito", mostrar mensaje
+        String exito = request.getParameter("exito");
+        if ("true".equals(exito)) {
+            request.setAttribute("mensaje", "Reclamo registrado correctamente");
+        }
+        
+        request.getRequestDispatcher("vista/libroReclamaciones.jsp").forward(request, response);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        // Acción: registrar un nuevo reclamo en el Libro de Reclamaciones
+        String nombre = request.getParameter("nombre");
+        String dni = request.getParameter("dni");
+        String direccion = request.getParameter("direccion");
+        String distrito = request.getParameter("distrito");
+        String telefono = request.getParameter("telefono");
+        String email = request.getParameter("email");
+        String tipoBien = request.getParameter("tipo_bien");
+        String descripcionBien = request.getParameter("descripcion_bien");
+        String tipoReclamo = request.getParameter("tipo_reclamo");
+        String detalleReclamo = request.getParameter("detalle_reclamo");
+
+        Reclamacion r = new Reclamacion();
+         r.setNombre(nombre);
+        r.setDni(dni);
+        r.setDireccion(direccion);
+        r.setDistrito(distrito);
+        r.setTelefono(telefono);
+        r.setEmail(email);
+        r.setTipoBien(tipoBien);
+        r.setDescripcionBien(descripcionBien);
+        r.setTipoReclamo(tipoReclamo);
+        r.setDetalleReclamo(detalleReclamo);
+
+        dao.insertar(r);
+
+        // Mensaje de confirmación
+        //request.setAttribute("mensaje", "Reclamo registrado correctamente");
+
+        // Volvemos a cargar la vista con el mensaje
+        //List<Reclamacion> lista = dao.obtenerTodos();
+        //request.setAttribute("lista", lista);
+        //request.getRequestDispatcher("vista/libroReclamaciones.jsp").forward(request, response);
+        // ✅ Redirigir al servlet con parámetro de éxito (evita recargar mal el JSP)
+        response.sendRedirect(request.getContextPath() + "/reclamaciones?exito=true");
+
+    }
+}
