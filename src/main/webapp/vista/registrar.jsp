@@ -51,6 +51,10 @@
             <p>Es rápido y fácil</p>
             <form action="${pageContext.request.contextPath}/srvRegistroUsuario" method="post">
                 <div class="registro">
+                    <input type="text" maxlength="8" oninput="this.value = this.value.replace(/[^0-9]/g, '')" name="nroDni" id="dni" required>
+                    <label>DNI</label>
+                </div>
+                <div class="registro">
                     <input type="text" name="nombre" id="nombre" required>
                     <label>Nombre</label>
                 </div>
@@ -61,10 +65,6 @@
                 <div class="registro">
                     <input type="text" maxlength="9" oninput="this.value = this.value.replace(/[^0-9]/g, '')" name="nroCelular" id="celular" required>
                     <label>Celular</label>
-                </div>
-                <div class="registro">
-                    <input type="text" maxlength="8" oninput="this.value = this.value.replace(/[^0-9]/g, '')" name="nroDni" id="dni" required>
-                    <label>DNI</label>
                 </div>
                 <div class="registro">
                     <input type="email" name="correoElectronico" id="correoElectronico" required
@@ -82,6 +82,34 @@
             </form>
 
         </div>
+        <script>
+        document.getElementById('dni').addEventListener('input', async function() {
+            const dni = this.value.trim();
+            if (dni.length === 8) {
+                const params = { dni };
+                try {
+                    const response = await fetch("https://apiperu.dev/api/dni", {
+                        method: "POST",
+                        headers: {
+                            "Accept": "application/json",
+                            "Content-Type": "application/json",
+                            "Authorization": "Bearer 237fdc97ec26b93ea174384b3e4ec6129384b25cfed0b63dfe81254827ee8f73"
+                        },
+                        body: JSON.stringify(params)
+                    });
+                    const data = await response.json();
+                    if (data.success && data.data) {
+                        document.getElementById("nombre").value = data.data.nombres;
+                        document.getElementById("apellido").value = data.data.apellido_paterno + " " + data.data.apellido_materno;
+                    } else {
+                      console.log("DNI no encontrado o sin datos públicos");
+                    }
+                } catch (e) {
+                  console.error("Error al conectar con API Perú:", e);
+                }
+            }
+        });
+        </script>
     </body>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>

@@ -10,9 +10,9 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Contáctanos</title>
-        <link href="../css/header.css" rel="stylesheet" type="text/css"/>
-        <link href="../css/footer.css" rel="stylesheet" type="text/css"/>
-        <link href="../css/contactanos.css" rel="stylesheet" type="text/css"/>
+        <link href="${pageContext.request.contextPath}/css/header.css" rel="stylesheet" type="text/css"/>
+        <link href="${pageContext.request.contextPath}/css/footer.css" rel="stylesheet" type="text/css"/>
+        <link href="${pageContext.request.contextPath}/css/contactanos.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
         <jsp:include page="header.jsp"/>
@@ -48,6 +48,7 @@
                     </iframe>
                 </div>
             </div>
-        </div>        
+        </div>
+    <jsp:include page="footer.jsp"/>        
     </body>
 </html>

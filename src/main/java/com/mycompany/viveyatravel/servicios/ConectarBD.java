@@ -22,6 +22,7 @@ public class ConectarBD {
         try {
             Class.forName(Driver);
             cnx = DriverManager.getConnection(url, user, clave);
+            cnx.setAutoCommit(true);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(ConectarBD.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
