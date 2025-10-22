@@ -1,64 +1,92 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link href="${pageContext.request.contextPath}/css/inicioSesion.css" rel="stylesheet" type="text/css"/> <!-- Rutas relativas unicas, es decir, para evitar el mal acceso a las rutas  -->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-        <title>Iniciar Sesion</title>
-    </head>
-    <body>
-                <div class="col-md-5">
-                    <%
-                        String registroExito = request.getParameter("registro");
-                        if ("exito".equals(registroExito)) {
-                    %>  
-                    <div class="alert alert-dismissible alert-success">
-                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                        <strong>¡Listo!</strong> Se ha registrado correctamente.
-                    </div>
-                    <%
-                        }
-                    %>
+<html lang="es">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-                    <%
-                        String credencialesError = (String) request.getAttribute("msjeCredenciales");
-                        if (credencialesError != null) {
-                    %>  
-                    <div class="alert alert-dismissible alert-danger">
-                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                        <strong>¡Error!</strong> Correo electronico o contraseña incorrectas.
-                    </div>
-                    <%
-                        }
-                    %>
-                </div>
-        
-        <div class="formulario">
-            <h1>Inicio de sesion</h1>
-            <form action="${pageContext.request.contextPath}/srvUsuario?accion=verificar" method="post"> 
-                <div class="user">
-                    <input type="text" name="correo" id="correo" required>
-                    <label>Correo Electronico</label>
-                </div>
-                <div class="user">
-                    <input type="password" name="clave" id="clave" required>
-                    <label>Contraseña</label>
-                </div>
-                
-                <input type="submit" name="verificar" id="Verificar" value="iniciar">
-                
-                <div class="recordar">
-                    <a href="${pageContext.request.contextPath}/vista/cambioClave.jsp">¿Olvidaste tu contraseña?</a>
-                </div>
-                <div class="registrarse">
-                     <a href="${pageContext.request.contextPath}/vista/registrar.jsp">Crear cuenta</a>
-                </div>
-                <div class="volver">
-                     <a href="${pageContext.request.contextPath}/vista/index.jsp">Volver al inicio</a>
-                </div>
-            </form>
+    <!-- Enlace correcto al CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/ViveYaTravel/css/inicioSesion.css" rel="stylesheet" type="text/css"/> 
+    <title>Inicio de Sesión</title>
+
+</head>
+<body>
+
+    <!-- FONDO + CAPA OSCURA -->
+    <div class="background-container">
+        <img src="${pageContext.request.contextPath}/img/viveya_fondologin.jpg" alt="fondo">
+    </div>
+    <div class="background-overlay"></div>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <div class="main-content-wrapper">
+
+        <div class="welcome-area">
+            <h1 class="welcome-text">Bienvenido a <br> VIVE YA TRAVEL</h1>
         </div>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    </body>
+
+        <div class="login-area">
+            <div class="alert-messages">
+                <%
+                    String registroExito = request.getParameter("registro");
+                    if ("exito".equals(registroExito)) {
+                %>  
+                <div class="alert alert-success custom-alert" role="alert">
+                    <strong>¡Listo!</strong> Se ha registrado correctamente.
+                </div>
+                <%
+                    }
+                    String credencialesError = (String) request.getAttribute("msjeCredenciales");
+                    if (credencialesError != null) {
+                %>  
+                <div class="alert alert-danger custom-alert" role="alert">
+                    <strong>¡Error!</strong> Correo electrónico o contraseña incorrectas.
+                </div>
+                <%
+                    }
+                %>
+            </div>
+
+            <div class="login-box">
+                <h1 class="login-title">Inicio de Sesión</h1> 
+                <form action="${pageContext.request.contextPath}/srvUsuario?accion=verificar" method="post" class="login-form"> 
+                    
+                    <div class="form-group">
+                        <label for="correo" class="form-label-custom">Correo Electrónico</label>
+                        <input type="text" name="correo" id="correo" class="form-control-custom" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="clave" class="form-label-custom">Contraseña</label>
+                        <input type="password" name="clave" id="clave" class="form-control-custom" required>
+                    </div>
+                    
+                    <input type="submit" name="verificar" id="Verificar" value="Iniciar" class="btn-submit">
+                    
+                    <div class="login-links">
+                        <a href="${pageContext.request.contextPath}/vista/cambioClave.jsp" class="link-forgot">¿Olvidaste tu contraseña?</a>
+                        <a href="${pageContext.request.contextPath}/vista/registrar.jsp" class="link-create">Crear cuenta</a>
+                        <a href="${pageContext.request.contextPath}/vista/index.jsp" class="link-return">Volver al inicio</a>
+                    </div>
+                </form>
+            </div>
+        </div> 
+
+    </div> 
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const alertBox = document.querySelector(".custom-alert");
+        if (alertBox) {
+            setTimeout(() => {
+                alertBox.style.opacity = "0";
+                setTimeout(() => alertBox.remove(), 900);
+            }, 2000);
+        }
+    });
+</script>
+
+</body>
 </html>

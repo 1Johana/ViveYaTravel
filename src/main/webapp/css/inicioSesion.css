@@ -1,149 +1,238 @@
-
-body{
-    margin: 0;     /*Quitamos los margenes*/
+/* === FONDO === */
+body, html {
+    margin: 0;
     padding: 0;
-    font-family: monospace;     /*Fuente de letra*/
-    background: #dddddd;
-    background-size: cover;
-    background-position: center;
-    width: 100%;
-    height: 100vh;
+    height: 100%;
+    font-family: Arial, sans-serif;
+    overflow: hidden;
 }
 
-.formulario{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);   /*Centrarlo*/
-    width: 400px;
-    background: #dbdbdb;
-    border-radius: 10px;
-}
-
-.formulario h1{
-    text-align: center;   /*Centramos el h1*/
-    padding: 0 0 20px 0;
-    border-bottom: 1px solid silver;
-}
-
-.formulario form{
-    padding: 0 40px;
-    box-sizing: border-box;
-}
-
-form .user{
-    position: relative;
-    border-bottom: 2px solid #adadad;
-    margin: 30px 0;   /*Espacio entre los input*/
-}
-
-.user input{
-    width: 100%;
-    padding: 0 5px;
-    height: 40px;
-    font-size: 16px;
-    border: none;
-    background: none;
-    outline: none;
-}
-
-.user label{
-    position: absolute;
-    top: 50%;
-    left: 5px;
-    color: #adadad;
-    transform: translateY( -50%);
-    font-size: 16px;
-    pointer-events: none;
-    transition: .5s;
-}
-
-.user span::before{
-    content: '';
-    position: absolute;
-    top:40px;
+.background-container {
+    position: fixed;
+    top: 0;
     left: 0;
     width: 100%;
-    height: 2px;
-    background: #6c3483;
-    transition: .5s;
+    height: 100%;
+    overflow: hidden;
+    z-index: -3;
 }
 
-.user input:focus ~ label{
-    top: -5px;
-    color: #6c3483;
-}
-
-.user input:focus ~ span::before{
+.background-container img {
     width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
 }
 
-.recordar{
-    margin: -5px 0 20px 5px;
-    color: blue;
-    cursor: pointer;
-}
-
-.recordar:hover{
-    text-decoration: none;
-}
-
-input[type="submit"]{
+.background-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
-    height: 50px;
-    border: 1px solid;
-    background: #03AED2;
-    border-radius: 25px;
-    font-size: 16px;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.2);
+    z-index: -2;
+}
+
+/* --- */
+
+/* === CONTENIDO PRINCIPAL === */
+.main-content-wrapper {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+    padding: 80px;
+    box-sizing: border-box;
     color: white;
-    cursor: pointer;
-    outline: none;
 }
 
-input[type="submit"]:hover{
-    border-color: #1679AB;
-    transition: .5s;
+.welcome-area {
+    flex: 1;
+    max-width: 50%;
+    padding-right: 40px;
 }
 
-.registrarse{
-    margin: 30px 0;
-    top: 10px;
+.welcome-text {
+    font-size: 4.5vw;
+    font-weight: bold;
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8);
+    margin: 0;
+}
+
+.login-area {
+    flex: 1;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.login-box {
+    /* Mantenemos el estilo de la caja de login para el fondo semi-transparente */
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(3px);
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+    width: 100%;
+    padding: 30px 40px;
+    /* Cambiamos el color de texto a blanco para que resalte sobre el fondo */
+    color: white; /* <--- CAMBIO: Color base de la caja a blanco */
+}
+
+/* --- */
+
+/* === TÍTULO: Inicio de Sesión === */
+.login-title {
+    font-size: 36px;
+    margin-bottom: 25px;
     text-align: center;
+    /* CAMBIO 1: Color anaranjado suave (#FFAB40) y más grueso (bold) */
+    color: #D9FFF1; /* Anaranjado suave */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6); 
+    font-weight: bold; /* Letras más gruesas */
+}
+/* --- */
+
+.form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+/* Etiqueta del campo (Correo Electrónico/Contraseña) */
+.form-label-custom {
+    display: block;
+    color: #ffffff; /* Blanco puro */
+    font-weight: 600;
+    margin-bottom: 5px;
+    font-size: 15px;
+    letter-spacing: 0.3px;
+    font-family: 'Times New Roman', Times, serif;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 5); /* 🔹 sombra negra difuminada */
+}
+/* --- */
+
+/* === CAMPOS DE ENTRADA (input) === */
+.form-control-custom {
+    width: 100%;
+    padding: 8px 0;
+    /* Eliminamos el fondo y los bordes para dejar solo la línea inferior como la primera imagen */
+    border: none;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.6); /* Línea inferior blanca suave */
+    background-color: transparent; /* Fondo transparente */
+    color: white; /* CAMBIO 3: Texto del input en blanco intenso */
     font-size: 16px;
-    color: black;
+    outline: none;
+    transition: border-bottom-color 0.3s;
 }
 
-.registrarse a{
-    color: blue;
-    text-decoration: none;
-}
-.registrarse a:hover{
-    text-decoration: underline;
+/* Estado Focus (cuando el usuario está escribiendo) */
+.form-control-custom:focus {
+    /* La línea inferior se vuelve más intensa al hacer focus */
+    border-bottom-color: white; /* Blanco intenso al enfocar */
 }
 
-.volver{
-    margin: -5px 0;
-    top: 10px;
+/* Aseguramos que el placeholder (texto de ejemplo) también sea visible */
+.form-control-custom::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+/* --- */
+
+
+.btn-submit {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 25px;
+    background-color: #00bcd4;
+    color: white;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.btn-submit:hover {
+    background-color: #009bb1;
+}
+
+/* Enlaces */
+.login-links {
+    margin-top: 20px;
     text-align: center;
-    color: black;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
 
-.volver a{
-    color: red;
+.login-links a {
     text-decoration: none;
+    color: #789AD4;
+    font-size: 15px;
+    font-weight: 600; /* Texto más grueso */
+    transition: color 0.3s ease;
 }
 
-.volver a:hover{
+.login-links a:hover {
+    color: #334BFF;
     text-decoration: underline;
 }
 
-.user input:focus ~ label,
-.user input:valid ~ label{
-    top: -5px;
-    color: #6C3483;
-    transition: top 0.3s ease, color 0.3s ease;
+/* === ALERTS (Opcional: asegurar que los mensajes de error/éxito se vean bien) === */
+.alert-messages {
+    width: 100%;
+    margin-bottom: 15px;
+}
+.alert-messages {
+    position: absolute;           
+    top: 20px;                    /* Distancia desde la parte superior */
+    left: 50%;                    /* Centrado horizontal */
+    transform: translateX(-50%);  /* Ajuste exacto al centro */
+    z-index: 50;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    pointer-events: none;         /* Evita interferir con clics */
 }
 
-.custom-alert-container{
-    margin-left: 0;
+.custom-alert {
+    width: auto;
+    min-width: 280px;
+    max-width: 400px;             /* Evita que se estire demasiado */
+    background-color: rgba(255, 255, 255, 0.95);
+    border-left: 5px solid #dc3545;  /* Rojo para error */
+    color: #333;
+    font-weight: 500;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+    text-align: left;
+    padding: 10px 18px;
+    border-radius: 8px;
+    opacity: 1;
+    transition: opacity 0.6s ease;
+    pointer-events: all;          /* Permite cerrar si hay botón */
 }
+/* --- */
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+    .main-content-wrapper {
+        flex-direction: column;
+        justify-content: center;
+        padding: 40px 20px;
+        text-align: center;
+    }
+
+    .welcome-area {
+        max-width: 100%;
+        padding: 0;
+        margin-bottom: 30px;
+    }
+
+    .welcome-text {
+        font-size: 7vw;
+    }
+}
+

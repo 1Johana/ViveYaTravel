@@ -6,38 +6,66 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
     Created on : 2 oct. 2025, 12:46:31
     Author     : Lenovo
 */
-/* Efecto blur en imagen de fondo para Contactanos */
+/* ------------------------------------------- */
+/* --- ESTILOS PARA LAYOUT (Footer abajo) --- */
+/* ------------------------------------------- */
+
+html, body {
+    margin: 0;
+    padding: 0;
+    /* 1. Usamos Flexbox para la página completa */
+    display: flex;
+    flex-direction: column;
+    /* 2. Aseguramos que ocupe toda la altura visible */
+    min-height: 100vh; 
+}
+
+/* ------------------------------------------- */
+/* --- ESTILOS DEL FONDO (blur-background) --- */
+/* ------------------------------------------- */
+
 .blur-background {
     position: relative;
     width: 100%;
-    min-height: 100vh;
-    overflow: visible;
-    padding-bottom: 120px; /* espacio para el footer */
+    /* 3. Esto hace que el contenedor del fondo se estire y empuje el footer */
+    flex-grow: 1; 
+    /* Eliminamos min-height y padding-bottom innecesarios */
+    overflow: visible; 
 }
+
 .background-img {
     position: absolute;
     top: 0; 
     left: 0; 
     width: 100%; 
+    /* 4. La imagen debe tener una altura del 100% de su contenedor */
     height: 100%;
-    object-fit: cover; /* cubre y estira sin distorsión */
+    object-fit: cover; 
     filter: blur(6px);
     z-index: 0;
 }
-html, body {
-    margin: 0;
-    padding: 0;
-}
+
+/* ------------------------------------------- */
+/* --- ESTILOS DEL CONTENIDO (content-page) --- */
+/* ------------------------------------------- */
+
 .content-page {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  padding-bottom: 100px; /* espacio para el footer */
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* justify-content: center; <-- Quitamos el centrado vertical */
+    padding: 20px;
+    padding-bottom: 50px; /* Un poco de espacio al final del contenido */
+    /* El contenido se ajustará a la altura de su contenido, y flex-grow: 1
+       en blur-background hará que ocupe el resto del espacio vertical. */
 }
+
+/* ------------------------------------------- */
+/* --- ESTILOS DE COMPONENTES (RESTO DE TU CSS) --- */
+/* ------------------------------------------- */
+
 .main-container {
     display: flex;
     flex-wrap: wrap;
@@ -93,8 +121,8 @@ html, body {
     border-radius: 8px;
     box-shadow: 0 3px 8px rgba(0,0,0,0.12);
 }
+/* El footer debe mantener su posición por defecto (static/relative) para Flexbox */
 footer {
-  position: relative;
-  z-index: 5;
+    position: relative;
+    z-index: 5;
 }
-

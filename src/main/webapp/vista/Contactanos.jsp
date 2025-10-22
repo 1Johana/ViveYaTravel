@@ -16,9 +16,11 @@
     </head>
     <body>
         <jsp:include page="header.jsp"/>
+        
         <div class="blur-background">
-            <img src="../img/contactanosfondo.jpg" alt="fondo" class="background-img"/>
-            <div class="content-page">
+            <img src="../img/contactanosfondo.jpg" alt="fondo" class="background-img"/> 
+            
+            <div class="content-page"> 
                 <div class="title-container">
                     <h1 class="section-title">Contactanos</h1>
                 </div>
@@ -48,7 +50,9 @@
                     </iframe>
                 </div>
             </div>
+            </div> 
         </div>
-    <jsp:include page="footer.jsp"/>        
+        
+        <jsp:include page="footer.jsp"/>       
     </body>
 </html>
