@@ -92,7 +92,8 @@ body, html {
     text-align: center;
     /* CAMBIO 1: Color anaranjado suave (#FFAB40) y más grueso (bold) */
     color: #D9FFF1; /* Anaranjado suave */
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6); 
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+     font-family: 'DM Serif Display', serif; 
     font-weight: bold; /* Letras más gruesas */
 }
 /* --- */

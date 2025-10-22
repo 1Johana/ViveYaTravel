@@ -6,6 +6,7 @@
 
     <!-- Enlace correcto al CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&display=swap" rel="stylesheet">
     <link href="/ViveYaTravel/css/inicioSesion.css" rel="stylesheet" type="text/css"/> 
     <title>Inicio de Sesión</title>
 
