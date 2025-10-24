@@ -39,8 +39,10 @@ public class ReclamacionController extends HttpServlet{
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
+        System.out.println("Se recibió POST en /reclamaciones");
+
         // Acción: registrar un nuevo reclamo en el Libro de Reclamaciones
         String nombre = request.getParameter("nombre");
         String dni = request.getParameter("dni");

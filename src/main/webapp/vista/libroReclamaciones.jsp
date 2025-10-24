@@ -20,6 +20,12 @@
         <jsp:include page="header.jsp"/>
         <div class="libro-container">
             <h1 class="libro-title">Libro de Reclamaciones</h1>
+             <!-- 🔴 Mensaje de error si algo no pasa la validación del backend -->
+            <c:if test="${not empty error}">
+              <p style="color:red; font-weight:bold; text-align:center;">
+                ${error}
+              </p>
+            </c:if>
             <p class="libro-info">
                 Conforme a lo establecido en la Ley N°29571 del código de la Protección y Defensa del consumidor puedes ingresar en nuestro Libro de Reclamaciones tus quejas o reclamos.
             </p>
@@ -31,12 +37,22 @@
                     <legend>Identificación del consumidor reclamante</legend>
                     <div class="form-row">
                         <input type="text" name="nombre" placeholder="Nombre y Apellidos" required>
-                        <input type="text" name="dni" placeholder="N° de documento de identidad" required>
+                        <!-- 🧩 Validación: solo números para DNI -->
+                        <input type="text" name="dni" placeholder="N° de documento de identidad"
+                               required maxlength="8" pattern="[0-9]+"
+                               title="Solo se permiten números"
+                               oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                         <input type="text" name="direccion" placeholder="Dirección">
                     </div>
                     <div class="form-row">
                         <input type="text" name="distrito" placeholder="Distrito / Provincia / Departamento">
-                        <input type="text" name="telefono" placeholder="Teléfono de contacto">
+                         <!-- 🧩 Validación: solo números para teléfono -->
+                         <!-- Teléfono solo números (9 dígitos exactos) -->
+                        <input type="text" name="telefono" placeholder="Teléfono de contacto"
+                               maxlength="9" minlength="9"
+                               pattern="^[0-9]{9}$"
+                               title="Debe contener exactamente 9 números"
+                               oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                         <input type="email" name="email" placeholder="Correo electrónico">
                     </div>
                 </fieldset>
@@ -73,45 +89,6 @@
                 En cumplimiento de lo dispuesto por el Decreto Supremo 011 – 2011 – PCM que aprueba el Reglamento del Libro de Reclamaciones, Vive Ya Travel pone a disposición del usuario el presente libro virtual de reclamaciones, en el que pueden registrar sus quejas y reclamos formales sobre los servicios ofrecidos por Vive Ya Travel y sus establecimientos asociados.
             </p>
         </div>
-                    <!-- Modal de éxito -->
-        <div id="modalExito" class="modal-exito">
-            <div class="modal-contenido">
-                <div class="icono-exito">✔</div>
-                <p>ENVÍO EXITOSO</p>
-            </div>
-        </div>
-
-        <!-- Script para mostrar modal -->
-        <script>
-            document.addEventListener("DOMContentLoaded", () => {
-                const form = document.getElementById("formReclamo");
-                const modal = document.getElementById("modalExito");
-
-                form.addEventListener("submit", function(e) {
-                    e.preventDefault(); // Evita recargar la página
-
-                    fetch(this.action, {
-                        method: this.method,
-                        body: new FormData(this)
-                    })
-                    .then(response => {
-                        if (response.ok) {
-                            // Mostrar el modal
-                            modal.classList.add("visible");
-
-                            // Ocultar el modal y resetear el formulario
-                            setTimeout(() => {
-                                modal.classList.remove("visible");
-                                form.reset();
-                            }, 3000);
-                        } else {
-                            console.error("Error al enviar el reclamo.");
-                        }
-                    })
-                    .catch(error => console.error("Error:", error));
-                });
-            });
-        </script>
         <jsp:include page="footer.jsp"/>
     </body>
 </html>
