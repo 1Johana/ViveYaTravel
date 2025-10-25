@@ -92,7 +92,7 @@ public class srvUsuario extends HttpServlet {
             sesion = request.getSession(); //Crea una sesion
             sesion.setAttribute("admin", usuario);
             request.setAttribute("mensaje", "Bienvenido");
-            this.getServletConfig().getServletContext().getRequestDispatcher("/vista/ADMIndex.jsp").forward(request, response);  //Redirecciona la vista del administrador
+            this.getServletConfig().getServletContext().getRequestDispatcher("/vista/ADMITours.jsp").forward(request, response);  //Redirecciona la vista del administrador
         } else if(usuario != null && usuario.getCargo().getNombreCargo().equals("cliente")){ //Si el cargo es cliente
             sesion = request.getSession();
             sesion.setAttribute("cliente", usuario);

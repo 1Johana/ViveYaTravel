@@ -5,6 +5,7 @@
         <!-- Metadata para configurar el contenido y el juego de caracteres de la página -->
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Vive Ya Travel</title>
+        <link rel="icon" href="../img/icon.png" type="image">
         <!-- Enlaces a hojas de estilo externas e internas -->
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
         <link href="${pageContext.request.contextPath}/css/header.css" rel="stylesheet" type="text/css"/>
@@ -33,7 +34,7 @@
                             <img src="${pageContext.request.contextPath}/img/3.jpg" alt="Castillo de Chancay"/>
                         </section>
                     </div>
-                        <!-- Botón para mover el carrusel a la izquierda -->
+                    <!-- Botón para mover el carrusel a la izquierda -->
                     <div class="btn-left"><i class='bx bxs-chevron-left'></i></div>
                     <!-- Botón para mover el carrusel a la derecha -->
                     <div class="btn-right"><i class='bx bxs-chevron-right'></i></div>
@@ -43,7 +44,7 @@
             <!-- Título principal de la sección de aventuras -->
             <h1 class="heading-1">DESCUBRE TU NUEVA AVENTURA</h1>
 
-                 <!-- Sección de características destacadas -->
+            <!-- Sección de características destacadas -->
             <section class="container container-features">
                 <div class="card-feature">
                     <i class="fa-solid fa-plane-up"></i>
@@ -343,7 +344,7 @@
                 </div>
             </section>
         </main>
-                            
+
         <!-- Incluir el pie de página -->
         <jsp:include page="footer.jsp"/>
         <script src="https://kit.fontawesome.com/81581fb069.js" crossorigin="anonymous"></script>

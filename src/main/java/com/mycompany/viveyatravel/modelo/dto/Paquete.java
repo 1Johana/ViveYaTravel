@@ -1,5 +1,7 @@
 package com.mycompany.viveyatravel.modelo.dto;
 
+import java.io.InputStream;
+
 public class Paquete {
     // Atributos de la BD
     int idPaquete;

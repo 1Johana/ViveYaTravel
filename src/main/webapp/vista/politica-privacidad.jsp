@@ -4,6 +4,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
+        <link rel="icon" href="../img/icon.png"type="image">
         <link href="../css/header.css" rel="stylesheet" type="text/css"/>
         <link href="../css/footer.css" rel="stylesheet" type="text/css"/>
         <link href="../css/politica-privacidad.css" rel="stylesheet" type="text/css"/>

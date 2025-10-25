@@ -83,7 +83,7 @@
                                         <!-- Bottones -->
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                        <button type="button" class="btn btn-primary">Reservar</button>
+                                        <button type="button" class="btn btn-primary" value="AgregarCarrito">Reservar</button>
                                     </div>
                                 </div>
                             </div>
