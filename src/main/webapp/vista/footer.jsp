@@ -42,7 +42,7 @@
                     <ul>
                         <li><a href="nosotros.jsp">Nosotros</a></li>
                         <li><a href="politica-privacidad.jsp">Política de privacidad</a></li>
-                        <li><a href="Terminos y Condiciones.jsp">Términos y condiciones</a></li>
+                        <li><a href="preguntasFrecuentes.jsp">Preguntas frecuentes</a></li>
                         <li><a href="preguntasFrecuentes.jsp">Preguntas frecuentes</a></li>
                     </ul>
                 </div>
@@ -51,8 +51,7 @@
                     <h3>Mi cuenta</h3>
                     <ul>
                         <li><a href="mi-cuenta.jsp">Mi cuenta</a></li>
-                        <li><a href="mis-compras.jsp">Mis compras</a></li>
-                        <li><a href="eliminar-cuenta.jsp">Eliminar mi cuenta</a></li>
+                        <li><a href="Terminos y Condiciones.jsp">Términos y condiciones</a></li>
                         <li><a href="sugerencias.jsp">Sugerencias</a></li>
                     </ul>
                 </div>
