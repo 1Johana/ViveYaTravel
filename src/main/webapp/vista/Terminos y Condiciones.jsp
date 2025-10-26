@@ -52,5 +52,6 @@
                 <li>El pasajero acepta los términos y condiciones al momento de hacer la reserva.</li>
             </ul>
         </div>
+        <jsp:include page="footer.jsp"/>
     </body>
 </html>
