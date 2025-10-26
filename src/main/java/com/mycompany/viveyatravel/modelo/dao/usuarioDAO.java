@@ -200,7 +200,11 @@ public class usuarioDAO {
         PreparedStatement ps = null;
         try {
             ps = cn.prepareStatement(sql);
-            ps.setString(1, u.getClave());
+
+            // Encriptar la contraseña antes de guardarla
+            //String claveHash = com.mycompany.viveyatravel.util.HashUtil.hashPassword(u.getClave());
+            ps.setString(1, HashUtil.hashPassword(u.getClave()));
+            //ps.setString(1, u.getClave());
             ps.setString(2, u.getCorreoElectronico());
             ps.executeUpdate();
         } catch (SQLException e) {
@@ -210,7 +214,6 @@ public class usuarioDAO {
                 ps.close();
             }
         }
-
     }
 
     public boolean existeUsuarioPorDni(int nroDni) throws SQLException {

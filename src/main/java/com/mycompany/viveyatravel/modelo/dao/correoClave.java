@@ -38,7 +38,7 @@ public class correoClave {
 
             // Configurar el asunto y el contenido del mensaje
             msg.setSubject("Restablecer su contraseña");
-            String enlace = "http://localhost:8080/ViveYaTravel/vista/recuperarClave?correo=" + toEmail;
+            String enlace = "http://localhost:8080/ViveYaTravel/srvRecuperarClave?correo=" + toEmail;
             /*String emailContent = "Hola " + nombre + ",\n\n"
                     + "Alguien ha solicitado recientemente que se restablezca la contraseña.\n\n"
                     + " Haz clic en el siguiente enlace para continuar: \n"
