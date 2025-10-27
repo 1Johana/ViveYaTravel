@@ -3,17 +3,35 @@ body {
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
+    /* ******************************************************************* */
+    /* IMPORTANTE: ELIMINAMOS el padding-top: 90px; del body */
+    /* ya que el header con position: absolute no oculta el contenido */
+    /* de la misma manera que con position: fixed. El contenido principal */
+    /* simplemente debe empezar justo después de la altura del header (90px) */
+    /* O empezar desde arriba si quieres que el header se superponga. */
+    /* Si el contenido principal comienza en la parte superior, no necesitas padding. */
+    /* Si el contenido principal viene DEBAJO del header, quita esta línea si está: */
+    /* padding-top: 90px; */ 
 }
 
-/* Estilos para el header */
+/* ---------------------------------------------------------------------- */
+
+/* Estilos para el header - MODIFICADO A POSITION: ABSOLUTE */
 .header {
     width: 100%;
-    background-color: #085394;
+    /* 1. Fondo semi-transparente (rgba): usa tu azul original con opacidad de 0.8 */
+    background-color: transparent;
+    
     color: white;
     padding: 1px 0;
-    height: 90px;  /*Ajusta el alto del div*/
-    z-index: 99;
-    position: relative; /* Asegurar que el header esté por encima del modal cuando no esté activo */
+    height: 90px;
+    z-index: 100; 
+    
+    /* 2. CAMBIO CLAVE: Posición absoluta. Esto permite la superposición */
+    /* pero hace que se mueva con el scroll y desaparezca al bajar. */
+    position: absolute; 
+    top: 0;
+    left: 0;
 }
 
 .contHeader {
@@ -21,27 +39,29 @@ body {
     justify-content: space-between;
     align-items: center;
     max-width: 1200px;
-    height: 90px; /*Ajusta el alto del div*/
+    height: 90px; 
     margin: 0 auto;
+    padding: 0 20px;
 }
+
+/* ---------------------------------------------------------------------- */
 
 /* Cambios en la header */
 .logo {
-    padding-top: 40px; /*Bajar el div*/
-    z-index: 9; /* Le da prioridad sobre otros */
+    padding-top: 0; 
+    z-index: 101; 
+    margin-left: -50px;
+    padding-top: 20px
 }
 
-img .logo {
-    width: 111px;
+img.logo {
+    width: 145px;
+    opacity: 0.8;
 }
 
 .usuario {
-    margin-left: 10px; /* Espacio entre el mensaje de bienvenida y el ícono de usuario */
+    margin-left: 10px; 
 }
-
-/*.logo, .usuario, .carrito {
-    width: 100px;  Ajustar el tamaño
-}*/
 
 .carrito {
     color: #fff;
@@ -49,7 +69,7 @@ img .logo {
 }
 
 .navbar {
-    padding-top: 10px;
+    padding-top: 0; 
 }
 
 /* Menú de navegación */
@@ -61,47 +81,321 @@ img .logo {
 
 .navbar nav ul.menu li {
     display: inline-block;
-    margin-right: 20px;
+    margin-right: 30px;
 }
 
 .navbar nav ul.menu li a {
     text-decoration: none;
     color: #fff;
     font-weight: bold;
+    padding: 10px; 
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
 }
 
-/* Cambia el color al pasar el mouse */
-.navbar nav ul.menu li a:hover {
-    background-color: white;
-    color: #085394; 
-}
-
-.usuario {
-    color: white;
-    font-size: 25px;
-}
-
-.usuario:hover {
-    color: black;
-}
-
+/* Ajuste de íconos y texto de usuario para visibilidad en header oscuro */
 .usuario a {
     color: white;
     font-size: 15px;
     text-decoration: none;
 }
 
+.usuario i { /* Ícono de usuario invitado */
+    color: white;
+    font-size: 25px;
+    transition: color 0.3s;
+}
+
+.usuario i:hover {
+    color: #ddd;
+}
+
+
 .usuario-container {
     display: flex;
     align-items: center;
-    margin-left: auto; /*Contenedor de usuario a la derecha*/
+    margin-left: auto; 
 }
 
 .usuario-container .usuario {
-    margin-left: 10px; /* Espacio entre el mensaje de bienvenida y el ícono de usuario */
+    margin-left: 10px;
 }
 
 .cerrar {
     font-size: 25px;
     color: #C40C0C;
+}
+
+/* *************************************************************** */
+/* Estilos para el menú desplegable del usuario LOGUEADO */
+/* *************************************************************** */
+
+.menu2 {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.menu2 > li > a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #fff;
+}
+
+.menu2 .username {
+    margin-right: 5px;
+    font-weight: bold;
+}
+
+.menu2 .imagen {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin: 0 5px;
+}
+
+.menu2 > li {
+    position: relative;
+    cursor: pointer;
+}
+
+.menu2 ul {
+    position: absolute;
+    display: none;
+    list-style: none;
+    padding: 10px 0;
+    margin: 0;
+    background-color: rgba(8, 83, 148, 0.95); 
+    min-width: 200px;
+    right: 0;
+    top: 100%; 
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    z-index: 105; 
+}
+
+.menu2 li:hover > ul {
+    display: block;
+}
+
+.menu2 ul li a, .menu2 ul li label, .menu2 ul li button {
+    display: block;
+    padding: 8px 15px;
+    text-decoration: none;
+    color: #fff;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.menu2 ul li:hover a, .menu2 ul li:hover label, .menu2 ul li:hover button {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.menu2 ul li button {
+    width: 100%;
+    text-align: left;
+    color: #ff5050; 
+}
+
+.menu2 ul li.close a {
+    color: #fff; 
+}
+
+/* *************************************************************** */
+/* Estilos del MODAL */
+/* *************************************************************** */
+
+/* Ocultar el checkbox por defecto */
+#btn-modal {
+    display: none;
+}
+
+.container-modal {
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 200; 
+}
+
+#btn-modal:checked ~ .container-modal {
+    display: flex;
+}
+
+.content-modal {
+    width: 90%;
+    max-width: 400px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    position: relative;
+}
+
+.content-modal h2 {
+    text-align: center;
+    color: #085394;
+    margin-bottom: 20px;
+}
+
+.btn-cerrar {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.btn-cerrar label {
+    font-size: 25px;
+    cursor: pointer;
+    color: #555;
+    transition: color 0.2s;
+}
+
+.btn-cerrar label:hover {
+    color: #000;
+}
+
+.cerrar-modal {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+/* Estilos de los inputs de actualización */
+.update {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.update input[type="text"],
+.update input[type="email"],
+.update input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+.update label {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    color: #999;
+    pointer-events: none;
+    transition: 0.3s ease all;
+}
+
+/* Efecto focus para el label */
+.update input:focus ~ label,
+.update input:valid ~ label {
+    top: 0;
+    left: 5px;
+    font-size: 12px;
+    color: #085394;
+    background-color: #fff;
+    padding: 0 5px;
+}
+
+#Actualizar {
+    width: 100%;
+    padding: 10px;
+    background-color: #085394;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+#Actualizar:hover {
+    background-color: #064070;
+}
+/*Narvar PROMOCIONES DEPLGABLE*/
+/* *************************************************************** */
+/* ESTILOS PARA EL MENÚ DESPLEGABLE DE TOURS */
+/* *************************************************************** */
+
+.navbar .dropdown-tours {
+    position: relative; /* Esencial para posicionar el sub-menú relativo al LI */
+}
+
+/* Ocultar el submenu por defecto */
+.navbar .submenu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    
+    position: absolute;
+    
+    /* CAMBIO 1: Bajar el menú 5 píxeles adicionales */
+    top: calc(100% + 10px); 
+    /* Si quieres bajarlo más, puedes usar: top: calc(100% + 10px); */
+    
+    left: 0;
+    
+    /* CAMBIO 2: Negro más transparente (valor alfa reducido a 0.7) */
+    background-color: rgba(34, 34, 34, 0.7); 
+    /* Si quieres aún más transparente, usa 0.5 */
+    
+    min-width: 180px; 
+    visibility: hidden; 
+    opacity: 0; 
+    transition: opacity 0.3s, visibility 0.3s;
+    border-radius: 0 0 5px 5px;
+}
+
+/* Mostrar el sub-menú al pasar el mouse sobre el LI padre */
+.navbar .dropdown-tours:hover > .submenu {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Estilos de los elementos del sub-menú */
+.navbar .submenu li {
+    display: block; /* Muestra las opciones en formato de bloque (una debajo de otra) */
+    margin: 0;
+    padding: 0;
+}
+
+.navbar .submenu li a {
+    font-family: 'Butler', serif;
+    padding: 10px 15px; /* Relleno para que se vean bien */
+    display: block;
+    color: #fff;
+    text-decoration: none;
+    font-weight: normal; /* Normalizamos el peso de la fuente */
+    border-radius: 0; /* Quitamos el borde redondeado del hover del menú principal */
+}
+
+.navbar .submenu li a:hover {
+    background-color: rgba(0, 0, 0, 0.1); /* Hover sutil */
+    color: #fff;
+}
+
+/* Estilo para la flecha indicadora (opcional) */
+.down-arrow {
+    font-size: 10px;
+    margin-left: 5px;
+}
+/* *************************************************************** */
+/* REGLA CLAVE PARA MANTENER EL HOVER DE TOURS ACTIVADO */
+/* *************************************************************** */
+
+.navbar .dropdown-tours:hover > a {
+    /* Aplicar la sombra negra suave al enlace de TOURS (el hijo directo) */
+    background-color: rgba(0, 0, 0, 0.2); 
 }
