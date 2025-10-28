@@ -20,10 +20,14 @@
         </c:if>
 
         <c:if test="${not empty sessionScope.carrito}">
-            <table class="table">
-                <thead>
+            <table class="table table-striped align-middle">
+                <thead class="table-dark">
                     <tr>
-                        <th>Item</th><th>Paquete</th><th>Precio</th><th>Cantidad</th><th>Subtotal</th>
+                        <th>Item</th>
+                        <th>Paquete</th>
+                        <th>Precio</th>
+                        <th>Cantidad</th>
+                        <th>Subtotal</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -41,13 +45,45 @@
                 </tbody>
             </table>
 
+            <!-- Datos que llegan del selector -->
+            <c:set var="numAsiento" value="${not empty param.numeroAsiento ? param.numeroAsiento : sessionScope.numeroAsiento}" />
+            <c:set var="extras" value="${empty param.extrasTotal ? 0 : param.extrasTotal}" />
+            <c:set var="seguro" value="${empty param.seguroPrecio ? 0 : param.seguroPrecio}" />
+            <c:set var="mascota" value="${empty param.mascotaPrecio ? 0 : param.mascotaPrecio}" />
+
+            <!-- 💺 Mostrar asiento elegido -->
+            <div class="alert alert-info">
+                <strong>Asiento seleccionado:</strong>
+                <c:choose>
+                    <c:when test="${not empty numAsiento}">
+                        <span class="badge bg-success fs-6">Asiento ${numAsiento}</span>
+                    </c:when>
+                    <c:otherwise>
+                        <span class="text-danger">No se ha seleccionado ningún asiento.</span>
+                    </c:otherwise>
+                </c:choose>
+            </div>
+
             <div class="row">
                 <div class="col-md-6">
-                    <!-- Simulamos ingreso de datos de pago (no reales) -->
-                    <div class="card mb-3">
-                        <div class="card-header">Datos de pago (simulado)</div>
+                    <!-- Simulación de pago -->
+                    <div class="card mb-3 shadow-sm">
+                        <div class="card-header bg-primary text-white">Datos de pago (simulado)</div>
                         <div class="card-body">
-                            <form action="${pageContext.request.contextPath}/srvPago" method="post">
+                            <form action="${pageContext.request.contextPath}/srvPromocion" method="post">
+                                <input type="hidden" name="accion" value="confirmarPago"/>
+
+                                <!-- Mantener datos para el backend -->
+                                <input type="hidden" name="idBus" value="${param.idBus}"/>
+                                <input type="hidden" name="idPaquete" value="${param.idPaquete}"/>
+                                <input type="hidden" name="idAsiento" value="${param.idAsiento}"/>
+                                <input type="hidden" name="numeroAsiento" value="${numAsiento}"/>
+                                <input type="hidden" name="seguroPrecio" value="${seguro}"/>
+                                <input type="hidden" name="mascotaPrecio" value="${mascota}"/>
+                                <input type="hidden" name="extrasTotal" value="${extras}"/>
+                                <input type="hidden" name="subtotal" value="${subtotal}"/>
+                                <input type="hidden" name="total" value="${subtotal + extras}"/>
+
                                 <div class="mb-3">
                                     <label for="nombreTarjeta" class="form-label">Nombre en la tarjeta</label>
                                     <input type="text" id="nombreTarjeta" name="nombreTarjeta" class="form-control" required/>
@@ -67,12 +103,13 @@
                                     </div>
                                 </div>
 
-                                <!-- campos ocultos: subtotal (por si quieres enviarlo) -->
-                                <input type="hidden" name="subtotal" value="${subtotal}"/>
-
-                                <div class="mt-3">
-                                    <a href="${pageContext.request.contextPath}/srvPromocion?accion=verCarrito" class="btn btn-secondary">Volver al carrito</a>
-                                    <button type="submit" class="btn btn-primary">Confirmar pago (simulado)</button>
+                                <div class="mt-3 d-flex justify-content-between">
+                                    <a href="${pageContext.request.contextPath}/srvPromocion?accion=verCarrito" class="btn btn-secondary">
+                                        Volver al carrito
+                                    </a>
+                                    <button type="submit" class="btn btn-success">
+                                        Confirmar pago y reservar asiento
+                                    </button>
                                 </div>
                             </form>
                         </div>
@@ -80,13 +117,28 @@
                 </div>
 
                 <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header">Totales</div>
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-dark text-white">Totales</div>
                         <div class="card-body">
-                            <p>Subtotal: <strong>S/. <fmt:formatNumber value="${subtotal}" type="number" minFractionDigits="2" maxFractionDigits="2"/></strong></p>
-                            <p>Descuento: <strong>S/. 0.00</strong></p>
+                            <p>Subtotal: <strong>S/.
+                                <fmt:formatNumber value="${subtotal}" type="number" minFractionDigits="2" maxFractionDigits="2"/></strong>
+                            </p>
+
+                            <p>Extras:
+                              <strong>S/. <fmt:formatNumber value="${extras}" type="number" minFractionDigits="2" maxFractionDigits="2"/></strong>
+                              <small class="text-muted d-block mt-1">
+                                <c:if test="${seguro > 0}">Seguro: S/. <fmt:formatNumber value="${seguro}" minFractionDigits="2" maxFractionDigits="2"/> </c:if>
+                                <c:if test="${mascota > 0}">Mascota: S/. <fmt:formatNumber value="${mascota}" minFractionDigits="2" maxFractionDigits="2"/></c:if>
+                                <c:if test="${extras == 0}">Sin extras seleccionados</c:if>
+                              </small>
+                            </p>
+
                             <hr/>
-                            <p>Total a pagar: <strong>S/. <fmt:formatNumber value="${subtotal}" type="number" minFractionDigits="2" maxFractionDigits="2"/></strong></p>
+                            <p>Total a pagar:
+                              <strong class="text-primary">S/.
+                                <fmt:formatNumber value="${subtotal + extras}" type="number" minFractionDigits="2" maxFractionDigits="2"/>
+                              </strong>
+                            </p>
                         </div>
                     </div>
                 </div>

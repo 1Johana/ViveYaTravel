@@ -13,30 +13,26 @@ body {
     /* Si el contenido principal viene DEBAJO del header, quita esta línea si está: */
     /* padding-top: 90px; */ 
 }
-
+body::before {
+    content: none;
+    /* Igual a la altura del header */
+}
 /* ---------------------------------------------------------------------- */
 
 /* Estilos para el header - MODIFICADO A POSITION: ABSOLUTE */
 .header {
+    position: relative;       /* Se queda en el flujo normal, no se mueve */
     width: 100%;
-    /* 1. Fondo semi-transparente (rgba): usa tu azul original con opacidad de 0.8 */
-    background-color: transparent;
-    
-    color: white;
-    padding: 1px 0;
-    height: 90px;
-    z-index: 100; 
-    
-    /* 2. CAMBIO CLAVE: Posición absoluta. Esto permite la superposición */
-    /* pero hace que se mueva con el scroll y desaparezca al bajar. */
-    position: absolute; 
-    top: 0;
-    left: 0;
+    height: 90px;             /* Altura del header */
+    background-color: transparent; /* Mantiene transparencia */
+    display: flex;
+    align-items: center;
+    z-index: 10;
 }
 
 .contHeader {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
     max-width: 1200px;
     height: 90px; 
@@ -48,10 +44,8 @@ body {
 
 /* Cambios en la header */
 .logo {
-    padding-top: 0; 
-    z-index: 101; 
-    margin-left: -50px;
-    padding-top: 20px
+    transform: translate(-50px, 12px); /* mueve 30px a la izquierda y 10px hacia arriba */
+    z-index: 11;
 }
 
 img.logo {
@@ -64,8 +58,14 @@ img.logo {
 }
 
 .carrito {
-    color: #fff;
-    font-size: 25px;
+    display: flex;
+    align-items: center; /* centra verticalmente el ícono dentro del header */
+    font-size: 25px; /* tamaño del ícono */
+    color: #FFF;
+    margin-left:30px; /* separación del menú/usuario */
+}
+.carro i {
+    transform: translateY(-15px); /* mueve el ícono 5px hacia arriba */
 }
 
 .navbar {
@@ -96,13 +96,12 @@ img.logo {
 /* Ajuste de íconos y texto de usuario para visibilidad en header oscuro */
 .usuario a {
     color: white;
-    font-size: 15px;
     text-decoration: none;
 }
 
 .usuario i { /* Ícono de usuario invitado */
     color: white;
-    font-size: 25px;
+    font-size: 29px;
     transition: color 0.3s;
 }
 
@@ -114,11 +113,11 @@ img.logo {
 .usuario-container {
     display: flex;
     align-items: center;
-    margin-left: auto; 
+    margin-left: 10px; 
 }
 
 .usuario-container .usuario {
-    margin-left: 10px;
+    margin-left: 150px;
 }
 
 .cerrar {
