@@ -52,7 +52,7 @@
                     <ul>
                         <li><a href="mi-cuenta.jsp">Mi cuenta</a></li>
                         <li><a href="Terminos y Condiciones.jsp">Términos y condiciones</a></li>
-                        <li><a href="sugerencias.jsp">Sugerencias</a></li>
+                        <li><a href="${pageContext.request.contextPath}/vista/sugerencias.jsp">Sugerencias</a></li>
                     </ul>
                 </div>
 

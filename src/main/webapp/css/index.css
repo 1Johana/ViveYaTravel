@@ -576,6 +576,16 @@
 .video-item:hover iframe {
     transform: scale(1.05);
 }
+.hero-slider {
+    height: 100vh;
+    margin-top: -90px; /* levanta la imagen para cubrir debajo del header */
+}
+
+body::before {
+    content: "";
+    display: block;
+    height: 90px; /* mantiene el espacio para que las siguientes secciones no se tapen */
+}
 
 
 
