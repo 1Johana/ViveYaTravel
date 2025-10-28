@@ -39,7 +39,7 @@ body, html {
     left: 50%;
     transform: translate(-50%, -50%);
     width: 400px;
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.3);
     backdrop-filter: blur(10px);
     border-radius: 12px;
     padding: 30px 40px;
@@ -50,7 +50,7 @@ body, html {
 .formularioRegistro h1 {
     text-align: center;
     font-size: 38px;
-    color: #FC892D;
+    color: #54BDDE;
     font-family: 'Oswald', sans-serif;
     text-shadow: 2px 2px 5px rgba(0,0,0,0.6);
 }
@@ -59,8 +59,8 @@ body, html {
     text-align: center;
     border-bottom: 1px solid rgba(255,255,255,0.5);
     padding-bottom: 10px;
-    color: #4ACC10;
-    font-weight: 600;
+    color: #0E5A9E;
+    font-weight: 900;
     font-size: 18px; 
     font-family: 'Playfair Display', serif;
 }
@@ -97,7 +97,7 @@ body, html {
 .registro input:valid ~ label {
     top: -10px;
     font-size: 14px;
-    color: #aee1ff;
+    color: #211F1F;
 }
 
 /* === BOTÓN === */

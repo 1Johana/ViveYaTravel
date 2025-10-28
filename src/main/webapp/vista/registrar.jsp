@@ -52,11 +52,11 @@
             </div>
             <div class="registro">
                 <input type="text" name="nombre" id="nombre" required>
-                <label>Nombre</label>
+                <label>NOMBRES</label>
             </div>
             <div class="registro">
                 <input type="text" name="apellido" id="apellido" required>
-                <label>Apellido</label>
+                <label>APELLIDOS</label>
             </div>
             <div class="registro">
                 <input type="text" maxlength="9" oninput="this.value = this.value.replace(/[^0-9]/g, '')" name="nroCelular" id="celular" required>
