@@ -31,7 +31,6 @@
                                 <li><a href="#">Internacionales</a></li> 
                             </ul>
                         </li>
-
                         <li><a href="<%=request.getContextPath()%>/srvPromocion">PROMOCIONES</a></li>
                         <li><a href="${pageContext.request.contextPath}/vista/nosotros.jsp">NOSOTROS</a></li>
                     </ul>
@@ -48,43 +47,44 @@
             <!-- Usuario -->
             <div class="usuario-container">
                 <%
-                    usuario cliente = (usuario) session.getAttribute("cliente"); // Movido aquí para scope global en el bloque
+                    usuario cliente = (usuario) session.getAttribute("cliente");
                     if (cliente != null) {
                 %>
                 <ul class="menu2">
                     <li>
                         <a href="#">
                             <p class="username">Hola, <%= cliente.getNombre()%></p>
-                            <img class="imagen"
-                                 src="<%
-                                     String genero = (cliente.getGenero() != null) ? cliente.getGenero().trim().toLowerCase() : "";
-                                     String avatarUrl;
-                                     if (genero.equals("mujer")) {
-                                         avatarUrl = "https://cdn-icons-png.flaticon.com/512/6997/6997662.png"; // 👩 avatar mujer
-                                     } else {
-                                         avatarUrl = "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"; // 👨 avatar hombre
-                                     }
-                                     out.print(avatarUrl);
-                                 %>"
-                                 alt="Avatar usuario"/>
-
+                            <img class="imagen" src="${pageContext.request.contextPath}/img/user.png" alt=""/>
                             <i class="fa-solid fa-chevron-down" style="color: #fff"></i>
                         </a>
                         <ul>
+                            <!-- 🔹 Mis reservas (compras anteriores) -->
                             <li>
-                                <a href="${pageContext.request.contextPath}/vista/perfil.jsp"> 
-                                    <i class="fa-solid fa-user"></i> Mi perfil 
+                                <a href="${pageContext.request.contextPath}/srvReserva?accion=misReservas">
+                                    <i class="fa-solid fa-ticket"></i> Mis reservas
                                 </a>
                             </li>
 
-                            <div class="boton-modal">
-
-                                <li class="close">
-                                    <a href="${pageContext.request.contextPath}/srvUsuario?accion=cerrar">
-                                        <i class="fa-solid fa-arrow-right-from-bracket"></i> Cerrar sesión
-                                    </a>
-                                </li>
-
+                            <li>
+                                <div class="boton-modal">
+                                    <label for="btn-modal">Editar perfil</label>
+                                </div>
+                            </li>
+                            <li class="close">
+                                <a href="${pageContext.request.contextPath}/srvUsuario?accion=cerrar">
+                                    <i class="fa-solid fa-arrow-right-from-bracket"></i> Cerrar sesión
+                                </a>
+                            </li>
+                            <li class="delete">
+                                <form action="${pageContext.request.contextPath}/srvEliminarUsuario" method="post" 
+                                      onsubmit="return confirm('¿Seguro que quieres eliminar tu cuenta? Esta acción no se puede deshacer.');">
+                                    <input type="hidden" name="idUsuario" value="<%= cliente.getIdUsuario()%>"/>
+                                    <input type="hidden" name="eliminar" value="Eliminar"/>
+                                    <button type="submit" style="background:none;border:none;color:blue;cursor:pointer;">
+                                        <i class="fa-solid fa-trash"></i> Eliminar cuenta
+                                    </button>
+                                </form>
+                            </li>
                         </ul>
                     </li>
                 </ul>
@@ -104,7 +104,7 @@
     </div>
 
     <!-- Modal de edición de perfil -->
-    <% if (cliente != null) {%>
+    <% if (cliente != null) { %>
     <input type="checkbox" id="btn-modal">
     <div class="container-modal">
         <div class="content-modal">
@@ -151,6 +151,5 @@
         </div>
         <label for="btn-modal" class="cerrar-modal"></label>
     </div>
-    <% }%>
-
+    <% } %>
 </header>
