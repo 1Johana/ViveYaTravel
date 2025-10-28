@@ -148,3 +148,113 @@ input[type="submit"]:hover {
 .volver:hover {
     color: #084bb8;
 }
+/* === RESPONSIVE DESIGN === */
+
+/* 📱 Tablets medianas (≤992px) */
+@media (max-width: 992px) {
+    .formularioClave {
+        width: 70%;
+        padding: 30px 20px;
+    }
+
+    .logo {
+        font-size: 24px;
+    }
+
+    .formularioClave h2 {
+        font-size: 20px;
+    }
+
+    input[type="submit"] {
+        font-size: 14px;
+    }
+}
+
+/* 📱 Móviles medianos (≤768px) */
+@media (max-width: 768px) {
+    body {
+        background-attachment: scroll;
+    }
+
+    .formularioClave {
+        width: 80%;
+        padding: 25px 18px;
+    }
+
+    .campo input {
+        font-size: 13px;
+    }
+
+    .campo label {
+        font-size: 13px;
+    }
+
+    input[type="submit"] {
+        height: 42px;
+        font-size: 13.5px;
+    }
+}
+
+/* 📱 Móviles pequeños (≤576px) */
+@media (max-width: 576px) {
+    .formularioClave {
+        width: 90%;
+        padding: 20px 15px;
+        border-radius: 10px;
+    }
+
+    .logo {
+        font-size: 22px;
+    }
+
+    .formularioClave h2 {
+        font-size: 18px;
+    }
+
+    .formularioClave p {
+        font-size: 13px;
+    }
+
+    .campo {
+        margin: 15px 0;
+    }
+
+    .campo input {
+        font-size: 13px;
+    }
+
+    .campo label {
+        font-size: 12.5px;
+    }
+
+    input[type="submit"] {
+        font-size: 13px;
+        height: 40px;
+    }
+
+    .volver {
+        font-size: 13px;
+    }
+}
+
+/* 📱 Extra pequeños (≤400px) */
+@media (max-width: 400px) {
+    .formularioClave {
+        width: 95%;
+        padding: 18px 12px;
+    }
+
+    .logo {
+        font-size: 20px;
+    }
+
+    .campo input {
+        height: 38px;
+        font-size: 12.5px;
+    }
+
+    input[type="submit"] {
+        height: 38px;
+        font-size: 12.5px;
+    }
+}

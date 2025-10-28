@@ -134,3 +134,76 @@ fieldset {
   border: none;
   padding: 0;
 }
+/* === RESPONSIVE DESIGN === */
+
+/* 📱 Tablets y pantallas medianas */
+@media (max-width: 992px) {
+    .contenedor-paquetes {
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 15px;
+        padding: 15px;
+    }
+
+    .tour {
+        max-width: 100%;
+        margin-bottom: 30px;
+    }
+
+    .formulario {
+        max-width: 80%;
+        padding: 15px;
+    }
+}
+
+/* 📱 Móviles (≤768px) */
+@media (max-width: 768px) {
+    .tCat {
+        font-size: 2.4rem;
+        margin-bottom: 15px;
+    }
+
+    .contenedor-paquetes {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 10px;
+    }
+
+    .tour img {
+        height: 150px;
+    }
+
+    .formulario {
+        width: 90%;
+    }
+}
+
+/* 📱 Móviles pequeños (≤576px) */
+@media (max-width: 576px) {
+    .tCat {
+        font-size: 2rem;
+    }
+
+    .contenedor-paquetes {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .tour {
+        padding: 15px;
+    }
+
+    .formulario {
+        width: 95%;
+        padding: 10px;
+    }
+
+    .formulario input[type="file"],
+    .formulario input[type="text"],
+    .formulario input[type="number"] {
+        font-size: 1.3rem;
+    }
+
+    .formulario input[type="submit"] {
+        font-size: 1.3rem;
+        padding: 10px;
+    }
+}
