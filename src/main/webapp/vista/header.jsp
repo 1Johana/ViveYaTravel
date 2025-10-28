@@ -106,6 +106,7 @@
             </div>
 
         </div>
+            
     </div>
 
     <!-- Modal de edición de perfil -->
