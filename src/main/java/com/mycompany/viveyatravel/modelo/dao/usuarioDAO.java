@@ -44,24 +44,29 @@ public class usuarioDAO {
     private Connection cn;
 
     public usuarioDAO() {
-        cn = new ConectarBD().getConexion();   //Inicia la conexion a la BD
+        cn = new ConectarBD().getConexion();
     }
 
+    // --- LOGIN ---
     public usuario identificar(usuario user) throws SQLException {
-        usuario usu = null;     //Va a recibir el objeto usuario
-        PreparedStatement ps = null;   //Para preparar la consulta
+        usuario usu = null;
+        PreparedStatement ps = null;
         ResultSet rs = null;
-        //La consulta desde la base de datos
+
         String claveHash = HashUtil.hashPassword(user.getClave());
 
-        String cadSQL = "SELECT u.idUsuario, u.nombre, u.apellido, u.nroCelular, u.nroDni, c.nombreCargo FROM usuario u "
+        String sql = "SELECT u.idUsuario, u.nombre, u.apellido, u.nroCelular, u.nroDni, "
+                + "u.genero, c.nombreCargo "
+                + "FROM usuario u "
                 + "INNER JOIN cargo c ON u.idCargo = c.idCargo "
                 + "WHERE u.correoElectronico = ? AND u.clave = ?";
+
         try {
-            ps = cn.prepareStatement(cadSQL);
+            ps = cn.prepareStatement(sql);
             ps.setString(1, user.getCorreoElectronico());
-            ps.setString(2, claveHash); // 🔒 compara con la clave hasheada
+            ps.setString(2, claveHash);
             rs = ps.executeQuery();
+
             if (rs.next()) {
                 usu = new usuario();
                 usu.setIdUsuario(rs.getInt("idUsuario"));
@@ -70,11 +75,12 @@ public class usuarioDAO {
                 usu.setNroCelular(rs.getInt("nroCelular"));
                 usu.setNroDni(rs.getInt("nroDni"));
                 usu.setCorreoElectronico(user.getCorreoElectronico());
+                usu.setGenero(rs.getString("genero"));
                 usu.setCargo(new cargo());
                 usu.getCargo().setNombreCargo(rs.getString("nombreCargo"));
             }
         } catch (Exception e) {
-            System.out.println("Error " + e.getMessage());
+            System.out.println("Error al identificar usuario: " + e.getMessage());
         } finally {
             if (rs != null && !rs.isClosed()) {
                 rs.close();
@@ -86,27 +92,25 @@ public class usuarioDAO {
         return usu;
     }
 
+    // --- REGISTRO ---
     public usuario registrar(usuario user) throws SQLException {
         usuario usu = null;
         PreparedStatement ps = null;
 
-        String cadSQL = "INSERT INTO usuario (nombre, apellido, nroCelular, nroDni, correoElectronico, clave, idCargo) "
-                + "VALUES (?, ?, ?, ?, ?, ?, 1)";
+        String sql = "INSERT INTO usuario (nombre, apellido, nroCelular, nroDni, correoElectronico, clave, genero, idCargo) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, 1)";
         try {
-            ps = cn.prepareStatement(cadSQL);
+            ps = cn.prepareStatement(sql);
             ps.setString(1, user.getNombre());
             ps.setString(2, user.getApellido());
             ps.setInt(3, user.getNroCelular());
             ps.setInt(4, user.getNroDni());
             ps.setString(5, user.getCorreoElectronico());
-
-            // 🔒 Encripta la contraseña antes de guardarla
-            String claveHash = HashUtil.hashPassword(user.getClave());
-            ps.setString(6, claveHash);
-
+            ps.setString(6, HashUtil.hashPassword(user.getClave())); // clave cifrada
+            ps.setString(7, user.getGenero()); // Guardar género
             ps.executeUpdate();
         } catch (SQLException e) {
-            System.out.println("Error al registrar el usuario: " + e.getMessage());
+            System.out.println("Error al registrar usuario: " + e.getMessage());
         } finally {
             if (ps != null && !ps.isClosed()) {
                 ps.close();
@@ -115,21 +119,19 @@ public class usuarioDAO {
         return usu;
     }
 
+    // --- ACTUALIZAR PERFIL ---
     public void actualizar(usuario user) throws SQLException {
-        String sql = "UPDATE usuario SET nombre = ?, apellido = ?, nroCelular = ?, nroDni = ?, correoElectronico = ?, clave = ? WHERE idUsuario = ?";
+        String sql = "UPDATE usuario SET nombre = ?, apellido = ?, nroCelular = ? WHERE idUsuario = ?";
         PreparedStatement ps = null;
         try {
             ps = cn.prepareStatement(sql);
             ps.setString(1, user.getNombre());
             ps.setString(2, user.getApellido());
             ps.setInt(3, user.getNroCelular());
-            ps.setInt(4, user.getNroDni());
-            ps.setString(5, user.getCorreoElectronico());
-            ps.setString(6, HashUtil.hashPassword(user.getClave()));
-            ps.setInt(7, user.getIdUsuario());
+            ps.setInt(4, user.getIdUsuario());
             ps.executeUpdate();
         } catch (SQLException e) {
-            throw new SQLException("Error al actualizar: " + e.getMessage());
+            throw new SQLException("Error al actualizar datos: " + e.getMessage());
         } finally {
             if (ps != null && !ps.isClosed()) {
                 ps.close();

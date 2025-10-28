@@ -8,6 +8,7 @@ public class usuario {
     private int nroDni;
     private String correoElectronico;
     private String clave;
+    private String genero;
     private cargo cargo;
 
     public int getIdUsuario()                                           {return idUsuario;}
@@ -24,6 +25,8 @@ public class usuario {
     public void setCorreoElectronico(String correoElectronico)          {this.correoElectronico = correoElectronico;}
     public String getClave()                                            {return clave;}
     public void setClave(String clave)                                  {this.clave = clave;}
+    public String getGenero()                                           { return genero; }        
+    public void setGenero(String genero)                                { this.genero = genero; } 
     public cargo getCargo()                                             {return cargo;}
     public void setCargo(cargo cargo)                                   {this.cargo = cargo;}
     
