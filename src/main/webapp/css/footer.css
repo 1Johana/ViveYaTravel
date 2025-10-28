@@ -88,4 +88,68 @@ ul li a {
 ul li a:hover {
     color: lightblue;
 }
+/* 📱 Responsive Design */
+
+/* Tablets medianas (≤1024px) */
+@media (max-width: 1024px) {
+    .contFooter {
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 25px;
+    }
+
+    .contFooter h3 {
+        font-size: 18px;
+    }
+
+    .empresa p {
+        font-size: 15px;
+    }
+}
+
+/* Pantallas pequeñas / móviles (≤768px) */
+@media (max-width: 768px) {
+    footer {
+        padding: 20px 0;
+    }
+
+    .contFooter {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 30px;
+    }
+
+    .empresa,
+    .informacion,
+    .cuenta,
+    .contacto {
+        min-width: 100%;
+    }
+
+    .social-icons {
+        justify-content: center;
+    }
+
+    .metodos-pago {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+}
+
+/* Pantallas muy pequeñas (≤480px) */
+@media (max-width: 480px) {
+    .contFooter h3 {
+        font-size: 17px;
+    }
+
+    .empresa p {
+        font-size: 14px;
+    }
+
+    .social-icons li a {
+        width: 28px;
+        height: 28px;
+    }
+}
 

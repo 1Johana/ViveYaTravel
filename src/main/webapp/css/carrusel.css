@@ -57,3 +57,77 @@
 .btn-right{
     right: 10px;
 }
+/* === RESPONSIVE DESIGN === */
+
+/* 📱 Tablets grandes y pantallas medianas (≤1024px) */
+@media (max-width: 1024px) {
+    .carrusel-body {
+        height: 420px;
+    }
+
+    .contenedor-carrusel {
+        height: 350px;
+    }
+
+    .btn-left,
+    .btn-right {
+        font-size: 1.6rem;
+        padding: 6px;
+    }
+}
+
+/* 📱 Tablets y móviles grandes (≤768px) */
+@media (max-width: 768px) {
+    .carrusel-body {
+        height: 360px;
+    }
+
+    .contenedor-carrusel {
+        height: 280px;
+    }
+
+    .slider-section img {
+        object-fit: cover;
+    }
+
+    .btn-left,
+    .btn-right {
+        font-size: 1.4rem;
+        padding: 5px;
+        color: #ffffffb0;
+    }
+}
+
+/* 📱 Móviles medianos (≤576px) */
+@media (max-width: 576px) {
+    .carrusel-body {
+        height: 300px;
+    }
+
+    .contenedor-carrusel {
+        height: 220px;
+    }
+
+    .btn-left,
+    .btn-right {
+        font-size: 1.2rem;
+        padding: 4px;
+    }
+}
+
+/* 📱 Móviles pequeños (≤400px) */
+@media (max-width: 400px) {
+    .carrusel-body {
+        height: 250px;
+    }
+
+    .contenedor-carrusel {
+        height: 180px;
+    }
+
+    .btn-left,
+    .btn-right {
+        font-size: 1rem;
+        padding: 3px;
+    }
+}

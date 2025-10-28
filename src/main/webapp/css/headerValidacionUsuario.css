@@ -232,3 +232,115 @@ input[type="submit"]:hover{
     color: #6C3483;
     transition: top 0.3s ease, color 0.3s ease;
 }
+/* ------------------------------------------- */
+/* --- RESPONSIVE DESIGN --- */
+/* ------------------------------------------- */
+
+/* Tablets medianas (<= 992px) */
+@media (max-width: 992px) {
+    .menu2 {
+        justify-content: flex-end;
+        gap: 10px;
+    }
+
+    .menu2 li a span {
+        font-size: 14px;
+    }
+
+    .content-modal {
+        max-width: 90%;
+        padding: 15px;
+    }
+
+    .content-modal .btn-cerrar {
+        padding-left: 0;
+        display: flex;
+        justify-content: flex-end;
+    }
+}
+
+/* Tablets pequeñas y celulares grandes (<= 768px) */
+@media (max-width: 768px) {
+    .menu2 {
+        flex-direction: column;
+        align-items: flex-start;
+        background: #085394;
+        width: 100%;
+        padding: 10px 0;
+    }
+
+    .menu2 li {
+        width: 100%;
+        padding-top: 10px;
+        text-align: left;
+    }
+
+    .menu2 li a {
+        color: #fff;
+        width: 100%;
+        padding: 10px 20px;
+    }
+
+    .menu2 ul {
+        position: static;
+        width: 100%;
+        background-color: #0b67c2;
+        box-shadow: none;
+        border-radius: 0;
+        height: auto;
+    }
+
+    .menu2 ul li a {
+        padding: 8px 20px;
+        font-size: 14px;
+    }
+
+    .imagen {
+        width: 35px;
+        height: 35px;
+        margin-right: 5px;
+    }
+
+    .content-modal {
+        max-width: 90%;
+        max-height: 85vh;
+        padding: 15px;
+    }
+}
+
+/* Celulares pequeños (<= 480px) */
+@media (max-width: 480px) {
+    .menu2 {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 5px;
+    }
+
+    .menu2 li a {
+        font-size: 13px;
+        padding: 10px 15px;
+    }
+
+    .menu2 ul li a {
+        font-size: 13px;
+    }
+
+    .username {
+        font-size: 13px;
+    }
+
+    .content-modal {
+        max-width: 95%;
+        padding: 10px;
+    }
+
+    .update input {
+        font-size: 14px;
+        height: 36px;
+    }
+
+    input[type="submit"] {
+        font-size: 14px;
+        height: 45px;
+    }
+}

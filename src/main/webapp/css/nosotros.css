@@ -90,3 +90,24 @@ iframe:hover {
 #carouselOpiniones .card-body {
     padding: 2rem;
 }
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+    .seccion-nosotros {
+        text-align: center;
+        padding: 40px 20px;
+    }
+
+    .seccion-nosotros p {
+        font-size: 0.95rem;
+        line-height: 1.5;
+    }
+
+    iframe {
+        width: 100%;
+        height: 220px;
+    }
+
+    #carouselOpiniones .card-body {
+        padding: 1.2rem;
+    }
+}

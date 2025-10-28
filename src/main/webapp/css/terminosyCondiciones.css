@@ -52,3 +52,77 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
     margin-bottom: 12px;
     line-height: 1.6;
 }
+/* === RESPONSIVE DESIGN === */
+
+/* 📱 Móviles grandes y tablets pequeñas (≤992px) */
+@media (max-width: 992px) {
+    .container {
+        max-width: 700px;
+        padding: 30px 40px;
+        margin: 60px auto;
+    }
+
+    .container h1 {
+        font-size: 2em;
+    }
+
+    .container h1::after {
+        width: 250px;
+        height: 3px;
+    }
+
+    .container ul.contenido {
+        padding-left: 30px;
+        font-size: 0.95rem;
+    }
+}
+
+/* 📱 Tablets y móviles medianos (≤768px) */
+@media (max-width: 768px) {
+    .container {
+        max-width: 90%;
+        padding: 25px 25px;
+        margin: 50px auto;
+    }
+
+    .container h1 {
+        font-size: 1.8em;
+    }
+
+    .container h1::after {
+        width: 200px;
+    }
+
+    .container ul.contenido li {
+        font-size: 0.95rem;
+        line-height: 1.5;
+    }
+}
+
+/* 📱 Móviles pequeños (≤576px) */
+@media (max-width: 576px) {
+    .container {
+        margin: 40px 10px;
+        padding: 20px;
+        border-radius: 10px;
+    }
+
+    .container h1 {
+        font-size: 1.5em;
+        margin-bottom: 20px;
+    }
+
+    .container h1::after {
+        width: 150px;
+        height: 3px;
+    }
+
+    .container ul.contenido {
+        padding-left: 20px;
+    }
+
+    .container ul.contenido li {
+        font-size: 0.9rem;
+        text-align: left;
+    }
+}

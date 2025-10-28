@@ -268,7 +268,9 @@
                     <label for="correoElectronico">Correo:</label>
                     <input type="email" id="correoElectronico" value="<%= cliente.getCorreoElectronico()%>" readonly>
 
-                    <button type="submit" class="save-btn">Guardar cambios</button>
+                    <button type="submit" name="actualizar" value="Actualizar" class="save-btn">
+                        Guardar cambios
+                    </button>
                 </form>
             </div>
         </div>
