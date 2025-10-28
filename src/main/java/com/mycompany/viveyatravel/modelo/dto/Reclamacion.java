@@ -20,6 +20,7 @@ public class Reclamacion {
     private String descripcionBien;
     private String tipoReclamo;
     private String detalleReclamo;
+    private String fecha;
 
     // Getters y setters
      public int getId() {
@@ -98,4 +99,13 @@ public class Reclamacion {
     public void setDetalleReclamo(String detalleReclamo) {
         this.detalleReclamo = detalleReclamo;
     }
+
+    public String getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
+    }
+    
 }

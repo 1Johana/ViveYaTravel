@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.viveyatravel.modelo.dao;
 
 import com.mycompany.viveyatravel.modelo.dto.Reclamacion;
@@ -23,7 +19,7 @@ public class ReclamacionDAO {
 
     // Insertar nuevo reclamo en el Libro de Reclamaciones
     public void insertar(Reclamacion r) {
-        String sql = "INSERT INTO reclamaciones(nombre, dni, direccion, distrito, telefono, email, tipo_bien, descripcion_bien, tipo_reclamo, detalle_reclamo) VALUES(?,?,?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO reclamaciones(nombre, dni, direccion, distrito, telefono, email, tipo_bien, descripcion_bien, tipo_reclamo, detalle_reclamo, fecha_registro) VALUES(?,?,?,?,?,?,?,?,?,?, NOW())";
         try (PreparedStatement ps = conexion.prepareStatement(sql)) {
             ps.setString(1, r.getNombre());
             ps.setString(2, r.getDni());
@@ -44,7 +40,7 @@ public class ReclamacionDAO {
     // Obtener todos los reclamos
     public List<Reclamacion> obtenerTodos() {
         List<Reclamacion> lista = new ArrayList<>();
-        String sql = "SELECT * FROM reclamaciones";
+        String sql = "SELECT id, nombre, dni, direccion, distrito, telefono, email, tipo_bien, descripcion_bien, tipo_reclamo, detalle_reclamo, fecha_registro FROM reclamaciones";
         try (Statement st = conexion.createStatement(); ResultSet rs = st.executeQuery(sql)) {
             while (rs.next()) {
                 Reclamacion r = new Reclamacion();
@@ -55,10 +51,11 @@ public class ReclamacionDAO {
                 r.setDistrito(rs.getString("distrito"));
                 r.setTelefono(rs.getString("telefono"));
                 r.setEmail(rs.getString("email"));
-                r.setTipoBien(rs.getString("tipo_bien"));
+                r.setTipoBien(rs.getString("tipo_Bien"));
                 r.setDescripcionBien(rs.getString("descripcion_bien"));
                 r.setTipoReclamo(rs.getString("tipo_reclamo"));
                 r.setDetalleReclamo(rs.getString("detalle_reclamo"));
+                r.setFecha(rs.getString("fecha_registro"));
                 lista.add(r);
             }
         } catch (SQLException e) {
