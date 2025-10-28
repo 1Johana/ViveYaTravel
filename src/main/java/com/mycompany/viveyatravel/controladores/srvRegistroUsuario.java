@@ -28,7 +28,6 @@ public class srvRegistroUsuario extends HttpServlet {
                 String nroDniStr = request.getParameter("nroDni");
                 String correoElectronico = request.getParameter("correoElectronico");
                 String clave = request.getParameter("clave");
-                String genero = request.getParameter("genero"); // ✅ Nuevo campo
 
                 String regexCorreo = "^[a-zA-Z0-9._%+-]+@(gmail\\.com|hotmail\\.com)$";
                 if (!correoElectronico.matches(regexCorreo)) {
@@ -54,7 +53,6 @@ public class srvRegistroUsuario extends HttpServlet {
                 usuario.setNroDni(nroDni);
                 usuario.setCorreoElectronico(correoElectronico);
                 usuario.setClave(clave);
-                usuario.setGenero(genero);
 
                 //inserción en la base de datos
                 usuarioDAO usuarioDAO = new usuarioDAO();
@@ -124,4 +122,4 @@ public class srvRegistroUsuario extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-} 
+}
