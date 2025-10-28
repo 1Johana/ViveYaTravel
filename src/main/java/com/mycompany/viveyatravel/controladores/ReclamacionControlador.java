@@ -3,6 +3,7 @@ package com.mycompany.viveyatravel.controladores;
 import com.mycompany.viveyatravel.modelo.dto.Reclamacion;
 import com.mycompany.viveyatravel.modelo.dao.ReclamacionDAO;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,31 +12,40 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @WebServlet(name = "ReclamacionController", urlPatterns = {"/reclamaciones"})
-public class ReclamacionControlador extends HttpServlet{
+public class ReclamacionControlador extends HttpServlet {
+
     private ReclamacionDAO dao;
-    
-@Override
+
+    @Override
     public void init() throws ServletException {
         dao = new ReclamacionDAO(); // tu clase DAO que maneja BD
+
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // Acción: listar todos los reclamos del Libro de Reclamaciones
-        List<Reclamacion> lista = dao.obtenerTodos();
-        request.setAttribute("lista", lista);
-         // Si viene el parámetro "exito", mostrar mensaje
-        String exito = request.getParameter("exito");
-        if ("true".equals(exito)) {
-            request.setAttribute("mensaje", "Reclamo registrado correctamente");
+        String vista = request.getParameter("vista");
+
+        if ("admin".equals(vista)) {
+            //List<Reclamacion> lista = dao.obtenerTodos();
+            ReclamacionDAO rdao = new ReclamacionDAO();
+            List<Reclamacion> lista = new ArrayList();
+            lista = rdao.obtenerTodos();
+            request.setAttribute("lista", lista);
+            request.getRequestDispatcher("vista/ADMIReclamaciones.jsp").forward(request, response);
+        } else {
+            // usuario normal (libro de reclamaciones)
+            String exito = request.getParameter("exito");
+            if ("true".equals(exito)) {
+                request.setAttribute("mensaje", "Reclamo registrado correctamente");
+            }
+            request.getRequestDispatcher("vista/libroReclamaciones.jsp").forward(request, response);
         }
-        
-        request.getRequestDispatcher("vista/libroReclamaciones.jsp").forward(request, response);
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) 
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         System.out.println("Se recibió POST en /reclamaciones");
 
@@ -67,7 +77,6 @@ public class ReclamacionControlador extends HttpServlet{
 
         // Mensaje de confirmación
         //request.setAttribute("mensaje", "Reclamo registrado correctamente");
-
         // Volvemos a cargar la vista con el mensaje
         //List<Reclamacion> lista = dao.obtenerTodos();
         //request.setAttribute("lista", lista);

@@ -32,7 +32,7 @@
         <a href="<%=request.getContextPath()%>/srvADMIPaquete"><i class="fa-solid fa-box"></i> Gestión de Paquetes</a>
         <a href="<%=request.getContextPath()%>/reporteUsuarios"><i class="fa-solid fa-users"></i> Usuarios</a>
         <a href="#"><i class="fa-solid fa-box"></i> Paquetes Vendidos</a>
-        <a href="#"><i class="fa-solid fa-file-pen"></i>Reclamos</a>
+        <a href="<%=request.getContextPath()%>/reclamaciones?vista=admin"><i class="fa-solid fa-file-pen"></i>Reclamos</a>
         <a href="#"><i class="fa-solid fa-gear"></i> Configuración</a>
         <a href="${pageContext.request.contextPath}/srvUsuario?accion=cerrar" class="text-danger"><i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión</a>
     </div>

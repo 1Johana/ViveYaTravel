@@ -18,14 +18,25 @@
     </head>
     <body>
         <jsp:include page="header.jsp"/>
-        <div class="libro-container">
-            <h1 class="libro-title">Libro de Reclamaciones</h1>
+        <img src="${pageContext.request.contextPath}/img/libima.jpg" alt="Fondo libro" class="full-page-background">
+        <!-- 🟢 ALERTA DE ÉXITO -->
+        <div class="alert-messages">
+            <c:if test="${not empty mensaje}">
+                <div class="alert alert-success custom-alert" id="alertaExito" role="alert">
+                    <strong>¡Listo!</strong> ${mensaje}
+                </div>
+            </c:if>
+        </div>
              <!-- 🔴 Mensaje de error si algo no pasa la validación del backend -->
             <c:if test="${not empty error}">
-              <p style="color:red; font-weight:bold; text-align:center;">
-                ${error}
-              </p>
+                <p style="color:red; font-weight:bold; text-align:center;">
+                    ${error}
+                </p>
             </c:if>
+        <div class="libro-container">
+            <div class="libro-contenido">
+            <h1 class="libro-title">Libro de Reclamaciones</h1>
+                      
             <p class="libro-info">
                 Conforme a lo establecido en la Ley N°29571 del código de la Protección y Defensa del consumidor puedes ingresar en nuestro Libro de Reclamaciones tus quejas o reclamos.
             </p>
@@ -88,7 +99,24 @@
             <p class="libro-legal-text">
                 En cumplimiento de lo dispuesto por el Decreto Supremo 011 – 2011 – PCM que aprueba el Reglamento del Libro de Reclamaciones, Vive Ya Travel pone a disposición del usuario el presente libro virtual de reclamaciones, en el que pueden registrar sus quejas y reclamos formales sobre los servicios ofrecidos por Vive Ya Travel y sus establecimientos asociados.
             </p>
+            </div>
         </div>
         <jsp:include page="footer.jsp"/>
+                        
+<!-- 🕒 Script para ocultar la alerta después de 3 segundos -->
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const alerta = document.getElementById("alertaExito");
+        if (alerta) {
+            setTimeout(() => {
+                alerta.style.transition = "opacity 0.8s ease, transform 0.8s ease";
+                alerta.style.opacity = "0";
+                alerta.style.transform = "translateY(-10px)";
+                setTimeout(() => alerta.remove(), 900);
+            }, 3000);
+        }
+    });
+</script>
+        
     </body>
 </html>
