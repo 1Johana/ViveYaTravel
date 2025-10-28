@@ -1,11 +1,25 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="com.mycompany.viveyatravel.modelo.dto.usuario"%>
 
-<header>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+<%
+    usuario cliente = (usuario) session.getAttribute("cliente");
+    if (cliente == null) {
+        cliente = new usuario(); // Evitar null pointer si no hay sesión
+    }
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" 
-          integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" 
+    // 🧠 Selección dinámica del avatar según el género
+    String avatarUrl;
+    if (cliente.getGenero() != null && cliente.getGenero().equalsIgnoreCase("Mujer")) {
+        avatarUrl = "https://cdn-icons-png.flaticon.com/512/3135/3135789.png"; // avatar mujer
+    } else {
+        avatarUrl = "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"; // avatar hombre o default
+    }
+%>
+
+<header>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+          integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
           crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="${pageContext.request.contextPath}/css/header.css" rel="stylesheet" type="text/css"/>
     <link href="${pageContext.request.contextPath}/css/headerValidacionUsuario.css" rel="stylesheet" type="text/css"/>
@@ -13,14 +27,14 @@
     <div class="header">
         <div class="contHeader">
 
-            <!-- Logo -->
+            <!-- LOGO -->
             <div class="logo">
-                <a href="index.jsp">
+                <a href="${pageContext.request.contextPath}/index.jsp">
                     <img src="https://www.viveyatravel.com/imagenes/logo-web-vive-ya-travel-2.png" class="logo">
                 </a>
             </div>
 
-            <!-- Navbar -->
+            <!-- NAVBAR -->
             <div class="navbar">
                 <nav>
                     <ul class="menu">
@@ -28,7 +42,7 @@
                             <a href="#">TOURS <i class="fa-solid fa-chevron-down down-arrow"></i></a>
                             <ul class="submenu">
                                 <li><a href="<%=request.getContextPath()%>/PaqueteControlador">Nacionales</a></li>
-                                <li><a href="#">Internacionales</a></li> 
+                                <li><a href="#">Internacionales</a></li>
                             </ul>
                         </li>
                         <li><a href="<%=request.getContextPath()%>/srvPromocion">PROMOCIONES</a></li>
@@ -37,27 +51,32 @@
                 </nav>
             </div>
 
-            <!-- Carrito -->
+            <!-- CARRITO -->
             <div class="carro">
                 <a href="<%=request.getContextPath()%>/vista/car.jsp">
                     <i class="fa-solid fa-cart-shopping carrito"></i>
                 </a>
             </div>
 
-            <!-- Usuario -->
+            <!-- USUARIO -->
             <div class="usuario-container">
                 <%
-                    usuario cliente = (usuario) session.getAttribute("cliente");
-                    if (cliente != null) {
+                    if (session.getAttribute("cliente") != null) {
                 %>
                 <ul class="menu2">
                     <li>
                         <a href="#">
-                            <p class="username">Hola, <%= cliente.getNombre()%></p>
-                            <img class="imagen" src="${pageContext.request.contextPath}/img/user.png" alt=""/>
+                            <p class="username">Hola, <%= cliente.getNombre() %></p>
+                            <img class="imagen" src="<%= avatarUrl %>" alt="Avatar" />
                             <i class="fa-solid fa-chevron-down" style="color: #fff"></i>
                         </a>
                         <ul>
+                            <!-- 🧩 Botón para abrir ventana de perfil -->
+                            <li class="perfil">
+                                <a href="${pageContext.request.contextPath}/vista/perfil.jsp">
+                                    <i class="fa-solid fa-user"></i> Perfil
+                                </a>
+                            </li>
                             <!-- 🔹 Mis reservas (compras anteriores) -->
                             <li>
                                 <a href="${pageContext.request.contextPath}/srvReserva?accion=misReservas">
@@ -65,25 +84,11 @@
                                 </a>
                             </li>
 
-                            <li>
-                                <div class="boton-modal">
-                                    <label for="btn-modal">Editar perfil</label>
-                                </div>
                             </li>
                             <li class="close">
                                 <a href="${pageContext.request.contextPath}/srvUsuario?accion=cerrar">
                                     <i class="fa-solid fa-arrow-right-from-bracket"></i> Cerrar sesión
                                 </a>
-                            </li>
-                            <li class="delete">
-                                <form action="${pageContext.request.contextPath}/srvEliminarUsuario" method="post" 
-                                      onsubmit="return confirm('¿Seguro que quieres eliminar tu cuenta? Esta acción no se puede deshacer.');">
-                                    <input type="hidden" name="idUsuario" value="<%= cliente.getIdUsuario()%>"/>
-                                    <input type="hidden" name="eliminar" value="Eliminar"/>
-                                    <button type="submit" style="background:none;border:none;color:blue;cursor:pointer;">
-                                        <i class="fa-solid fa-trash"></i> Eliminar cuenta
-                                    </button>
-                                </form>
                             </li>
                         </ul>
                     </li>
@@ -104,7 +109,7 @@
     </div>
 
     <!-- Modal de edición de perfil -->
-    <% if (cliente != null) { %>
+    <% if (cliente != null) {%>
     <input type="checkbox" id="btn-modal">
     <div class="container-modal">
         <div class="content-modal">
@@ -151,5 +156,5 @@
         </div>
         <label for="btn-modal" class="cerrar-modal"></label>
     </div>
-    <% } %>
+    <% }%>
 </header>
