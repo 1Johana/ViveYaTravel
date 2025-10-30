@@ -1,0 +1,61 @@
+/* ==================================== */
+/* DASHBOARD STYLES           */
+/* ==================================== */
+
+/* Ajuste general de las tarjetas para un aspecto moderno */
+.card {
+    border: none;
+    border-radius: 0.5rem; /* Bordes ligeramente redondeados */
+    overflow: hidden;
+    position: relative;
+    transition: transform 0.2s, box-shadow 0.2s;
+    min-height: 120px; /* Asegura una altura mínima */
+}
+
+.card:hover {
+    transform: translateY(-3px); /* Efecto 3D al pasar el mouse */
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.card-body {
+    padding: 1.25rem;
+}
+
+.card-title {
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 0.2rem;
+    opacity: 0.8;
+}
+
+.card-text.fs-3 {
+    font-size: 2.2rem !important; /* Asegura que la métrica sea grande */
+    font-weight: 700;
+    margin-bottom: 0;
+}
+
+/* Colores Específicos de las Tarjetas (Usando colores de Bootstrap y el azul de Vive Ya Travel) */
+/* La tarjeta de Ventas usa el azul oscuro primario de Vive Ya Travel */
+.card.bg-primary {
+    background-color: var(--viveya-darkblue) !important;
+}
+
+/* Iconos de fondo en las tarjetas */
+.card-body i.position-absolute {
+    opacity: 0.15; /* Hace que el icono de fondo sea sutil */
+    color: #ffffff;
+    font-size: 3rem !important; /* Aumenta el tamaño del icono de fondo */
+    bottom: 10px;
+    right: 15px;
+}
+
+/* Estilo para el contenedor de gráficos y tablas */
+.shadow-sm {
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+}
+
+.bg-light {
+    background-color: #f8f9fa !important;
+}
+
+

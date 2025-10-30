@@ -1,0 +1,29 @@
+/*css tours*/
+body {
+    background-color: #f4f6f9;
+}
+.card-header {
+    background-color: #0d6efd !important;
+}
+.btn-success {
+    background-color: #198754;
+}
+.btn-info {
+    background-color: #0dcaf0;
+}
+.card {
+    border: none;
+    border-radius: 10px;
+}
+.card img {
+    height: 220px;
+    object-fit: cover;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+.btn-warning {
+    color: white;
+}
+.btn-warning:hover {
+    background-color: #d39e00;
+}
