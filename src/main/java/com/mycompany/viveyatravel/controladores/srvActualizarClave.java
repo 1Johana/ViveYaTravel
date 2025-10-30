@@ -83,6 +83,6 @@ public class srvActualizarClave extends HttpServlet {
             request.setAttribute("error", "Ocurrió un error inesperado: " + e.getMessage());
             request.getRequestDispatcher("/vista/perfil.jsp").forward(request, response);
         }
-
     }
+
 }

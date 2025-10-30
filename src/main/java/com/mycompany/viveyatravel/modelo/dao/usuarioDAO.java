@@ -186,7 +186,9 @@ public class usuarioDAO {
                 u.setCorreoElectronico(rs.getString("correoElectronico"));
                 u.setClave(rs.getString("clave"));
                 // otros campos si quieres
+            
             }
+            
         } finally {
             if (rs != null) {
                 rs.close();
