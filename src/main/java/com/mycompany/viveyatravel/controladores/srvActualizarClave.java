@@ -67,12 +67,22 @@ public class srvActualizarClave extends HttpServlet {
             u.setClave(nuevaClave);
             dao.actualizarClave(u);
 
-            request.setAttribute("exito", "Tu contraseña fue actualizada correctamente.");
-            request.getRequestDispatcher("/vista/perfil.jsp").forward(request, response);
+            // Cerrar sesión actual por seguridad
+            request.getSession().invalidate();
+
+// Mensaje de éxito (puedes pasarlo como parámetro o guardar en sesión temporal)
+            request.getSession(true).setAttribute("exito", "Tu contraseña fue actualizada correctamente. Por seguridad, inicia sesión nuevamente.");
+
+// Redirigir al login
+            response.sendRedirect(request.getContextPath() + "/vista/iniciarSesion.jsp");
 
         } catch (SQLException e) {
             request.setAttribute("error", "Error al actualizar contraseña: " + e.getMessage());
             request.getRequestDispatcher("/vista/perfil.jsp").forward(request, response);
+        } catch (Exception e) {
+            request.setAttribute("error", "Ocurrió un error inesperado: " + e.getMessage());
+            request.getRequestDispatcher("/vista/perfil.jsp").forward(request, response);
         }
+
     }
 }

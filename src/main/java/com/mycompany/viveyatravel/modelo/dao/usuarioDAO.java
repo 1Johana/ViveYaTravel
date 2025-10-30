@@ -184,6 +184,7 @@ public class usuarioDAO {
                 u.setNombre(rs.getString("nombre"));
                 u.setApellido(rs.getString("apellido"));
                 u.setCorreoElectronico(rs.getString("correoElectronico"));
+                u.setClave(rs.getString("clave"));
                 // otros campos si quieres
             }
         } finally {
