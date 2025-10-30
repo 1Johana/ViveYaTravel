@@ -236,4 +236,24 @@ body, html {
         font-size: 7vw;
     }
 }
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+    .main-content-wrapper {
+        flex-direction: column;
+        justify-content: center;
+        padding: 40px 20px;
+        text-align: center;
+    }
+
+    .welcome-area {
+        max-width: 100%;
+        padding: 0;
+        margin-bottom: 30px;
+    }
+
+    .welcome-text {
+        font-size: 7vw;
+    }
+}
+
 

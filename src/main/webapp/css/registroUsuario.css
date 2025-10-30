@@ -155,3 +155,81 @@ input[type="submit"]:hover {
     from { opacity: 1; transform: scale(1); }
     to { opacity: 0; transform: scale(0.95); }
 }
+/* === RESPONSIVE === */
+@media (max-width: 992px) {
+    .formularioRegistro {
+        width: 80%;
+        padding: 25px 30px;
+    }
+
+    .formularioRegistro h1 {
+        font-size: 34px;
+    }
+}
+
+@media (max-width: 768px) {
+    .formularioRegistro {
+        width: 85%;
+        padding: 20px 25px;
+    }
+
+    .formularioRegistro h1 {
+        font-size: 30px;
+    }
+
+    .formularioRegistro p {
+        font-size: 16px;
+    }
+
+    .registro input {
+        font-size: 15px;
+    }
+
+    input[type="submit"] {
+        font-size: 16px;
+        height: 42px;
+    }
+
+    .alert-box {
+        font-size: 15px;
+        padding: 10px 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .formularioRegistro {
+        width: 90%;
+        padding: 15px 20px;
+    }
+
+    .formularioRegistro h1 {
+        font-size: 26px;
+    }
+
+    .formularioRegistro p {
+        font-size: 15px;
+    }
+
+    .registro {
+        margin: 20px 0;
+    }
+
+    .registro input {
+        font-size: 14px;
+    }
+
+    input[type="submit"] {
+        font-size: 15px;
+        height: 40px;
+    }
+
+    .alert-overlay {
+        right: 10px;
+        top: 10px;
+    }
+
+    .alert-box {
+        font-size: 14px;
+        padding: 8px 14px;
+    }
+}
