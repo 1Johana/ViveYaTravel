@@ -13,8 +13,6 @@
         <link href="${pageContext.request.contextPath}/css/detallePaquete.css" rel="stylesheet" type="text/css"/>
         <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
     </head>
 
     <style>
@@ -45,28 +43,7 @@
                         </c:forEach>
                     </div>
 
-
-                    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-                        <div class="carousel-inner">
-                            <div class="carousel-item active">
-                                <img class="d-block w-100" src="${pageContext.request.contextPath}/hoteles/${detalle.imagenHotel}" alt="First slide">
-                            </div>
-                            <div class="carousel-item">
-                                <img class="d-block w-100" src="${pageContext.request.contextPath}/hoteles/${detalle.imagen2Hotel}" alt="Second slide">
-                            </div>
-                            <div class="carousel-item">
-                                <img class="d-block w-100" src="${pageContext.request.contextPath}/hoteles/${detalle.imagen3Hotel}" alt="Third slide">
-                            </div>
-                        </div>
-                        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Previous</span>
-                        </a>
-                        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Next</span>
-                        </a>
-                    </div>
+                    <img src="${pageContext.request.contextPath}/hoteles/${detalle.imagenHotel}" alt="Foto de ${detalle.nombreHotel}">
 
                     <h3>Detalles del Hotel:</h3>
                     <c:set var="listaDetalleHotel" value="${fn:split(detalle.detalleHotel, '|')}" />

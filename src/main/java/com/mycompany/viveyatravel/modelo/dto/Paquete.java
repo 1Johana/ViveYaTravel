@@ -30,8 +30,6 @@ public class Paquete {
     String itinerario;
     String nombreHotel;
     String imagenHotel;
-    String imagen2Hotel;
-    String imagen3Hotel;
     String categoriaHotel;
     String detalleHotel;
     String inclusion;
@@ -56,7 +54,8 @@ public class Paquete {
 
 
     // Constructor con BD
-    public Paquete(int idPaquete, String nombrePaquete, String descripcionPaquete, double precioPaquete, String imagen, String categoria, String detallePaquete, int idDetalle, String itinerario, String nombreHotel, String imagenHotel, String imagen2Hotel, String imagen3Hotel, String categoriaHotel, String detalleHotel, String inclusion, int cantidad, double subtotal) {
+
+    public Paquete(int idPaquete, String nombrePaquete, String descripcionPaquete, double precioPaquete, String imagen, String categoria, String detallePaquete, int idDetalle, String itinerario, String nombreHotel, String imagenHotel, String categoriaHotel, String detalleHotel, String inclusion, int cantidad, double subtotal) {
         this.idPaquete = idPaquete;
         this.nombrePaquete = nombrePaquete;
         this.descripcionPaquete = descripcionPaquete;
@@ -68,8 +67,6 @@ public class Paquete {
         this.itinerario = itinerario;
         this.nombreHotel = nombreHotel;
         this.imagenHotel = imagenHotel;
-        this.imagen2Hotel = imagen2Hotel;
-        this.imagen3Hotel = imagen3Hotel;
         this.categoriaHotel = categoriaHotel;
         this.detalleHotel = detalleHotel;
         this.inclusion = inclusion;
@@ -77,9 +74,13 @@ public class Paquete {
         this.subtotal = subtotal;
     }
 
+
     // Getters y Setters de BD
+
     public int getIdPaquete() {
+
         return idPaquete;
+
     }
 
 
@@ -153,24 +154,6 @@ public class Paquete {
         this.imagen = imagen;
 
     }
-
-    public String getImagen2Hotel() {
-        return imagen2Hotel;
-    }
-
-    public void setImagen2Hotel(String imagen2Hotel) {
-        this.imagen2Hotel = imagen2Hotel;
-    }
-
-    public String getImagen3Hotel() {
-        return imagen3Hotel;
-    }
-
-    public void setImagen3Hotel(String imagen3Hotel) {
-        this.imagen3Hotel = imagen3Hotel;
-    }
-
-   
 
 
 
@@ -281,9 +264,12 @@ public class Paquete {
 
     }
 
+
+
     public double getSubtotal() {
 
         return subtotal;
 
     }
+
 }
