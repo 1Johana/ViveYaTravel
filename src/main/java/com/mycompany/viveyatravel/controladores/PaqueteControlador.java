@@ -13,15 +13,31 @@ import javax.servlet.http.HttpServletResponse;
 public class PaqueteControlador extends HttpServlet {
 
     PaqueteDAO paqdao = new PaqueteDAO();
-    List<Paquete> lista = new ArrayList<>();
-    
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         String accion = request.getParameter("accion");
-        lista = paqdao.listar();
+
         if (accion != null) {
 
+            // Usamos un switch para manejar futuras acciones (como "reservar", "eliminar")
+            switch (accion) {
+                case "verDetalle":
+                    try {
+                    int id = Integer.parseInt(request.getParameter("id"));
+                    Paquete detalle = paqdao.obtenerDetalle(id);
+                    request.setAttribute("detalle", detalle);
+                    request.getRequestDispatcher("./vista/detalleTours.jsp").forward(request, response);
+                } catch (NumberFormatException e) {
+                    response.sendRedirect("error.jsp");
+                }
+                break;
+            }
+
         } else {
+            // Esta es la acción por defecto (cargar la lista de tours)
+            List<Paquete> lista = paqdao.listar(); // Llama al DAO aquí
             request.setAttribute("lista", lista);
             request.getRequestDispatcher("./vista/tours.jsp").forward(request, response);
         }

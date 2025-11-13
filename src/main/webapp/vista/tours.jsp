@@ -33,11 +33,14 @@
                                 <p>S/.${p.getPrecioPaquete()}</p>
                             </div>
                         </div>
+                        <a href="${pageContext.request.contextPath}/PaqueteControlador?accion=verDetalle&id=${p.idPaquete}" class="btn-detalle">
+                            VER DETALLE
+                        </a>
                         <!-- Boton modal -->
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"
                                 data-Titulo="${p.getNombrePaquete()}"
                                 data-Detalle="${p.getDetallePaquete()}">
-                            Ver Detalle
+                            MODAL
                         </button>
                         <!--Modal--> 
                         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -59,19 +62,19 @@
                                             </div>
                                             <div class="puntos">
                                                 <div class="punto1"><a class="ubicacion-icono" href="https://www.google.com.pe/maps/dir/-12.0269735,-76.9621988/Unnamed+Road,+Independencia/@-12.025523,-77.0290547,14z/data=!3m1!4b1!4m10!4m9!1m1!4e1!1m5!1m1!1s0x9105cefcc625c5f9:0x43165a30c8ee4764!2m2!1d-77.0606806!2d-12.0080299!3e0?hl=es-419">.</a>
-                                                        <div class="bloque-recojo">
-                                                            <div class="titulo-recojo">C.C. PLAZA NORTE</div>
-                                                            <div class="direccion-recojo">Tomas Valle con P. Norte</div>
-                                                            <div class="direccion-recojo">Ingreso Principal</div>
-                                                        </div>
-                                                                                                          
+                                                    <div class="bloque-recojo">
+                                                        <div class="titulo-recojo">C.C. PLAZA NORTE</div>
+                                                        <div class="direccion-recojo">Tomas Valle con P. Norte</div>
+                                                        <div class="direccion-recojo">Ingreso Principal</div>
+                                                    </div>
+
                                                 </div>
                                                 <div class="punto2"><a class="ubicacion-icono" href="https://www.google.com.pe/maps/dir/-12.0269972,-76.9621752/Jr.+Ucello+100-162,+Cercado+de+Lima+15036/@-12.0589987,-77.0041035,14z/data=!3m1!4b1!4m9!4m8!1m1!4e1!1m5!1m1!1s0x9105c7d6a7ef3965:0xfab38eabd22da2e2!2m2!1d-77.0053347!2d-12.0899561?hl=es-419&amp;authuser=0">.</a>
-                                                        <div class="bloque-recojo">
-                                                            <div class="titulo-recojo">C.C. LA RAMBLA</div>
-                                                            <div class="direccion-recojo">Av. Javier Prado Este 2050</div>
-                                                            <div class="direccion-recojo">Ref. Puerta de Wong</div>
-                                                        </div>
+                                                    <div class="bloque-recojo">
+                                                        <div class="titulo-recojo">C.C. LA RAMBLA</div>
+                                                        <div class="direccion-recojo">Av. Javier Prado Este 2050</div>
+                                                        <div class="direccion-recojo">Ref. Puerta de Wong</div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -80,7 +83,7 @@
                                             ${p.getDetallePaquete()}
                                         </span>>
                                     </div>
-                                        <!-- Bottones -->
+                                    <!-- Bottones -->
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                                         <button type="button" class="btn btn-primary" value="AgregarCarrito">Reservar</button>
@@ -98,7 +101,7 @@
             document.addEventListener('DOMContentLoaded', (event) => {
                 //Referencia para el modar ID=exampleModal
                 const exampleModal = document.getElementById('exampleModal');
-                
+
                 exampleModal.addEventListener('show.bs.modal', (event) => {
 
                     //Obtención de los atributos
