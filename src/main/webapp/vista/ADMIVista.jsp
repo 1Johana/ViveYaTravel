@@ -22,6 +22,20 @@
         .sidebar.toggled { margin-left: -250px; }
         .content.toggled { margin-left: 0; }
         .navbar.toggled { margin-left: 0; }
+        /* Estilo del área de juegos */
+        #zonaJuegos {
+            text-align: center;
+            display: none;
+        }
+        #gameCanvas {
+            border: 2px solid #007bff;
+            background-color: #000;
+            display: block;
+            margin: 20px auto;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+        }
+
     </style>
 </head>
 <body>
@@ -34,6 +48,7 @@
         <a href="#"><i class="fa-solid fa-box"></i> Paquetes Vendidos</a>
         <a href="<%=request.getContextPath()%>/reclamaciones?vista=admin"><i class="fa-solid fa-file-pen"></i>Reclamos</a>
         <a href="#"><i class="fa-solid fa-gear"></i> Configuración</a>
+        <a href="#" id="btnJuegos"><i class="fa-solid fa-gamepad"></i> Juegos</a>
         <a href="${pageContext.request.contextPath}/srvUsuario?accion=cerrar" class="text-danger"><i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión</a>
     </div>
 
@@ -50,8 +65,20 @@
 
     <!-- Main Content -->
     <div class="content" id="content">
-      <!--  <h2>Bienvenido al panel administrador</h2>
-        <p>Aquí podrás gestionar todo el contenido de tu sistema.</p> -->
+      <!-- Panel principal -->
+        <div id="panelPrincipal">
+            <h2>Bienvenido al panel administrador</h2>
+            <p>Aquí podrás gestionar todo el contenido de tu sistema.</p>
+
+            <!-- Aquí pueden estar tus tablas u otros módulos -->
+            <div id="tablaUsuarios">
+                <!-- Ejemplo de contenido -->
+                <p>Contenido del panel (tablas, reportes, etc.)</p>
+            </div>
+        </div>
+
+        <!-- Zona de juegos (oculta por defecto) -->
+        <div id="zonaJuegos"></div>
     </div>
 
     <script>
@@ -65,6 +92,9 @@
             navbar.classList.toggle('toggled');
             content.classList.toggle('toggled');
         });
+        
     </script>
+<script src="${pageContext.request.contextPath}/js/juegos-admin.js"></script>
+
 </body>
 </html>

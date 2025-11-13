@@ -1,0 +1,29 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : 10 nov. 2025, 18:17:57
+    Author     : Lenovo
+*/
+canvas {
+    background: #000;
+    display: block;
+    margin: 20px auto;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 191, 255, 0.2);
+    border: 2px solid #00bfff;
+}
+
+#gameMenu button {
+    margin: 5px;
+}
+
+.juego-activo {
+    background-color: #f4f6f9;
+    color: black;
+    min-height: 90vh;
+    padding: 20px;
+    position: relative;
+    z-index: 10;
+}
