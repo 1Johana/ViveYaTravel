@@ -171,6 +171,7 @@
                                     <option value="T">Tours</option>
 
                                     <option value="P">Promoción</option>
+                                    <option value="I">Internacional</option>
 
                                 </select>
 

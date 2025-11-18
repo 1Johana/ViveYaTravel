@@ -42,7 +42,7 @@
                             <a href="#">TOURS <i class="fa-solid fa-chevron-down down-arrow"></i></a>
                             <ul class="submenu">
                                 <li><a href="<%=request.getContextPath()%>/PaqueteControlador">Nacionales</a></li>
-                                <li><a href="#">Internacionales</a></li>
+                                <li><a href="<%=request.getContextPath()%>/SRVInternacional">Internacionales</a></li>
                             </ul>
                         </li>
                         <li><a href="<%=request.getContextPath()%>/srvPromocion">PROMOCIONES</a></li>
