@@ -37,9 +37,9 @@
                 </nav>
             </div>
 
-            <!-- Carrito -->
+            <!-- Carrito (AHORA VA A PAGO.JSP, NO A CAR.JSP) -->
             <div class="carro">
-                <a href="<%=request.getContextPath()%>/vista/car.jsp">
+                <a href="${pageContext.request.contextPath}/vista/pago.jsp">
                     <i class="fa-solid fa-cart-shopping carrito"></i>
                 </a>
             </div>
