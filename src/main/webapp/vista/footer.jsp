@@ -40,18 +40,17 @@
                 <div class="informacion">
                     <h3>Información</h3>
                     <ul>
-                        <li><a href="nosotros.jsp">Nosotros</a></li>
-                        <li><a href="politica-privacidad.jsp">Política de privacidad</a></li>
-                        <li><a href="preguntasFrecuentes.jsp">Preguntas frecuentes</a></li>
-                        <li><a href="preguntasFrecuentes.jsp">Preguntas frecuentes</a></li>
+                        <li><a href="${pageContext.request.contextPath}/vista/nosotros.jsp">Nosotros</a></li>
+                        <li><a href="${pageContext.request.contextPath}/vista/politica-privacidad.jsp">Política de privacidad</a></li>
+                        <li><a href="${pageContext.request.contextPath}/vista/preguntasFrecuentes.jsp">Preguntas frecuentes</a></li>
                     </ul>
                 </div>
 
                 <div class="cuenta">
                     <h3>Mi cuenta</h3>
                     <ul>
-                        <li><a href="mi-cuenta.jsp">Mi cuenta</a></li>
-                        <li><a href="Terminos y Condiciones.jsp">Términos y condiciones</a></li>
+                        <li><a href="<%=request.getContextPath()%>/srvUsuario">Mi cuenta</a></li>
+                        <li><a href="${pageContext.request.contextPath}/vista/Terminos y Condiciones.jsp"</a></li>
                         <li><a href="${pageContext.request.contextPath}/vista/sugerencias.jsp">Sugerencias</a></li>
                     </ul>
                 </div>
@@ -59,8 +58,8 @@
                 <div class="contacto">
                     <h3>Contacto</h3>
                     <ul>
-                        <li><a href="libroReclamaciones.jsp">Libro de reclamaciones</a></li>
-                        <li><a href="Contactanos.jsp">Contactanos</a></li>
+                        <li><a href="${pageContext.request.contextPath}/vista/libroReclamaciones.jsp">Libro de reclamaciones</a></li>
+                        <li><a href="${pageContext.request.contextPath}/vista/Contactanos.jsp">Contactanos</a></li>
                         <img src="../img/pago.png" alt="contacto" width="200" height="auto"/>
                     </ul>
                 </div>

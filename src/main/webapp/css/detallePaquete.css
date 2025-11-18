@@ -1,0 +1,143 @@
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+.detalle-container {
+    max-width: 900px;
+    margin: 30px auto;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+}
+
+.detalle-container h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5em;
+    text-align: center;
+    color: #013366;
+    margin: 1.5em 0;
+}
+
+.seccion {
+    padding: 2em;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.seccion:last-child {
+    border-bottom: none;
+}
+
+.seccion h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8em;
+    color: #FA5B0C;
+    border-bottom: 2px solid #FA5B0C;
+    padding-bottom: 10px;
+    margin-bottom: 1em;
+}
+
+.seccion h3 {
+    font-size: 1.3em;
+    color: #013366;
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+}
+
+.estrellas {
+    color: #FFD700;
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+}
+
+.seccion-hotel img,
+.seccion-hotel .carousel {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 1em;
+}
+
+.seccion-itinerario p {
+    line-height: 1.7;
+    font-size: 1.05em;
+    padding-bottom: 1.5em;
+    margin-bottom: 1.5em;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.seccion-itinerario p:last-child {
+    border-bottom: none;
+}
+
+.seccion-hotel ul,
+.seccion-inclusion ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.seccion-hotel li,
+.seccion-inclusion li {
+    position: relative;
+    padding-left: 30px;
+    margin-bottom: 12px;
+    line-height: 1.6;
+    font-size: 1.05em;
+}
+
+.seccion-inclusion li::before {
+    content: '\2713';
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: #FA5B0C;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.seccion-hotel li::before {
+    content: '\2022';
+    position: absolute;
+    left: 4px;
+    top: 0;
+    color: #013366;
+    font-weight: bold;
+    font-size: 1.5em;
+    line-height: 0.9em;
+} 
+
+.seccion-mapa iframe {
+    border-radius: 8px;
+    margin-top: 1em;
+    width: 100%;
+}
+
+.error-container {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 2em;
+    text-align: center;
+    background-color: #fff6f6;
+    border: 1px solid #e74c3c;
+    border-radius: 12px;
+}
+
+.error-container h2 {
+    color: #e74c3c;
+}
+
+.error-container a {
+    display: inline-block;
+    padding: 10px 25px;
+    background-color: #e74c3c;
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    margin-top: 1em;
+}

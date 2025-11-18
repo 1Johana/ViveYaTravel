@@ -1,7 +1,11 @@
 /*Estilos generales*/
 :root {
-    --primario: #e23939;
-    --gris-claro: #B8B8B8;
+    /* Definimos nuestro color primario aquí */
+    --color-primario: #007bff; /* <-- CAMBIADO AL AZUL BOOTSTRAP */
+    --color-primario-oscuro: #0069d9; /* <-- VERSIÓN MÁS OSCURA DE ESE AZUL */
+    --color-texto-claro: #fff;
+    
+    --gris-claro: #B8B8BB;
     --sombra: 0 0 13px 0 rgba(185,185,185, .25);
 }
 
@@ -16,146 +20,194 @@ html {
     font-size: 62.5%;
 }
 
-/*Icono antes del título */
-.tCat::before {
-    content: "\1F4F7"; 
-    color: #ffc300;
-    margin-right: 1px;
-}
-
-/*Icono después del título */
-.tCat::after {
-    content: "\1F697";
-    color: #ffc300;
-    margin-right: 1px;
-}
-
-/*Estilo para el título*/
 .tCat {
     text-align: center;
     color: #ffc300;
     font-size: 30px;
+    margin-bottom: 25px;
 }
 
-/*Contenedor de todo los paquetes*/
-.contenedor-paquetes{
-   grid-template-columns: repeat(auto-fit, minmax(280px,280px));
+.tours-layout {
+    display: flex;
+    max-width: 1200px;
+    margin: 60px auto 20px auto; 
+    padding: 0 15px;
+    gap: 25px; 
+}
+
+.filtros-sidebar {
+    flex: 0 0 250px; 
+    background: #fdfdfd;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.1);
+    height: fit-content;
+}
+
+.filtros-sidebar h3 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 20px;
+    /* Usamos nuestro color primario */
+    border-bottom: 2px solid var(--color-primario); 
+    padding-bottom: 8px;
+}
+
+.filtro-grupo {
+    margin-bottom: 18px;
+}
+
+.filtro-grupo label {
+    display: block;
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #555;
+}
+
+/* Aplicamos estilos Bootstrap a los inputs que no lo tenían */
+.filtro-grupo input[type="text"],
+.filtro-grupo select {
+    font-size: 1.4rem; /* Hacemos la letra un poco más grande */
+}
+
+
+/* === NUEVOS ESTILOS DE BOTONES UNIFICADOS === */
+
+/* Estilo principal (Aplicar Filtros, Ver Detalle) */
+.btn-custom-primary {
+    display: block;
+    width: 100%;
+    padding: 10px 12px;
+    background-color: var(--color-primario);
+    color: var(--color-texto-claro) !important;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.5rem; /* Letra más grande */
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none !important;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.btn-custom-primary:hover {
+    background-color: var(--color-primario-oscuro);
+}
+
+/* Estilo secundario (Limpiar Filtros) */
+.btn-custom-secondary {
+    display: block;
+    width: 100%;
+    padding: 10px 12px;
+    background-color: transparent;
+    color: #555;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1.5rem; /* Letra más grande */
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none !important;
+    cursor: pointer;
+    margin-top: 8px; /* Separación */
+    transition: background-color 0.3s ease;
+}
+.btn-custom-secondary:hover {
+    background-color: #f4f4f4;
+}
+
+
+/* === CONTENEDOR DE PAQUETES === */
+.contenedor-paquetes {
     display: grid;
-    max-width: 1100px;
-    justify-content: center;
-    margin: auto;
+    grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
     gap: 20px;
-    padding-bottom: 50px;
-    padding: 20px;
-    column-count: 3;
     grid-auto-rows: 1fr;
+    justify-content: center;
+    flex: 1; 
+    max-width: none;
+    margin: 0;
+    padding: 0 0 50px 0; 
 }
 
-/*Estilo para cada paquete*/
+/* === NUEVOS ESTILOS DE TARJETA (CARD) === */
 .tour {
-    max-width: 270px;
-    box-shadow: 0 3px 10px rgb(0 0 0 /20%); /*color y sombra*/
-    padding-bottom: 34px;
-    margin-bottom: 40px;
-    padding: 20px;
+    background: #fff; /* Fondo blanco para la tarjeta */
+    box-shadow: 0 3px 10px rgb(0 0 0 /15%); 
+    padding: 15px; /* Padding interior */
+    border-radius: 12px; /* ¡Bordes redondeados! */
+    display: flex; 
+    flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transición suave */
 }
 
-/*Estilo para las imágenes*/
+/* ¡Efecto de agrandar! */
+.tour:hover {
+    transform: scale(1.03);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+}
+
 .tour img {
     width: 100%;
     height: 170px;
+    object-fit: cover; 
+    border-radius: 8px; /* Redondeamos la imagen también */
 }
 
-/*Estilo para la ventana modal (descripción de los paquetes)*/
+/* Contenedor de texto */
 .info {
-    padding: 15px;
-}
-
-.info h2 {
-    font-size: 1.6rem;
-}
-
-.info p {
-    font-size: 1.5rem;
-}
-
-.precio {
+    padding: 15px 5px 5px 5px; /* Padding ajustado */
     display: flex;
+    flex-direction: column;
+    flex: 1; /* Ocupa el espacio disponible */
 }
 
-.info h2, .info p {
-    color: #222;
-    margin-bottom: 15px;
+/* === NUEVOS ESTILOS DE TIPOGRAFÍA === */
+
+/* Estilo para el Nombre del Paquete */
+.tour-nombre {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 5px;
 }
 
-/* Estilos para el formulario */
-.formulario {
-  max-width: 400px;
-  margin: 0 auto;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+/* Estilo para la Descripción (Full Day) */
+.tour-descripcion {
+    font-size: 1.4rem;
+    color: #777;
+    margin-bottom: 12px;
+    font-style: italic;
+    flex: 1; /* Empuja el precio hacia abajo */
 }
 
-.formulario input[type="file"],
-.formulario input[type="text"],
-.formulario input[type="number"] {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+/* Estilo para el Precio */
+.tour-precio {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--color-primario);
+    text-align: right;
+    margin-top: auto; /* Se alinea al fondo */
+    padding-top: 10px;
 }
 
-/* Estilos para las etiquetas label*/
-.formulario label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
-}
 
-/* Estilos para el botón*/
-.formulario input[type="submit"] {
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  padding: 10px 20px;
-  cursor: pointer;
-}
+/* === MEDIA QUERIES (SIN CAMBIOS) === */
+@media (max-width: 900px) {
+    .tours-layout {
+        flex-direction: column; 
+    }
 
-/*Resaltado cuando se pasa por el botón*/
-.formulario input[type="submit"]:hover {
-  background-color: #0056b3;
-}
-
-/* Ajustar el diseño para el contenedor del formulario */
-fieldset {
-  border: none;
-  padding: 0;
-}
-/* === RESPONSIVE DESIGN === */
-
-/* 📱 Tablets y pantallas medianas */
-@media (max-width: 992px) {
+    .filtros-sidebar {
+        flex: 1;
+        max-width: 100%;
+    }
     .contenedor-paquetes {
         grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
         gap: 15px;
-        padding: 15px;
-    }
-
-    .tour {
-        max-width: 100%;
-        margin-bottom: 30px;
-    }
-
-    .formulario {
-        max-width: 80%;
-        padding: 15px;
     }
 }
 
-/* 📱 Móviles (≤768px) */
 @media (max-width: 768px) {
     .tCat {
         font-size: 2.4rem;
@@ -170,13 +222,8 @@ fieldset {
     .tour img {
         height: 150px;
     }
-
-    .formulario {
-        width: 90%;
-    }
 }
 
-/* 📱 Móviles pequeños (≤576px) */
 @media (max-width: 576px) {
     .tCat {
         font-size: 2rem;
@@ -186,24 +233,7 @@ fieldset {
         grid-template-columns: 1fr;
         gap: 15px;
     }
-
     .tour {
         padding: 15px;
-    }
-
-    .formulario {
-        width: 95%;
-        padding: 10px;
-    }
-
-    .formulario input[type="file"],
-    .formulario input[type="text"],
-    .formulario input[type="number"] {
-        font-size: 1.3rem;
-    }
-
-    .formulario input[type="submit"] {
-        font-size: 1.3rem;
-        padding: 10px;
     }
 }

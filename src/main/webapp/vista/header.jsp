@@ -74,21 +74,18 @@
                             <!-- 🧩 Botón para abrir ventana de perfil -->
                             <li class="perfil">
                                 <a href="${pageContext.request.contextPath}/vista/perfil.jsp">
-                                    <i class="fa-solid fa-user"></i> Perfil
-                                </a>
+                                    <i class="fa-solid fa-user"></i> Perfil</a>
                             </li>
                             <!-- 🔹 Mis reservas (compras anteriores) -->
                             <li>
                                 <a href="${pageContext.request.contextPath}/srvReserva?accion=misReservas">
-                                    <i class="fa-solid fa-ticket"></i> Mis reservas
-                                </a>
+                                    <i class="fa-solid fa-ticket"></i>Mis reservas</a>
                             </li>
 
                             </li>
                             <li class="close">
                                 <a href="${pageContext.request.contextPath}/srvUsuario?accion=cerrar">
-                                    <i class="fa-solid fa-arrow-right-from-bracket"></i> Cerrar sesión
-                                </a>
+                                    <i class="fa-solid fa-arrow-right-from-bracket"></i>Cerrar sesión</a>
                             </li>
                         </ul>
                     </li>

@@ -186,9 +186,9 @@ public class usuarioDAO {
                 u.setCorreoElectronico(rs.getString("correoElectronico"));
                 u.setClave(rs.getString("clave"));
                 // otros campos si quieres
-            
+
             }
-            
+
         } finally {
             if (rs != null) {
                 rs.close();
@@ -442,7 +442,7 @@ public class usuarioDAO {
         // Obtener lista de usuarios 
         List<usuario> repUsuario = repUsuario();
         // Ruta del archivo JRXML
-        String jrxmlFilePath = context.getRealPath("/reporteJasper/usuarios1.jrxml");
+        String jrxmlFilePath = context.getRealPath("./reporteJasper/usuarios1.jrxml");
 
         if (jrxmlFilePath == null) {
             throw new JRException("No se pudo obtener la ruta real del archivo JRXML");
