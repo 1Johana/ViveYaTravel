@@ -68,8 +68,8 @@
   <h3 class="text-center mb-4">🚌 Selecciona tu asiento y paga</h3>
 
   <!-- Form es el contenedor de TODO para enviar junto -->
-<form action="${pageContext.request.contextPath}/srvPromocion?accion=confirmarPago" method="post" id="formAsientoPago">
-<input type="hidden" name="nombrePaquete" value="${requestScope.nombrePaquete}"/>
+  <form action="${pageContext.request.contextPath}/srvPromocion?accion=confirmarPago" method="post" id="formAsientoPago">
+    <input type="hidden" name="nombrePaquete" value="${requestScope.nombrePaquete}"/>
 
     <input type="hidden" name="accion" value="confirmarPago"/>
     <input type="hidden" name="idBus" value="<%=idBus%>"/>
@@ -83,7 +83,6 @@
     <input type="hidden" name="extrasTotal"  id="extrasTotal"  value="0"/>
 
     <!-- ================== SUBTOTAL ROBUSTO ================== -->
-    <!-- Usa carrito si existe. Si NO hay carrito, usa precioPaquete que manda el servlet (o el param). -->
     <c:set var="subtotal" value="0" scope="page"/>
 
     <c:choose>
@@ -98,7 +97,6 @@
         </c:forEach>
       </c:when>
       <c:otherwise>
-        <!-- precioPaquete puede venir como atributo de request o como parámetro -->
         <fmt:parseNumber var="precioUnit" value="${
           not empty requestScope.precioPaquete ? requestScope.precioPaquete :
           (not empty param.precioPaquete ? param.precioPaquete : 0)
@@ -163,7 +161,31 @@
                 <c:otherwise><%=idPaquete%></c:otherwise>
               </c:choose>
             </div>
-            <div class="mb-3"><strong>Bus:</strong> <%=idBus%></div>
+
+            <div class="mb-2"><strong>Bus:</strong> <%=idBus%></div>
+
+            <!-- 🔢 Cantidad de pasajeros (único bloque) -->
+            <div class="mb-3">
+              <label class="form-label fw-semibold d-block" for="cantidadPasajeros">
+                Pasajeros
+              </label>
+              <div class="input-group" style="max-width: 220px;">
+                <button type="button" class="btn btn-outline-secondary" id="btnMenosPasajeros">−</button>
+                <input
+                  type="text"
+                  class="form-control text-center"
+                  id="cantidadPasajeros"
+                  name="cantidadPasajeros"
+                  value="1"
+                  readonly
+                />
+                <button type="button" class="btn btn-outline-secondary" id="btnMasPasajeros">+</button>
+              </div>
+              <div class="form-text">
+                Selecciona un asiento por cada pasajero.
+              </div>
+            </div>
+
             <div class="mb-3">
               <strong>Asiento seleccionado:</strong>
               <span id="asientoSeleccionado" class="badge text-bg-secondary">Ninguno</span>
@@ -282,7 +304,7 @@
 <!-- JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-  // Referencias
+  // Referencias básicas
   const botones = document.querySelectorAll('.asiento');
   const spanSeleccionado = document.getElementById('asientoSeleccionado');
   const idAsientoInput = document.getElementById('idAsiento');
@@ -291,13 +313,81 @@
 
   const extrasLabel = document.getElementById('extrasLabel');
   const totalLabel = document.getElementById('totalLabel');
-
   const seguroPrecio = document.getElementById('seguroPrecio');
   const mascotaPrecio = document.getElementById('mascotaPrecio');
   const extrasTotal = document.getElementById('extrasTotal');
-
   const subtotalHidden = document.getElementById('subtotalHidden');
   const totalHidden = document.getElementById('totalHidden');
+
+  // Pasajeros (+ / -)
+  let cantidadPasajeros = 1;
+  const MAX_PASAJEROS = 6;
+  const MIN_PASAJEROS = 1;
+
+  const cantidadPasajerosInput = document.getElementById('cantidadPasajeros');
+  const btnMasPasajeros = document.getElementById('btnMasPasajeros');
+  const btnMenosPasajeros = document.getElementById('btnMenosPasajeros');
+
+  // Asientos seleccionados
+  const seleccionados = new Set();
+
+  function actualizarCantidadPasajeros(nuevaCantidad) {
+    if (nuevaCantidad < MIN_PASAJEROS) nuevaCantidad = MIN_PASAJEROS;
+    if (nuevaCantidad > MAX_PASAJEROS) nuevaCantidad = MAX_PASAJEROS;
+
+    cantidadPasajeros = nuevaCantidad;
+    cantidadPasajerosInput.value = nuevaCantidad;
+
+    // Si hay más asientos seleccionados que pasajeros, deseleccionamos algunos
+    while (seleccionados.size > cantidadPasajeros) {
+      const id = Array.from(seleccionados).pop();
+      seleccionados.delete(id);
+      const btn = document.querySelector('.asiento[data-id="' + id + '"]');
+      if (btn) btn.classList.remove('seleccionado');
+    }
+
+    actualizarResumenAsientos();
+  }
+
+  if (btnMasPasajeros && btnMenosPasajeros && cantidadPasajerosInput) {
+    btnMasPasajeros.addEventListener('click', () => {
+      actualizarCantidadPasajeros(cantidadPasajeros + 1);
+    });
+
+    btnMenosPasajeros.addEventListener('click', () => {
+      actualizarCantidadPasajeros(cantidadPasajeros - 1);
+    });
+  }
+
+  function actualizarResumenAsientos() {
+    if (seleccionados.size === 0) {
+      spanSeleccionado.textContent = 'Ninguno';
+      spanSeleccionado.classList.remove('text-bg-success');
+      spanSeleccionado.classList.add('text-bg-secondary');
+
+      idAsientoInput.value = '';
+      numeroAsientoInput.value = '';
+      btnPagar.disabled = true;
+      return;
+    }
+
+    const ids = Array.from(seleccionados);
+    const codigos = ids.map(id => {
+      const btn = document.querySelector('.asiento[data-id="' + id + '"]');
+      return btn ? btn.dataset.codigo : '';
+    }).filter(Boolean);
+
+    spanSeleccionado.textContent = 'Asientos ' + codigos.join(', ');
+    spanSeleccionado.classList.remove('text-bg-secondary');
+    spanSeleccionado.classList.add('text-bg-success');
+
+    // Enviamos al backend como CSV
+    idAsientoInput.value = ids.join(',');
+    numeroAsientoInput.value = codigos.join(',');
+
+    // Solo habilitamos pagar si la cantidad de asientos = cantidad de pasajeros
+    btnPagar.disabled = (seleccionados.size !== cantidadPasajeros);
+  }
 
   function recalcularExtras() {
     const seguro = document.getElementById('chkSeguro');
@@ -318,37 +408,49 @@
     extrasTotal.value  = extras.toFixed(2);
     totalHidden.value  = total.toFixed(2);
   }
+
   document.querySelectorAll('.extra').forEach(x => x.addEventListener('change', recalcularExtras));
 
-  // Selección de asiento
+  // Selección de asientos (multi, hasta cantidadPasajeros)
   botones.forEach(btn => {
     btn.addEventListener('click', () => {
       if (btn.classList.contains('ocupado')) return;
 
-      botones.forEach(b => b.classList.remove('seleccionado'));
-      btn.classList.add('seleccionado');
+      const id = btn.dataset.id;
 
-      spanSeleccionado.textContent = 'Asiento ' + btn.dataset.codigo;
-      spanSeleccionado.classList.remove('text-bg-secondary');
-      spanSeleccionado.classList.add('text-bg-success');
+      if (seleccionados.has(id)) {
+        seleccionados.delete(id);
+        btn.classList.remove('seleccionado');
+      } else {
+        if (seleccionados.size >= cantidadPasajeros) {
+          alert('Ya seleccionaste los ' + cantidadPasajeros + ' asientos para tus pasajeros.');
+          return;
+        }
+        seleccionados.add(id);
+        btn.classList.add('seleccionado');
+      }
 
-      idAsientoInput.value = btn.dataset.id;
-      numeroAsientoInput.value = btn.dataset.codigo;
-
-      btnPagar.disabled = false;
+      actualizarResumenAsientos();
     });
   });
 
-  // Validación mínima al enviar (exige asiento)
+  // Validación al enviar
   document.getElementById('formAsientoPago').addEventListener('submit', (e) => {
-    if (!idAsientoInput.value) {
+    if (seleccionados.size === 0) {
       e.preventDefault();
-      alert('Por favor, selecciona un asiento antes de continuar.');
+      alert('Por favor, selecciona al menos un asiento.');
+      return;
+    }
+    if (seleccionados.size !== cantidadPasajeros) {
+      e.preventDefault();
+      alert('Debes seleccionar ' + cantidadPasajeros + ' asientos (uno por pasajero).');
+      return;
     }
   });
 
-  // Inicializar totales al cargar
+  // Inicializar
   recalcularExtras();
+  btnPagar.disabled = true;
 </script>
 </body>
 </html>

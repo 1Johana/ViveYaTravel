@@ -88,10 +88,20 @@
                                     <label for="nombreTarjeta" class="form-label">Nombre en la tarjeta</label>
                                     <input type="text" id="nombreTarjeta" name="nombreTarjeta" class="form-control" required/>
                                 </div>
-                                <div class="mb-3">
-                                    <label for="numTarjeta" class="form-label">Número de tarjeta</label>
-                                    <input type="text" id="numTarjeta" name="numTarjeta" class="form-control" placeholder="4111 1111 1111 1111" required/>
-                                </div>
+  <div class="mb-3">
+    <label for="numTarjeta" class="form-label">Número de tarjeta</label>
+    <input
+        type="text"
+        id="numTarjeta"
+        name="numTarjeta"
+        class="form-control"
+        placeholder="4111 1111 1111 1111"
+        required
+        maxlength="16"
+        oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+    />
+</div>
+
                                 <div class="row">
                                     <div class="col">
                                         <label for="exp" class="form-label">Exp.</label>
