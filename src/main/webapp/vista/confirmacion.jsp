@@ -133,7 +133,7 @@
           </div>
 
           <div class="alert alert-light border mt-3">
-            <div class="small mb-1 text-muted">Resumen enviado a tu correo (si aplica).</div>
+            <div class="small mb-1 text-muted"></div>
             <div class="small">¡Gracias por tu compra! 🎉</div>
           </div>
 <a class="btn btn-outline-primary"
