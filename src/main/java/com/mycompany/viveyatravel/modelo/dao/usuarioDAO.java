@@ -91,6 +91,35 @@ public class usuarioDAO {
         }
         return usu;
     }
+    // --- OBTENER FOTO POR ID (FALTABA ESTE MÉTODO) ---
+
+    public byte[] obtenerFotoPorId(int idUsuario) throws SQLException {
+        byte[] foto = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        String sql = "SELECT fotoPerfil FROM usuario WHERE idUsuario = ?";
+
+        try {
+            ps = cn.prepareStatement(sql);
+            ps.setInt(1, idUsuario);
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                foto = rs.getBytes("fotoPerfil");
+            }
+        } catch (Exception e) {
+            System.out.println("Error al obtener foto: " + e.getMessage());
+        } finally {
+            if (rs != null && !rs.isClosed()) {
+                rs.close();
+            }
+            if (ps != null && !ps.isClosed()) {
+                ps.close();
+            }
+        }
+        return foto;
+    }
 
     // --- REGISTRO ---
     public usuario registrar(usuario user) throws SQLException {
@@ -119,17 +148,34 @@ public class usuarioDAO {
         return usu;
     }
 
-    // --- ACTUALIZAR PERFIL ---
+    // --- ACTUALIZAR PERFIL (CORREGIDO: INCLUYE FOTO) ---
     public void actualizar(usuario user) throws SQLException {
-        String sql = "UPDATE usuario SET nombre = ?, apellido = ?, nroCelular = ? WHERE idUsuario = ?";
+        // Agregamos ", fotoPerfil = ?" a la consulta SQL
+        String sql = "UPDATE usuario SET nombre = ?, apellido = ?, nroCelular = ?, fotoPerfil = ? WHERE idUsuario = ?";
         PreparedStatement ps = null;
+
         try {
             ps = cn.prepareStatement(sql);
             ps.setString(1, user.getNombre());
             ps.setString(2, user.getApellido());
             ps.setInt(3, user.getNroCelular());
-            ps.setInt(4, user.getIdUsuario());
+
+            // === Lógica para la Foto ===
+            if (user.getFotoPerfil() != null && user.getFotoPerfil().length > 0) {
+                // Si hay foto nueva, la guardamos
+                ps.setBinaryStream(4, new ByteArrayInputStream(user.getFotoPerfil()));
+            } else {
+                // Si no hay foto nueva, necesitamos mantener la anterior.
+                // PERO, como tu SQL actualiza todo, si pasamos NULL borraría la foto vieja.
+                // TRUCO: En el Servlet ya nos aseguramos de pasar la foto vieja si no hay nueva.
+                // Si aun así llega null, es porque el usuario quiere borrarla o es un error.
+                // Para estar seguros, usamos setObject con tipo BLOB.
+                ps.setObject(4, user.getFotoPerfil(), java.sql.Types.BLOB);
+            }
+
+            ps.setInt(5, user.getIdUsuario());
             ps.executeUpdate();
+
         } catch (SQLException e) {
             throw new SQLException("Error al actualizar datos: " + e.getMessage());
         } finally {

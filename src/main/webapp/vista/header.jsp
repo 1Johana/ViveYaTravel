@@ -3,46 +3,173 @@
 
 <%
     usuario cliente = (usuario) session.getAttribute("cliente");
-    if (cliente == null) {
-        cliente = new usuario(); // Evitar null pointer si no hay sesión
-    }
-
-    // 🧠 Selección dinámica del avatar según el género
     String avatarUrl;
-    if (cliente.getGenero() != null && cliente.getGenero().equalsIgnoreCase("Mujer")) {
-        avatarUrl = "https://cdn-icons-png.flaticon.com/512/3135/3135789.png"; // avatar mujer
+    if (cliente != null && cliente.getFotoPerfil() != null && cliente.getFotoPerfil().length > 0) {
+        avatarUrl = request.getContextPath() + "/srvUsuario?accion=mostrarFoto&idUsuario=" + cliente.getIdUsuario();
     } else {
-        avatarUrl = "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"; // avatar hombre o default
+        String genero = (cliente != null && cliente.getGenero() != null) ? cliente.getGenero().trim().toLowerCase() : "";
+        if (genero.equals("mujer")) avatarUrl = "https://cdn-icons-png.flaticon.com/512/3135/3135789.png";
+        else if (genero.equals("hombre")) avatarUrl = "https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
+        else avatarUrl = "https://cdn-icons-png.flaticon.com/512/1077/1077063.png";
     }
 %>
 
-<header>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-          integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
-          crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link href="${pageContext.request.contextPath}/css/header.css" rel="stylesheet" type="text/css"/>
-    <link href="${pageContext.request.contextPath}/css/headerValidacionUsuario.css" rel="stylesheet" type="text/css"/>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap');
 
-    <div class="header">
-        <div class="contHeader">
+    :root {
+        --header-bg: rgba(2, 12, 27, 0.95); /* Azul Oscuro Profundo */
+        --color-text: #ffffff;
+        --color-accent: #F7B32B; /* Dorado */
+        --font-main: 'Montserrat', sans-serif;
+    }
 
-            <!-- LOGO -->
+    /* Reset del Header */
+    .header {
+        background-color: var(--header-bg);
+        width: 100%;
+        height: 80px;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        font-family: var(--font-main);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* CONTENEDOR PRINCIPAL (Flexbox que separa Izquierda y Derecha) */
+    .contHeader {
+        width: 100%;
+        max-width: 1280px;
+        padding: 0 20px;
+        display: flex;
+        justify-content: space-between; /* <--- ESTO SEPARA LOS GRUPOS */
+        align-items: center;
+    }
+
+    /* --- GRUPO IZQUIERDA (Logo + Nav) --- */
+    .grupo-izquierda {
+        display: flex;
+        align-items: center;
+        gap: 40px; /* Espacio entre logo y menú */
+    }
+
+    .logo a img {
+        height: 50px;
+        transition: transform 0.3s;
+    }
+    .logo a img:hover { transform: scale(1.05); }
+
+    .navbar ul.menu {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        gap: 25px;
+    }
+
+    .navbar a {
+        text-decoration: none;
+        color: var(--color-text);
+        font-weight: 600;
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        transition: 0.3s;
+    }
+    .navbar a:hover { color: var(--color-accent); }
+
+    /* Dropdown Tours */
+    .dropdown-tours { position: relative; }
+    .submenu {
+        display: none; position: absolute; top: 100%; left: 0;
+        background: #fff; min-width: 160px; border-radius: 5px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2); padding: 5px 0;
+    }
+    .dropdown-tours:hover .submenu { display: block; }
+    .submenu li a { 
+        color: #333; display: block; padding: 10px 15px; 
+    }
+    .submenu li a:hover { background: #f0f0f0; color: #003366; }
+
+
+    /* --- GRUPO DERECHA (Usuario + Carrito) --- */
+    .grupo-derecha {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+
+    /* USUARIO */
+    .usuario-logueado a {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+        color: var(--color-text);
+        cursor: pointer;
+    }
+    .username { font-size: 14px; font-weight: 700; text-align: right; }
+    
+    .imagen {
+        width: 42px; height: 42px; border-radius: 50%; object-fit: cover;
+        border: 2px solid rgba(255,255,255,0.5);
+    }
+
+    /* Menú Usuario Desplegable */
+    .menu2 { position: relative; list-style: none; margin: 0; padding: 0; }
+    .menu2 ul {
+        display: none; position: absolute; top: 120%; right: 0;
+        background: #fff; min-width: 180px; border-radius: 5px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2); z-index: 1000;
+    }
+    .menu2:hover ul { display: block; }
+    .menu2 ul li a {
+        color: #333; padding: 10px 15px; display: flex; align-items: center; gap: 10px; text-decoration: none; font-size: 13px;
+    }
+    .menu2 ul li a:hover { background: #f4f4f4; color: #003366; }
+
+    /* CARRITO */
+    .carro a {
+        color: var(--color-text);
+        font-size: 20px;
+        display: flex; align-items: center; justify-content: center;
+        width: 40px; height: 40px;
+        background: rgba(255,255,255,0.1);
+        border-radius: 50%;
+        transition: 0.3s;
+    }
+    .carro a:hover { background: var(--color-accent); color: #003366; }
+
+    /* BOTÓN LOGIN */
+    .btn-login {
+        border: 1px solid #fff; padding: 8px 20px; border-radius: 20px; color: #fff; text-decoration: none; font-weight: 600; font-size: 13px; transition: 0.3s;
+    }
+    .btn-login:hover { background: #fff; color: #003366; }
+    
+    @media (max-width: 900px) { .navbar { display: none; } }
+</style>
+
+<div class="header">
+    <div class="contHeader">
+
+        <div class="grupo-izquierda">
             <div class="logo">
-                <a href="${pageContext.request.contextPath}/index.jsp">
-                    <img src="https://www.viveyatravel.com/imagenes/logo-web-vive-ya-travel-2.png" class="logo">
+                <a href="${pageContext.request.contextPath}/vista/index.jsp">
+                    <img src="https://www.viveyatravel.com/imagenes/logo-web-vive-ya-travel-2.png" alt="Logo">
                 </a>
             </div>
 
-            <!-- NAVBAR -->
             <div class="navbar">
                 <nav>
                     <ul class="menu">
                         <li class="dropdown-tours">
-                            <a href="#">TOURS <i class="fa-solid fa-chevron-down down-arrow"></i></a>
+                            <a href="#">TOURS <i class="fa-solid fa-chevron-down"></i></a>
                             <ul class="submenu">
                                 <li><a href="<%=request.getContextPath()%>/PaqueteControlador">Nacionales</a></li>
-                                <li><a href="<%=request.getContextPath()%>/SRVInternacional">Internacionales</a></li>
+                                <li><a href="#">Internacionales</a></li>
                             </ul>
                         </li>
                         <li><a href="<%=request.getContextPath()%>/srvPromocion">PROMOCIONES</a></li>
@@ -50,109 +177,47 @@
                     </ul>
                 </nav>
             </div>
+        </div>
 
-            <!-- CARRITO -->
-            <div class="carro">
-                <a href="<%=request.getContextPath()%>/vista/car.jsp">
-                    <i class="fa-solid fa-cart-shopping carrito"></i>
-                </a>
-            </div>
-
-            <!-- USUARIO -->
+        <div class="grupo-derecha">
+            
             <div class="usuario-container">
-                <%
-                    if (session.getAttribute("cliente") != null) {
-                %>
+                <% if (session.getAttribute("cliente") != null) { %>
                 <ul class="menu2">
                     <li>
-                        <a href="#">
-                            <p class="username">Hola, <%= cliente.getNombre() %></p>
-                            <img class="imagen" src="<%= avatarUrl %>" alt="Avatar" />
-                            <i class="fa-solid fa-chevron-down" style="color: #fff"></i>
-                        </a>
+                        <div class="usuario-logueado">
+                            <a href="#">
+                                <span class="username">Hola, <%= cliente.getNombre()%></span>
+                                <img class="imagen" src="<%= avatarUrl%>" alt="Avatar" />
+                            </a>
+                        </div>
                         <ul>
-                            <!-- 🧩 Botón para abrir ventana de perfil -->
                             <li class="perfil">
-                                <a href="${pageContext.request.contextPath}/vista/perfil.jsp">
-                                    <i class="fa-solid fa-user"></i> Perfil</a>
+                                <a href="${pageContext.request.contextPath}/vista/perfil.jsp"><i class="fa-solid fa-user"></i> Perfil</a>
                             </li>
-                            <!-- 🔹 Mis reservas (compras anteriores) -->
                             <li>
-                                <a href="${pageContext.request.contextPath}/srvReserva?accion=misReservas">
-                                    <i class="fa-solid fa-ticket"></i>Mis reservas</a>
-                            </li>
-
+                                <a href="${pageContext.request.contextPath}/srvReserva?accion=misReservas"><i class="fa-solid fa-ticket"></i> Mis reservas</a>
                             </li>
                             <li class="close">
-                                <a href="${pageContext.request.contextPath}/srvUsuario?accion=cerrar">
-                                    <i class="fa-solid fa-arrow-right-from-bracket"></i>Cerrar sesión</a>
+                                <a href="${pageContext.request.contextPath}/srvUsuario?accion=cerrar"><i class="fa-solid fa-arrow-right-from-bracket"></i> Cerrar sesión</a>
                             </li>
                         </ul>
                     </li>
                 </ul>
-                <%
-                } else {
-                %>
-                <p class="bienvenido">Bienvenido invitado</p>
+                <% } else { %>
                 <div class="usuario">
-                    <a href="${pageContext.request.contextPath}/vista/iniciarSesion.jsp">
-                        <i class="fa-solid fa-user usuario"></i>
-                    </a>
+                    <a href="${pageContext.request.contextPath}/vista/iniciarSesion.jsp" class="btn-login">Iniciar Sesión</a>
                 </div>
                 <% } %>
             </div>
 
-        </div>
-            
-    </div>
-
-    <!-- Modal de edición de perfil -->
-    <% if (cliente != null) {%>
-    <input type="checkbox" id="btn-modal">
-    <div class="container-modal">
-        <div class="content-modal">
-            <div class="btn-cerrar">
-                <label for="btn-modal"><i class="fa-solid fa-xmark"></i></label>
+            <% if (session.getAttribute("cliente") != null) { %>
+            <div class="carro">
+                <a href="<%=request.getContextPath()%>/vista/car.jsp">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                </a>
             </div>
-            <h2>Editar Perfil</h2>
-            <form action="${pageContext.request.contextPath}/srvActualizarUsuario" method="POST">
-                <input type="hidden" name="accion" value="actualizar">
-                <input type="hidden" name="idUsuario" value="<%= cliente.getIdUsuario()%>">
-
-                <div class="update">
-                    <input type="text" name="nombre" id="nombre" value="<%= cliente.getNombre()%>" required>
-                    <label for="nombre">Nombre:</label>
-                </div>
-
-                <div class="update">
-                    <input type="text" name="apellido" id="apellido" value="<%= cliente.getApellido()%>" required>
-                    <label for="apellido">Apellido:</label>
-                </div>
-
-                <div class="update">
-                    <input type="text" name="nroCelular" id="celular" value="<%= cliente.getNroCelular()%>" required>
-                    <label for="nroCelular">Nro Celular:</label>
-                </div>
-
-                <div class="update">
-                    <input type="text" name="nroDni" id="dni" value="<%= cliente.getNroDni()%>" required>
-                    <label for="nroDni">Nro DNI:</label>
-                </div>
-
-                <div class="update">
-                    <input type="email" name="correoElectronico" id="correoElectronico" value="<%= cliente.getCorreoElectronico()%>" required>
-                    <label for="correoElectronico">Correo Electrónico:</label>
-                </div>
-
-                <div class="update">
-                    <input type="password" id="password" name="clave" value="<%= cliente.getClave()%>" required>
-                    <label for="clave">Clave:</label>
-                </div>
-
-                <input type="submit" name="actualizar" id="Actualizar" value="Actualizar">
-            </form>
-        </div>
-        <label for="btn-modal" class="cerrar-modal"></label>
-    </div>
-    <% }%>
-</header>
+            <% } %>
+            
+        </div> </div>
+</div>

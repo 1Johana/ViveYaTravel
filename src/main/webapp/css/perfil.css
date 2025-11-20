@@ -1,0 +1,307 @@
+/* =================================
+   VERSIÓN FINAL Y LIMPIA de perfil.css
+   ================================= */
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f5f6fa;
+    margin: 0;
+    display: flex;
+    height: 100vh;
+}
+.sidebar {
+    width: 250px;
+    background-color: #1e1e2f;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    padding-top: 30px;
+    flex-shrink: 0;
+}
+.sidebar a, .sidebar form button {
+    text-decoration: none;
+    color: #cfcfcf;
+    padding: 15px 25px;
+    display: block;
+    border: none;
+    background: none;
+    text-align: left;
+    cursor: pointer;
+}
+.sidebar a:hover, .sidebar form button:hover {
+    background-color: #2f2f45;
+    color: #fff;
+}
+.sidebar a.active {
+    background-color: #0073aa;
+    font-weight: bold;
+}
+.main-content {
+    flex: 1;
+    background-color: #ffffff;
+    padding: 40px;
+    overflow-y: auto;
+    transition: display 0.2s ease;
+}
+
+/* --- 1. ARREGLO DE LAYOUT (Avatar y Nombre) --- */
+.profile-header {
+    display: flex;         /* ¡ESTO ARREGLA EL LAYOUT! */
+    align-items: center;   /* Alinea verticalmente avatar y texto */
+    gap: 25px;         /* Espacio entre avatar y texto */
+    margin-bottom: 30px;
+}
+
+.profile-photo {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border: 3px solid #0073aa;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(0, 115, 170, 0.2);
+    transition: transform 0.3s, box-shadow 0.3s;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+.profile-photo:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 10px rgba(0, 115, 170, 0.5);
+}
+
+/* --- 2. ARREGLO DE VISTA PREVIA INFERIOR --- */
+#preview {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    margin-top: 15px;
+    object-fit: cover;
+    border: 3px solid #0073aa;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+
+    /* ¡CLAVE! Oculto por defecto. JS lo muestra. */
+    display: none;
+}
+
+/* --- 3. ARREGLO DE MENÚ DE AVATAR Y CÁMARA --- */
+.avatar-container {
+    position: relative;
+    flex-shrink: 0;
+}
+.avatar-overlay {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    width: 40px;
+    height: 40px;
+    background-color: rgba(0, 0, 0, 0.75);
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    opacity: 0;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.profile-photo:hover .avatar-overlay {
+    opacity: 1;
+    transform: scale(1.1);
+}
+.avatar-menu {
+    display: none;
+    position: absolute;
+    top: 105%;
+    left: 0;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    z-index: 1001;
+    overflow: hidden;
+    border: 1px solid #eee;
+    min-width: 180px;
+}
+.avatar-menu a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 18px;
+    text-decoration: none;
+    color: #333;
+    font-size: 0.95em;
+    transition: background-color 0.2s ease;
+}
+.avatar-menu a:hover {
+    background-color: #f5f5f5;
+}
+.avatar-menu a i {
+    width: 15px;
+    text-align: center;
+    color: #555;
+}
+.avatar-menu a:last-child {
+    color: #c0392b;
+}
+.avatar-menu a:last-child i {
+    color: #c0392b;
+}
+.avatar-menu a:last-child:hover {
+    background-color: #fdecea;
+}
+
+
+/* --- SECCIÓN DE FORMULARIO (Sin cambios) --- */
+.profile-section {
+    margin-top: 30px;
+    border-top: 1px solid #ddd;
+    padding-top: 20px;
+    max-width: 700px;
+}
+.profile-section label {
+    display: block;
+    font-weight: bold;
+    margin-top: 15px;
+}
+.profile-section input[type="text"],
+.profile-section input[type="email"],
+.profile-section input[type="password"],
+.profile-section input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+.profile-section input[readonly] {
+    background-color: #f0f0f0;
+}
+.save-btn {
+    margin-top: 25px;
+    background-color: #0073aa;
+    color: #fff;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.save-btn:hover {
+    background-color: #005f87;
+}
+
+/* --- ESTILOS DEL MODAL (Sin cambios) --- */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    align-items: center;
+    justify-content: center;
+}
+.modal-content {
+    background-color: #fefefe;
+    padding: 30px;
+    border: 1px solid #888;
+    width: 90%;
+    max-width: 500px;
+    border-radius: 10px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+    position: relative;
+}
+.modal-content h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 25px;
+    font-size: 1.8em;
+}
+.close-btn {
+    color: #888;
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 30px;
+    font-weight: normal;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+.close-btn:hover,
+.close-btn:focus {
+    color: #333;
+    transform: rotate(90deg);
+}
+.modal-content form {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+}
+.modal-content label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #555;
+    font-size: 0.95em;
+}
+.modal-content input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1em;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.modal-content input[type="password"]:focus {
+    border-color: #0073aa;
+    box-shadow: 0 0 5px rgba(0, 115, 170, 0.3);
+    outline: none;
+}
+.modal-content .save-btn {
+    margin-top: 25px;
+    width: auto;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 12px 30px;
+    font-size: 1.1em;
+    border-radius: 8px;
+    background-color: #0073aa;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+.modal-content .save-btn:hover {
+    background-color: #005f87;
+    transform: translateY(-2px);
+}
+.msg {
+    margin-top: 15px;
+    padding: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    text-align: center;
+    opacity: 1;
+    transition: opacity 0.4s ease;
+}
+.msg.error {
+    background: #ffe1e1;
+    color: #d8000c;
+}
+.msg.success {
+    background: #e0ffe4;
+    color: #007a33;
+}
+@media (max-width: 768px) {
+    .modal-content {
+        max-width: 90%;
+        padding: 20px;
+    }
+    .modal-content h2 {
+        font-size: 1.5em;
+    }
+}

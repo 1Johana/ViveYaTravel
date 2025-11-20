@@ -14,11 +14,11 @@
 }
 
 /* ------------------ HERO SLIDER BASE ------------------ */
-
 .hero-slider {
     position: relative;
     width: 100%;
     height: 100vh;
+    padding-top: 70px;
     overflow: hidden;
     /* Capa de degradado oscuro a la izquierda */
     &::after {
@@ -43,7 +43,7 @@
     background-position: center;
     opacity: 0;
     transform: scale(1.1);
-    transition: transform 3s ease, opacity 1s ease; 
+    transition: transform 3s ease, opacity 1s ease;
 }
 .bg-slide.active {
     transform: scale(1.02);
@@ -55,7 +55,7 @@
 .content-wrapper {
     position: relative;
     z-index: 2;
-    padding: 15vh 0 0 10vw; 
+    padding: 15vh 0 0 10vw;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -80,7 +80,7 @@
 
 .location-name {
     color: var(--text-light);
-    font-size: 4.5em; 
+    font-size: 4.5em;
     font-weight: 900;
     line-height: 1.1;
     margin-bottom: 2rem;
@@ -102,14 +102,16 @@
     position: absolute;
     top: 65%;
     right: 0;
-    transform: translateY(-50%); 
-    padding-right: 3vw; 
-    z-index: 3; 
+    transform: translateY(-50%);
+    padding-right: 3vw;
+    z-index: 3;
+    display: flex;
+    justify-content: center;
 }
 
 .card-wrapper {
     display: flex;
-    gap: 2rem; 
+    gap: 2rem;
 }
 
 .card {
@@ -122,12 +124,12 @@
     position: relative;
     cursor: pointer;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
-    
+
     /* Estado visual de las tarjetas visibles */
-    transform: rotateY(25deg) scale(0.9); 
+    transform: rotateY(25deg) scale(0.9);
     opacity: 0.8;
     /* TRANSICIÓN BASE: 0.5s */
-    transition: all 0.5s ease; 
+    transition: all 0.5s ease;
 }
 
 .card img {
@@ -149,7 +151,7 @@
 
 /* 1. DESAPARICIÓN INMEDIATA */
 .card.hidden {
-    display: none; 
+    display: none;
 }
 
 /* 2. EFECTO DE DESINTEGRACIÓN (Fade-out) */
@@ -166,17 +168,17 @@
     /* ANIMACIÓN: 0.5s */
     animation: cardReappear 0.5s ease-out;
     opacity: 0.8;
-    transform: rotateY(25deg) scale(0.9); 
+    transform: rotateY(25deg) scale(0.9);
 }
 
 @keyframes cardReappear {
-    from { 
-        opacity: 0; 
-        transform: rotateY(-30deg) scale(0.7); 
+    from {
+        opacity: 0;
+        transform: rotateY(-30deg) scale(0.7);
     }
-    to { 
-        opacity: 0.8; 
-        transform: rotateY(25deg) scale(0.9); 
+    to {
+        opacity: 0.8;
+        transform: rotateY(25deg) scale(0.9);
     }
 }
 /* 🔹 EFECTO DE DESAPARICIÓN (para la tarjeta activa al irse) */
@@ -578,35 +580,66 @@
 }
 .hero-slider {
     height: 100vh;
-    margin-top: -90px; /* levanta la imagen para cubrir debajo del header */
+    margin-top: -70px; /* levanta la imagen para cubrir debajo del header */
+    z-index: 1;
 }
 
-body::before {
-    content: "";
-    display: block;
-    height: 90px; /* mantiene el espacio para que las siguientes secciones no se tapen */
-}
 /* ------------------ 📱 RESPONSIVE DESIGN ------------------ */
 
 /* Tablets */
 @media (max-width: 1024px) {
-    .content-wrapper { padding: 12vh 5vw; }
-    .location-name { font-size: 3.2em; }
-    .card-slider-container { top: 75%; padding-right: 5vw; }
-    .card { width: 220px; height: 320px; }
-    .steps-section { padding: 60px 40px; }
-    .steps-content { flex-direction: column; text-align: center; gap: 40px; }
-    .steps-image { justify-content: center; }
-    .testimonials-content { flex-direction: column; text-align: center; }
-    .testimonials-text { max-width: 100%; }
-    .travel-container { flex-direction: column; gap: 40px; text-align: center; }
+    .content-wrapper {
+        padding: 12vh 5vw;
+    }
+    .location-name {
+        font-size: 3.2em;
+    }
+    .card-slider-container {
+        top: 75%;
+        padding-right: 5vw;
+    }
+    .card {
+        width: 220px;
+        height: 320px;
+    }
+    .steps-section {
+        padding: 60px 40px;
+    }
+    .steps-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 40px;
+    }
+    .steps-image {
+        justify-content: center;
+    }
+    .testimonials-content {
+        flex-direction: column;
+        text-align: center;
+    }
+    .testimonials-text {
+        max-width: 100%;
+    }
+    .travel-container {
+        flex-direction: column;
+        gap: 40px;
+        text-align: center;
+    }
 }
 
 /* Móviles */
 @media (max-width: 768px) {
-    .hero-slider { height: 90vh; }
-    .content-wrapper { padding: 10vh 5vw; text-align: center; align-items: center; }
-    .location-name { font-size: 2.4em; }
+    .hero-slider {
+        height: 90vh;
+    }
+    .content-wrapper {
+        padding: 10vh 5vw;
+        text-align: center;
+        align-items: center;
+    }
+    .location-name {
+        font-size: 2.4em;
+    }
     .card-slider-container {
         position: static;
         transform: none;
@@ -626,28 +659,70 @@ body::before {
         width: 220px;
         height: 300px;
     }
-    .trending-destinations { padding: 3rem 4vw; }
-    .trending-gallery { gap: 1.2rem; }
-    .destination-card { width: 130px; }
-    .destination-card img { width: 130px; height: 180px; }
-    .steps-section { padding: 50px 20px; }
-    .steps-content { flex-direction: column; text-align: center; gap: 30px; }
-    .main-photo { width: 300px; }
-    .corner-image { width: 120px; top: -15px; left: -10px; }
-    .testimonials-section { padding: 60px 25px; }
-    .testimonial-card { max-width: 100%; }
-    .travel-section { padding: 60px 5%; }
-    .travel-videos { grid-template-columns: 1fr; gap: 25px; }
-    .video-item { height: 200px; }
+    .trending-destinations {
+        padding: 3rem 4vw;
+    }
+    .trending-gallery {
+        gap: 1.2rem;
+    }
+    .destination-card {
+        width: 130px;
+    }
+    .destination-card img {
+        width: 130px;
+        height: 180px;
+    }
+    .steps-section {
+        padding: 50px 20px;
+    }
+    .steps-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 30px;
+    }
+    .main-photo {
+        width: 300px;
+    }
+    .corner-image {
+        width: 120px;
+        top: -15px;
+        left: -10px;
+    }
+    .testimonials-section {
+        padding: 60px 25px;
+    }
+    .testimonial-card {
+        max-width: 100%;
+    }
+    .travel-section {
+        padding: 60px 5%;
+    }
+    .travel-videos {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+    .video-item {
+        height: 200px;
+    }
 }
 
 /* Extra pequeño */
 @media (max-width: 480px) {
-    .location-name { font-size: 1.8em; }
-    .location-area { font-size: 1em; }
-    .trending-header h2 { font-size: 1.4em; }
-    .steps-text h2, .testimonials-text h2, .travel-text h2 { font-size: 1.4em; }
-    .travel-text { min-width: auto; }
+    .location-name {
+        font-size: 1.8em;
+    }
+    .location-area {
+        font-size: 1em;
+    }
+    .trending-header h2 {
+        font-size: 1.4em;
+    }
+    .steps-text h2, .testimonials-text h2, .travel-text h2 {
+        font-size: 1.4em;
+    }
+    .travel-text {
+        min-width: auto;
+    }
 }
 
 

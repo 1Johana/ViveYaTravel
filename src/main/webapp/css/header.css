@@ -1,400 +1,219 @@
-/* Estilos generales */
-body {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-    /* ******************************************************************* */
-    /* IMPORTANTE: ELIMINAMOS el padding-top: 90px; del body */
-    /* ya que el header con position: absolute no oculta el contenido */
-    /* de la misma manera que con position: fixed. El contenido principal */
-    /* simplemente debe empezar justo después de la altura del header (90px) */
-    /* O empezar desde arriba si quieres que el header se superponga. */
-    /* Si el contenido principal comienza en la parte superior, no necesitas padding. */
-    /* Si el contenido principal viene DEBAJO del header, quita esta línea si está: */
-    /* padding-top: 90px; */ 
-}
-body::before {
-    content: none;
-    /* Igual a la altura del header */
-}
-/* ---------------------------------------------------------------------- */
+/* =================================
+   HEADER CSS - VERSIÓN "CRYSTAL CLEAR" (Más Transparente)
+   ================================= */
 
-/* Estilos para el header - MODIFICADO A POSITION: ABSOLUTE */
-.header {
-    position: relative;       /* Se queda en el flujo normal, no se mueve */
+/* 1. IMPORTAR FUENTES */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap');
+
+:root {
+    --color-accent: #F7B32B;        /* Dorado */
+    --color-white: #ffffff;
+    --color-text-dark: #333333;
+    --header-height: 80px;
+    --font-title: 'Montserrat', sans-serif;
+    --font-body: 'Open Sans', sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* --- CONTENEDOR PRINCIPAL --- */
+.main-header {
+    /* CAMBIO CLAVE: Mucha más transparencia (0.3 = 30% de color, 70% transparente) */
+    background-color: rgba(2, 12, 27, 0.3); 
+    
+    /* Aumentamos el desenfoque para que el texto se lea bien sobre el vidrio */
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    
     width: 100%;
-    height: 90px;             /* Altura del header */
-    background-color: transparent; /* Mantiene transparencia */
+    height: var(--header-height);
+    position: sticky;
+    top: 0;
+    z-index: 10000;
+    
+    /* Sombra más sutil para no oscurecer la imagen de abajo */
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); 
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15); /* Borde un poco más visible */
+    
     display: flex;
     align-items: center;
-    z-index: 10;
+    font-family: var(--font-title);
 }
 
-.contHeader {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    max-width: 1200px;
-    height: 90px; 
+.header-container {
+    max-width: 1280px; /* <-- CAMBIA ESTO A 1100px o 1000px */
+    width: 100%;
     margin: 0 auto;
-    padding: 0 20px;
-}
-
-/* ---------------------------------------------------------------------- */
-
-/* Cambios en la header */
-.logo {
-    transform: translate(-50px, 12px); /* mueve 30px a la izquierda y 10px hacia arriba */
-    z-index: 11;
-}
-
-img.logo {
-    width: 145px;
-    opacity: 0.8;
-}
-
-.usuario {
-    margin-left: 10px; 
-}
-
-.carrito {
-    display: flex;
-    align-items: center; /* centra verticalmente el ícono dentro del header */
-    font-size: 25px; /* tamaño del ícono */
-    color: #FFF;
-    margin-left:30px; /* separación del menú/usuario */
-}
-.carro i {
-    transform: translateY(-15px); /* mueve el ícono 5px hacia arriba */
-}
-
-.navbar {
-    padding-top: 0; 
-}
-
-/* Menú de navegación */
-.navbar nav ul.menu {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.navbar nav ul.menu li {
-    display: inline-block;
-    margin-right: 30px;
-}
-
-.navbar nav ul.menu li a {
-    text-decoration: none;
-    color: #fff;
-    font-weight: bold;
-    padding: 10px; 
-    border-radius: 5px;
-    transition: background-color 0.3s, color 0.3s;
-}
-
-/* Ajuste de íconos y texto de usuario para visibilidad en header oscuro */
-.usuario a {
-    color: white;
-    text-decoration: none;
-}
-
-.usuario i { /* Ícono de usuario invitado */
-    color: white;
-    font-size: 29px;
-    transition: color 0.3s;
-}
-
-.usuario i:hover {
-    color: #ddd;
-}
-
-
-.usuario-container {
+    padding: 0 30px;
     display: flex;
     align-items: center;
-    margin-left: 10px; 
+    justify-content: space-between;
 }
 
-.usuario-container .usuario {
-    margin-left: 150px;
-}
-
-.cerrar {
-    font-size: 25px;
-    color: #C40C0C;
-}
-
-/* *************************************************************** */
-/* Estilos para el menú desplegable del usuario LOGUEADO */
-/* *************************************************************** */
-
-.menu2 {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.menu2 > li > a {
+/* =========================================
+   GRUPO 1: IZQUIERDA (Logo + Menú)
+   ========================================= */
+.header-left-group {
     display: flex;
     align-items: center;
+    gap: 50px;
+}
+
+.logo img {
+    height: 55px;
+    width: auto;
+    transition: transform 0.3s ease;
+    vertical-align: middle;
+    /* Sombra fuerte para que el logo no se pierda en fondos claros */
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.6));
+}
+.logo img:hover { transform: scale(1.08); }
+
+/* --- NAVEGACIÓN --- */
+.navbar ul {
+    list-style: none; display: flex; align-items: center; gap: 30px; margin: 0; padding: 0;
+}
+
+.navbar a {
+    color: #ffffff; /* Blanco puro para máximo contraste */
     text-decoration: none;
-    color: #fff;
-}
-
-.menu2 .username {
-    margin-right: 5px;
-    font-weight: bold;
-}
-
-.menu2 .imagen {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    margin: 0 5px;
-}
-
-.menu2 > li {
+    font-weight: 700; 
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
     position: relative;
-    cursor: pointer;
-}
-
-.menu2 ul {
-    position: absolute;
-    display: none;
-    list-style: none;
     padding: 10px 0;
-    margin: 0;
-    background-color: rgba(8, 83, 148, 0.95); 
-    min-width: 200px;
-    right: 0;
-    top: 100%; 
-    border-radius: 5px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    z-index: 105; 
-}
-
-.menu2 li:hover > ul {
-    display: block;
-}
-
-.menu2 ul li a, .menu2 ul li label, .menu2 ul li button {
-    display: block;
-    padding: 8px 15px;
-    text-decoration: none;
-    color: #fff;
-    white-space: nowrap;
-    cursor: pointer;
-    transition: background-color 0.2s;
-}
-
-.menu2 ul li:hover a, .menu2 ul li:hover label, .menu2 ul li:hover button {
-    background-color: rgba(255, 255, 255, 0.1);
-}
-
-.menu2 ul li button {
-    width: 100%;
-    text-align: left;
-    color: #ff5050; 
-}
-
-.menu2 ul li.close a {
-    color: #fff; 
-}
-
-/* *************************************************************** */
-/* Estilos del MODAL */
-/* *************************************************************** */
-
-/* Ocultar el checkbox por defecto */
-#btn-modal {
-    display: none;
-}
-
-.container-modal {
-    width: 100%;
-    height: 100vh;
-    position: fixed;
-    top: 0;
-    left: 0;
-    background-color: rgba(0, 0, 0, 0.8);
-    display: none;
-    justify-content: center;
-    align-items: center;
-    z-index: 200; 
-}
-
-#btn-modal:checked ~ .container-modal {
-    display: flex;
-}
-
-.content-modal {
-    width: 90%;
-    max-width: 400px;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-    position: relative;
-}
-
-.content-modal h2 {
-    text-align: center;
-    color: #085394;
-    margin-bottom: 20px;
-}
-
-.btn-cerrar {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-}
-
-.btn-cerrar label {
-    font-size: 25px;
-    cursor: pointer;
-    color: #555;
-    transition: color 0.2s;
-}
-
-.btn-cerrar label:hover {
-    color: #000;
-}
-
-.cerrar-modal {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: -1;
-}
-
-/* Estilos de los inputs de actualización */
-.update {
-    position: relative;
-    margin-bottom: 20px;
-}
-
-.update input[type="text"],
-.update input[type="email"],
-.update input[type="password"] {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box;
-    font-size: 16px;
-}
-
-.update label {
-    position: absolute;
-    top: 50%;
-    left: 10px;
-    transform: translateY(-50%);
-    color: #999;
-    pointer-events: none;
-    transition: 0.3s ease all;
-}
-
-/* Efecto focus para el label */
-.update input:focus ~ label,
-.update input:valid ~ label {
-    top: 0;
-    left: 5px;
-    font-size: 12px;
-    color: #085394;
-    background-color: #fff;
-    padding: 0 5px;
-}
-
-#Actualizar {
-    width: 100%;
-    padding: 10px;
-    background-color: #085394;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s;
-}
-
-#Actualizar:hover {
-    background-color: #064070;
-}
-/*Narvar PROMOCIONES DEPLGABLE/*
-/* *************************************************************** */
-/* ESTILOS PARA EL MENÚ DESPLEGABLE DE TOURS */
-/* *************************************************************** */
-
-.navbar .dropdown-tours {
-    position: relative; /* Esencial para posicionar el sub-menú relativo al LI */
-}
-
-/* Ocultar el submenu por defecto */
-.navbar .submenu {
-    list-style: none;
-    padding: 0;
-    margin: 0;
     
-    position: absolute;
+    /* Sombra de texto REFORZADA: Vital para leerse sobre fotos claras */
+    text-shadow: 0 2px 5px rgba(0,0,0,0.8); 
+}
+
+/* Línea dorada */
+.navbar a::after {
+    content: ''; position: absolute; width: 0; height: 3px; bottom: 0; left: 0;
+    background-color: var(--color-accent); transition: width 0.3s ease;
+    box-shadow: 0 0 8px var(--color-accent);
+}
+.navbar a:hover::after { width: 100%; }
+.navbar a:hover {
+    color: var(--color-accent); /* El texto cambia a dorado al hover */
+    text-shadow: 0 0 15px rgba(0,0,0,0.9);
+}
+
+/* =========================================
+   GRUPO 2: DERECHA (Avatar + Carrito)
+   ========================================= */
+.acciones-usuario {
+    display: flex; align-items: center; gap: 25px;
+}
+
+/* --- CARRITO --- */
+.carrito a {
+    position: relative; display: flex; align-items: center; justify-content: center;
+    width: 42px; height: 42px; border-radius: 50%;
     
-    /* CAMBIO 1: Bajar el menú 5 píxeles adicionales */
-    top: calc(100% + 10px); 
-    /* Si quieres bajarlo más, puedes usar: top: calc(100% + 10px); */
+    /* Fondo un poco más visible para el botón */
+    background-color: rgba(0, 0, 0, 0.4); 
+    border: 1px solid rgba(255, 255, 255, 0.3);
     
-    left: 0;
-    
-    /* CAMBIO 2: Negro más transparente (valor alfa reducido a 0.7) */
-    background-color: rgba(34, 34, 34, 0.7); 
-    /* Si quieres aún más transparente, usa 0.5 */
-    
-    min-width: 180px; 
-    visibility: hidden; 
-    opacity: 0; 
-    transition: opacity 0.3s, visibility 0.3s;
-    border-radius: 0 0 5px 5px;
+    color: var(--color-white); transition: all 0.3s ease;
+}
+.carrito i { font-size: 18px; filter: drop-shadow(0 2px 2px rgba(0,0,0,0.5)); }
+.carrito a:hover {
+    background-color: var(--color-accent); color: #0f2027; border-color: var(--color-accent);
+    transform: translateY(-3px); box-shadow: 0 0 15px rgba(247, 179, 43, 0.6);
 }
 
-/* Mostrar el sub-menú al pasar el mouse sobre el LI padre */
-.navbar .dropdown-tours:hover > .submenu {
-    visibility: visible;
-    opacity: 1;
+/* --- USUARIO --- */
+.usuario-container { position: relative; }
+
+.usuario-logueado {
+    display: flex; align-items: center; gap: 12px; cursor: pointer;
+    padding: 5px 10px; border-radius: 30px; transition: background 0.3s;
+}
+.usuario-logueado:hover { background: rgba(255,255,255,0.1); }
+
+.username {
+    font-size: 14px; font-weight: 700; text-align: right; line-height: 1.2;
+    color: var(--color-white);
+    text-shadow: 0 2px 4px rgba(0,0,0,0.8); /* Sombra fuerte */
+}
+.username small {
+    display: block; font-family: var(--font-body); font-size: 10px;
+    font-weight: 600; opacity: 1; text-transform: uppercase; letter-spacing: 1px;
 }
 
-/* Estilos de los elementos del sub-menú */
-.navbar .submenu li {
-    display: block; /* Muestra las opciones en formato de bloque (una debajo de otra) */
-    margin: 0;
-    padding: 0;
+.avatar {
+    width: 46px; height: 46px; border-radius: 50%; object-fit: cover;
+    border: 2px solid rgba(255, 255, 255, 0.9);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    transition: transform 0.3s, border-color 0.3s;
+}
+.usuario-logueado:hover .avatar { transform: scale(1.05); border-color: var(--color-accent); }
+
+/* --- MENÚS DESPLEGABLES --- */
+.dropdown { position: relative; }
+
+.submenu, .dropdown-menu {
+    display: none; position: absolute; top: 140%;
+    background: var(--color-white);
+    min-width: 200px; border-radius: 8px; padding: 10px 0;
+    z-index: 1000; box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    overflow: hidden; opacity: 0; transform: translateY(15px);
+    transition: all 0.3s ease;
+}
+.submenu { left: 0; } .dropdown-menu { right: 0; top: 160%; }
+.submenu::before, .dropdown-menu::before {
+    content: ""; position: absolute; top: -6px; width: 12px; height: 12px;
+    background: var(--color-white); transform: rotate(45deg);
+}
+.submenu::before { left: 20px; } .dropdown-menu::before { right: 20px; }
+
+.dropdown:hover .submenu, .usuario-logueado:hover .dropdown-menu {
+    display: block; opacity: 1; transform: translateY(0); top: 110%; visibility: visible;
 }
 
-.navbar .submenu li a {
-    font-family: 'Butler', serif;
-    padding: 10px 15px; /* Relleno para que se vean bien */
-    display: block;
-    color: #fff;
-    text-decoration: none;
-    font-weight: normal; /* Normalizamos el peso de la fuente */
-    border-radius: 0; /* Quitamos el borde redondeado del hover del menú principal */
+.submenu li a, .dropdown-menu a {
+    display: flex; align-items: center; gap: 10px; padding: 12px 25px;
+    color: var(--color-text-dark); font-family: var(--font-body);
+    font-size: 14px; font-weight: 600; text-decoration: none;
+    transition: background 0.2s; border-left: 3px solid transparent;
+    text-shadow: none;
+}
+.submenu li a:hover, .dropdown-menu a:hover {
+    background-color: #f8f9fa; color: #003366;
+    border-left-color: var(--color-accent); padding-left: 30px;
+}
+.dropdown-menu .logout {
+    color: #c0392b; border-top: 1px solid #eee; margin-top: 5px; padding-top: 15px;
+}
+.dropdown-menu .logout:hover {
+    background-color: #fff5f5; color: #a93226; border-left-color: #e74c3c;
+}
+.dropdown-menu i, .submenu i { width: 18px; text-align: center; color: #888; }
+
+/* Botón Login */
+.btn-login {
+    font-family: var(--font-title); color: var(--color-white); text-decoration: none;
+    font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 1px;
+    border: 2px solid rgba(255, 255, 255, 0.8); /* Borde más visible */
+    border-radius: 30px; padding: 10px 25px; transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    text-shadow: 0 2px 4px rgba(0,0,0,0.8); /* Sombra fuerte */
+}
+.btn-login:hover {
+    background: var(--color-white); color: #0f2027;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.6); text-shadow: none;
 }
 
-.navbar .submenu li a:hover {
-    background-color: rgba(0, 0, 0, 0.1); /* Hover sutil */
-    color: #fff;
+/* Responsive */
+.menu-toggle { display: none; }
+@media (max-width: 980px) {
+    .header-left-group { gap: 20px; }
+    .navbar a { font-size: 12px; }
+    .username { display: none; }
 }
-
-/* Estilo para la flecha indicadora (opcional) */
-.down-arrow {
-    font-size: 10px;
-    margin-left: 5px;
-}
-/* *************************************************************** */
-/* REGLA CLAVE PARA MANTENER EL HOVER DE TOURS ACTIVADO */
-/* *************************************************************** */
-
-.navbar .dropdown-tours:hover > a {
-    /* Aplicar la sombra negra suave al enlace de TOURS (el hijo directo) */
-    background-color: rgba(0, 0, 0, 0.2); 
+@media (max-width: 768px) {
+    .navbar { display: none; }
 }
