@@ -45,6 +45,10 @@
         <servlet-name>srvReserva</servlet-name>
         <servlet-class>com.mycompany.viveyatravel.controladores.srvReserva</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ComprobantePDFServlet</servlet-name>
+        <servlet-class>com.mycompany.viveyatravel.controladores.ComprobantePDFServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Controlador</servlet-name>
         <url-pattern>/Controlador</url-pattern>
@@ -96,6 +100,10 @@
     <servlet-mapping>
         <servlet-name>srvReserva</servlet-name>
         <url-pattern>/srvReserva</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ComprobantePDFServlet</servlet-name>
+        <url-pattern>/ComprobantePDFServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>30</session-timeout>

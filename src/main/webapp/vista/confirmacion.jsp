@@ -136,6 +136,12 @@
             <div class="small mb-1 text-muted">Resumen enviado a tu correo (si aplica).</div>
             <div class="small">¡Gracias por tu compra! 🎉</div>
           </div>
+<a class="btn btn-outline-primary"
+   href="${pageContext.request.contextPath}/ComprobantePDF"
+   target="_blank">
+   Descargar comprobante (PDF)
+</a>
+
 
           <div class="d-grid gap-2 mt-2">
             <a class="btn btn-outline-secondary" href="${pageContext.request.contextPath}/srvPromocion">Seguir comprando</a>
