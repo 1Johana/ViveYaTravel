@@ -673,3 +673,4 @@ loadGame('snake');
 <jsp:include page="ADMIVista.jsp"/>
 </body>
 </html>
+

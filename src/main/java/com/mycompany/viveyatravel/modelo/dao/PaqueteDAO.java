@@ -192,6 +192,80 @@ public class PaqueteDAO {
         return promociones;
     }
 
+    /**
+     * Lista los paquetes INTERNACIONALES (categoria='I') con filtros.
+     */
+    public List listInt(String nombre, String precio, String orden) {
+        List<Paquete> internacional = new ArrayList<>();
+        List<Object> params = new ArrayList<>(); // Lista para los parámetros del PreparedStatement
+
+        //Consulta SQL base
+        String cadSQL = "SELECT idPaquete, nombrePaquete, descripcionPaquete, precioPaquete, imagen, categoria, detallePaquete FROM paquete WHERE categoria='I'";
+
+        // --- Construcción dinámica de la consulta ---
+        // 1. Filtro por Nombre
+        if (nombre != null && !nombre.isEmpty()) {
+            cadSQL += " AND nombrePaquete LIKE ?";
+            params.add("%" + nombre + "%");
+        }
+
+        // 2. Filtro por Precio
+        if (precio != null && !precio.isEmpty()) {
+            switch (precio) {
+                case "100":
+                    cadSQL += " AND precioPaquete < 100";
+                    break;
+                case "200":
+                    cadSQL += " AND precioPaquete >= 100 AND precioPaquete <= 200";
+                    break;
+                case "201":
+                    cadSQL += " AND precioPaquete > 200";
+                    break;
+            }
+        }
+
+        // 3. Ordenamiento
+        if (orden != null && !orden.isEmpty()) {
+            switch (orden) {
+                case "precio_asc":
+                    cadSQL += " ORDER BY precioPaquete ASC";
+                    break;
+                case "precio_desc":
+                    cadSQL += " ORDER BY precioPaquete DESC";
+                    break;
+                case "nombre_asc":
+                    cadSQL += " ORDER BY nombrePaquete ASC";
+                    break;
+            }
+        }
+
+        try {
+            cnx = cn.getConexion();
+            ps = cnx.prepareStatement(cadSQL);
+
+            // Asignar los parámetros dinámicos
+            for (int i = 0; i < params.size(); i++) {
+                ps.setObject(i + 1, params.get(i));
+            }
+
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Paquete tur = new Paquete();
+                tur.setIdPaquete(rs.getInt("idPaquete"));
+                tur.setNombrePaquete(rs.getString("nombrePaquete"));
+                tur.setDescripcionPaquete(rs.getString("descripcionPaquete"));
+                tur.setPrecioPaquete(rs.getDouble("precioPaquete"));
+                tur.setImagen(rs.getString("imagen"));
+                tur.setCategoria(rs.getString("categoria"));
+                tur.setDetallePaquete(rs.getString("detallePaquete"));
+                internacional.add(tur);
+            }
+        } catch (SQLException e) {
+            System.err.println("Error al listar paquetes (Tours) con filtros: " + e.getMessage());
+        }
+        return internacional;
+    }
+    
     //Lista de todo los paquetes
     public List lista() {
         List<Paquete> paquetes = new ArrayList<>();

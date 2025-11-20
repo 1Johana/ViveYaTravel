@@ -36,7 +36,6 @@ public class ConectarBD {
         ConectarBD cdb = new ConectarBD();
         Connection cnx = cdb.getConexion();
         System.out.println(""+cnx.getCatalog());
-        usuarioDAO dao = new usuarioDAO();
-        
+        usuarioDAO dao = new usuarioDAO();  
     }
 }

@@ -17,11 +17,13 @@ public class srvPromocion extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
     PaqueteDAO paqdao = new PaqueteDAO();
-    // Ya no necesitamos la lista de promociones como variable global
-    // List<Paquete> promociones = new ArrayList<>(); 
 
+    // =====================================================
+    // ENRUTADOR PRINCIPAL
+    // =====================================================
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
 
@@ -58,31 +60,37 @@ public class srvPromocion extends HttpServlet {
         }
     }
 
+    // =====================================================
+    // LISTAR PROMOCIONES (con filtros)
+    // =====================================================
     private void listarPromociones(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        // --- 1. Leer los parámetros de filtro ---
+
+        // 1. Leer filtros desde la request
         String filtroNombre = request.getParameter("nombre");
         String filtroPrecio = request.getParameter("precio");
-        String filtroOrden = request.getParameter("orden");
+        String filtroOrden  = request.getParameter("orden");
 
-        // --- 2. Llamar al DAO con los filtros (pueden ser null) ---
-        // Usamos el método list() que ahora acepta filtros
+        // 2. Llamar al DAO (pueden ser null)
         List<Paquete> promociones = paqdao.list(filtroNombre, filtroPrecio, filtroOrden);
 
-        // --- 3. Devolver los filtros al JSP (para "recordar" la selección) ---
+        // 3. Devolver filtros al JSP
         request.setAttribute("filtroNombre", filtroNombre);
         request.setAttribute("filtroPrecio", filtroPrecio);
         request.setAttribute("filtroOrden", filtroOrden);
-        
-        // --- 4. Enviar la lista (filtrada o completa) a la vista ---
+
+        // 4. Enviar lista
         request.setAttribute("promociones", promociones);
         request.getRequestDispatcher("/vista/promociones.jsp").forward(request, response);
     }
 
+    // =====================================================
+    // CARRITO: AGREGAR
+    // =====================================================
     @SuppressWarnings("unchecked")
     private void agregarAlCarrito(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         String idStr = request.getParameter("idPaquete");
         if (idStr == null || idStr.isEmpty()) {
             response.sendRedirect(request.getContextPath() + "/srvPromocion");
@@ -123,9 +131,13 @@ public class srvPromocion extends HttpServlet {
         response.sendRedirect(request.getContextPath() + "/srvPromocion?accion=verCarrito");
     }
 
+    // =====================================================
+    // CARRITO: ELIMINAR
+    // =====================================================
     @SuppressWarnings("unchecked")
     private void eliminarDelCarrito(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         String idStr = request.getParameter("idPaquete");
         if (idStr == null || idStr.isEmpty()) {
             response.sendRedirect(request.getContextPath() + "/srvPromocion?accion=verCarrito");
@@ -150,9 +162,9 @@ public class srvPromocion extends HttpServlet {
         response.sendRedirect(request.getContextPath() + "/srvPromocion?accion=verCarrito");
     }
 
-    // ================================
-    // 🚍 SELECCIÓN DE ASIENTOS
-    // ================================
+    // =====================================================
+    // VER ASIENTOS PARA UN PAQUETE
+    // =====================================================
     private void verAsientos(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
@@ -163,7 +175,14 @@ public class srvPromocion extends HttpServlet {
             }
             int idPaquete = Integer.parseInt(idPaqueteStr);
 
-            int idBus = 1; // ajustar si luego tienes un idBus real
+            // Por ahora: truco -> un solo bus (idBus = 1) salvo que luego mandes otro idBus por parámetro
+            int idBus = 1;
+            String idBusStr = request.getParameter("idBus");
+            if (idBusStr != null && !idBusStr.trim().isEmpty()) {
+                try {
+                    idBus = Integer.parseInt(idBusStr.trim());
+                } catch (NumberFormatException ignored) {}
+            }
 
             Paquete p = paqdao.get(idPaquete);
             if (p != null) {
@@ -185,12 +204,15 @@ public class srvPromocion extends HttpServlet {
         }
     }
 
+    // =====================================================
+    // SELECCIONAR ASIENTO (VERSIÓN ANTIGUA - 1 asiento)
+    // =====================================================
     @SuppressWarnings("unchecked")
     private void seleccionarAsiento(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
         try {
             int idAsiento = Integer.parseInt(request.getParameter("idAsiento"));
-            int idBus = Integer.parseInt(request.getParameter("idBus"));
+            int idBus     = Integer.parseInt(request.getParameter("idBus"));
             int idPaquete = Integer.parseInt(request.getParameter("idPaquete"));
 
             request.getSession().setAttribute("idAsiento", idAsiento);
@@ -199,7 +221,8 @@ public class srvPromocion extends HttpServlet {
             AsientoDAO adao = new AsientoDAO();
             Asiento asiento = adao.obtener(idAsiento);
             if (asiento != null) {
-                request.getSession().setAttribute("numeroAsiento", asiento.getNumeroAsiento());
+                // En tu JSP usas a.getNumero(), así que aquí lo más seguro es getNumero()
+                request.getSession().setAttribute("numeroAsiento", asiento.getNumero());
             }
 
             Paquete paquete = paqdao.get(idPaquete);
@@ -222,6 +245,7 @@ public class srvPromocion extends HttpServlet {
                 request.getSession().setAttribute("carrito", carrito);
             }
 
+            // Flujo antiguo: te manda a pago.jsp
             response.sendRedirect(request.getContextPath() + "/vista/pago.jsp");
         } catch (Exception e) {
             e.printStackTrace();
@@ -230,61 +254,108 @@ public class srvPromocion extends HttpServlet {
     }
 
     // =====================================================
-    // ✅ CONFIRMAR PAGO — ocupa asiento + persiste reserva
+    // ✅ CONFIRMAR PAGO — MULTIASIENTOS / MULTIPASAJEROS
     // =====================================================
     private void confirmarPago(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
         try {
-            Integer idAsiento = null;
-            try { idAsiento = Integer.valueOf(request.getParameter("idAsiento")); } catch (Exception ignored) {}
-            if (idAsiento == null || idAsiento == 0) {
-                Object obj = request.getSession().getAttribute("idAsiento");
-                if (obj instanceof Integer) idAsiento = (Integer) obj;
+            HttpSession ses = request.getSession(false);
+
+            // 1) Leer idAsiento como CSV: "12,14,15" (nuevo flujo)
+            String idsAsientosCSV = request.getParameter("idAsiento");
+
+            // Si viene vacío, intentamos compat con flujo antiguo (un solo asiento en sesión)
+            if ((idsAsientosCSV == null || idsAsientosCSV.trim().isEmpty()) && ses != null) {
+                Object obj = ses.getAttribute("idAsiento");
+                if (obj != null) {
+                    idsAsientosCSV = String.valueOf(obj); // ej. "12"
+                }
             }
 
+            if (idsAsientosCSV == null || idsAsientosCSV.trim().isEmpty()) {
+                request.setAttribute("ok", false);
+                request.setAttribute("mensaje", "No se detectaron asientos seleccionados.");
+                request.getRequestDispatcher("/vista/confirmacion.jsp").forward(request, response);
+                return;
+            }
+
+            String[] tokens = idsAsientosCSV.split(",");
+            List<Integer> idAsientos = new ArrayList<>();
+            for (String t : tokens) {
+                if (t == null) continue;
+                t = t.trim();
+                if (t.isEmpty()) continue;
+                try {
+                    idAsientos.add(Integer.parseInt(t));
+                } catch (NumberFormatException ignored) {}
+            }
+
+            if (idAsientos.isEmpty()) {
+                request.setAttribute("ok", false);
+                request.setAttribute("mensaje", "Los asientos enviados no son válidos.");
+                request.getRequestDispatcher("/vista/confirmacion.jsp").forward(request, response);
+                return;
+            }
+
+            // 2) Números de asiento (solo para mostrar en la confirmación)
+            String numerosAsientosCSV = request.getParameter("numeroAsiento");
+            if (numerosAsientosCSV != null && !numerosAsientosCSV.trim().isEmpty()) {
+                request.setAttribute("numeroAsiento", numerosAsientosCSV);
+                if (ses != null) {
+                    ses.setAttribute("numeroAsiento", numerosAsientosCSV);
+                }
+            }
+
+            // 3) Cantidad de pasajeros
+            int cantidadPasajeros = 1;
+            String cantStr = request.getParameter("cantidadPasajeros");
+            if (cantStr != null && !cantStr.isEmpty()) {
+                try {
+                    cantidadPasajeros = Integer.parseInt(cantStr);
+                } catch (NumberFormatException ignored) {}
+            }
+            request.setAttribute("cantidadPasajeros", cantidadPasajeros);
+
+            // Solo validamos estrictamente si el JSP mandó cantidadPasajeros
+            if (cantStr != null && !cantStr.isEmpty()) {
+                if (cantidadPasajeros > 0 && idAsientos.size() != cantidadPasajeros) {
+                    request.setAttribute("ok", false);
+                    request.setAttribute("mensaje",
+                            "La cantidad de asientos seleccionados no coincide con la cantidad de pasajeros.");
+                    request.getRequestDispatcher("/vista/confirmacion.jsp").forward(request, response);
+                    return;
+                }
+            }
+
+            // 4) idPaquete
             Integer idPaquete = null;
-            try { idPaquete = Integer.valueOf(request.getParameter("idPaquete")); } catch (Exception ignored) {}
+            try {
+                idPaquete = Integer.valueOf(request.getParameter("idPaquete"));
+            } catch (Exception ignored) {}
 
-            String numeroAsiento = request.getParameter("numeroAsiento");
-            if (numeroAsiento != null && !numeroAsiento.isEmpty()) {
-                request.setAttribute("numeroAsiento", numeroAsiento);
-                request.getSession().setAttribute("numeroAsiento", numeroAsiento);
-            }
-
+            // 5) Totales
             double subtotal = parseDoubleSafe(request.getParameter("subtotal"));
             double extras   = parseDoubleSafe(request.getParameter("extrasTotal"));
             double seguro   = parseDoubleSafe(request.getParameter("seguroPrecio"));
             double mascota  = parseDoubleSafe(request.getParameter("mascotaPrecio"));
             double total    = parseDoubleSafe(request.getParameter("total"));
-            request.setAttribute("subtotal", subtotal);
-            request.setAttribute("extras", extras);
-            request.setAttribute("seguro", seguro);
-            request.setAttribute("mascota", mascota);
-            request.setAttribute("total", total);
 
+            request.setAttribute("subtotal", subtotal);
+            request.setAttribute("extras",   extras);
+            request.setAttribute("seguro",   seguro);
+            request.setAttribute("mascota",  mascota);
+            request.setAttribute("total",    total);
+
+            // Nombre del paquete
             if (idPaquete != null) {
                 Paquete px = paqdao.get(idPaquete);
-                if (px != null) request.setAttribute("nombrePaquete", px.getNombrePaquete());
+                if (px != null) {
+                    request.setAttribute("nombrePaquete", px.getNombrePaquete());
+                }
             }
 
-            if (idAsiento == null || idAsiento == 0) {
-                request.setAttribute("ok", false);
-                request.setAttribute("mensaje", "No se detectó asiento seleccionado.");
-                request.getRequestDispatcher("/vista/confirmacion.jsp").forward(request, response);
-                return;
-            }
-
-            AsientoDAO adao = new AsientoDAO();
-            boolean ocupado = adao.ocuparAsiento(idAsiento);
-            if (!ocupado) {
-                request.setAttribute("ok", false);
-                request.setAttribute("mensaje", "El asiento ya fue ocupado, elige otro.");
-                request.getRequestDispatcher("/vista/confirmacion.jsp").forward(request, response);
-                return;
-            }
-
+            // 6) Obtener idUsuario desde la sesión
             Integer idUsuario = null;
-            HttpSession ses = request.getSession(false);
             if (ses != null) {
                 Object o1 = ses.getAttribute("idUsuario");
                 if (o1 instanceof Integer) idUsuario = (Integer) o1;
@@ -318,16 +389,41 @@ public class srvPromocion extends HttpServlet {
                 }
             }
 
-            if (idUsuario != null && idUsuario > 0 && idPaquete != null && idPaquete > 0) {
-                ReservaDAO rdao = new ReservaDAO();
-                int idReserva = rdao.crear(idUsuario, idPaquete, idAsiento, "PAGADO");
-                if (idReserva > 0) {
-                    request.setAttribute("idReserva", idReserva);
+            // 7) Ocupar asientos + crear reservas
+            AsientoDAO adao = new AsientoDAO();
+            ReservaDAO rdao = new ReservaDAO();
+            List<Integer> reservasCreadas = new ArrayList<>();
+
+            for (Integer idAsiento : idAsientos) {
+                if (idAsiento == null || idAsiento <= 0) continue;
+
+                boolean ocupado = adao.ocuparAsiento(idAsiento);
+                if (!ocupado) {
+                    request.setAttribute("ok", false);
+                    request.setAttribute("mensaje",
+                            "Uno de los asientos seleccionados ya fue ocupado. Por favor, vuelve a elegir.");
+                    request.getRequestDispatcher("/vista/confirmacion.jsp").forward(request, response);
+                    return;
+                }
+
+                if (idUsuario != null && idUsuario > 0 && idPaquete != null && idPaquete > 0) {
+                    int idReserva = rdao.crear(idUsuario, idPaquete, idAsiento, "PAGADO");
+                    if (idReserva > 0) {
+                        reservasCreadas.add(idReserva);
+                    }
                 }
             }
 
+            if (!reservasCreadas.isEmpty()) {
+                // Para compatibilidad con vistas que solo muestran una
+                request.setAttribute("idReserva", reservasCreadas.get(0));
+                // Y también todas (por si luego quieres mostrarlas)
+                request.setAttribute("reservasIds", reservasCreadas);
+            }
+
             request.setAttribute("ok", true);
-            request.setAttribute("mensaje", "¡Pago confirmado! Asiento reservado correctamente.");
+            request.setAttribute("mensaje",
+                    "¡Pago confirmado! Se han reservado " + idAsientos.size() + " asiento(s) correctamente.");
             request.getRequestDispatcher("/vista/confirmacion.jsp").forward(request, response);
 
         } catch (Exception e) {
@@ -336,13 +432,20 @@ public class srvPromocion extends HttpServlet {
         }
     }
 
+    // =====================================================
+    // Utilidad para parsear double sin romper
+    // =====================================================
     private double parseDoubleSafe(String s) {
-        try { return (s == null || s.isEmpty()) ? 0.0 : Double.parseDouble(s); }
-        catch (Exception e) { return 0.0; }
+        try {
+            return (s == null || s.isEmpty()) ? 0.0 : Double.parseDouble(s);
+        } catch (Exception e) {
+            return 0.0;
+        }
     }
 
     // =====================================================
-
+    // MÉTODOS HTTP
+    // =====================================================
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -357,6 +460,6 @@ public class srvPromocion extends HttpServlet {
 
     @Override
     public String getServletInfo() {
-        return "Servlet para promociones, carrito y selección de asientos";
+        return "Servlet para promociones, carrito, selección de asientos y pago (multi-pasajero)";
     }
 }
