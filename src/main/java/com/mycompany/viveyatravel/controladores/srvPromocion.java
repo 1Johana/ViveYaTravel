@@ -50,12 +50,9 @@ public class srvPromocion extends HttpServlet {
                     confirmarPago(request, response);
                     break;
                 default:
-                    // La acción por defecto (y cualquier otra no reconocida)
-                    // ahora también soporta filtros (o la falta de ellos)
                     listarPromociones(request, response);
             }
         } else {
-            // Si no hay acción, es la carga inicial de la página
             listarPromociones(request, response);
         }
     }
@@ -66,20 +63,16 @@ public class srvPromocion extends HttpServlet {
     private void listarPromociones(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        // 1. Leer filtros desde la request
         String filtroNombre = request.getParameter("nombre");
         String filtroPrecio = request.getParameter("precio");
         String filtroOrden  = request.getParameter("orden");
 
-        // 2. Llamar al DAO (pueden ser null)
         List<Paquete> promociones = paqdao.list(filtroNombre, filtroPrecio, filtroOrden);
 
-        // 3. Devolver filtros al JSP
         request.setAttribute("filtroNombre", filtroNombre);
         request.setAttribute("filtroPrecio", filtroPrecio);
         request.setAttribute("filtroOrden", filtroOrden);
 
-        // 4. Enviar lista
         request.setAttribute("promociones", promociones);
         request.getRequestDispatcher("/vista/promociones.jsp").forward(request, response);
     }
@@ -175,7 +168,6 @@ public class srvPromocion extends HttpServlet {
             }
             int idPaquete = Integer.parseInt(idPaqueteStr);
 
-            // Por ahora: truco -> un solo bus (idBus = 1) salvo que luego mandes otro idBus por parámetro
             int idBus = 1;
             String idBusStr = request.getParameter("idBus");
             if (idBusStr != null && !idBusStr.trim().isEmpty()) {
@@ -221,7 +213,6 @@ public class srvPromocion extends HttpServlet {
             AsientoDAO adao = new AsientoDAO();
             Asiento asiento = adao.obtener(idAsiento);
             if (asiento != null) {
-                // En tu JSP usas a.getNumero(), así que aquí lo más seguro es getNumero()
                 request.getSession().setAttribute("numeroAsiento", asiento.getNumero());
             }
 
@@ -245,7 +236,6 @@ public class srvPromocion extends HttpServlet {
                 request.getSession().setAttribute("carrito", carrito);
             }
 
-            // Flujo antiguo: te manda a pago.jsp
             response.sendRedirect(request.getContextPath() + "/vista/pago.jsp");
         } catch (Exception e) {
             e.printStackTrace();
@@ -261,10 +251,10 @@ public class srvPromocion extends HttpServlet {
         try {
             HttpSession ses = request.getSession(false);
 
-            // 1) Leer idAsiento como CSV: "12,14,15" (nuevo flujo)
+            // 1) Leer idAsiento como CSV: "12,14,15"
             String idsAsientosCSV = request.getParameter("idAsiento");
 
-            // Si viene vacío, intentamos compat con flujo antiguo (un solo asiento en sesión)
+            // Compatibilidad con flujo antiguo (un solo asiento en sesión)
             if ((idsAsientosCSV == null || idsAsientosCSV.trim().isEmpty()) && ses != null) {
                 Object obj = ses.getAttribute("idAsiento");
                 if (obj != null) {
@@ -297,12 +287,13 @@ public class srvPromocion extends HttpServlet {
                 return;
             }
 
-            // 2) Números de asiento (solo para mostrar en la confirmación)
+            // 2) Números de asiento (para pantalla y PDF)
             String numerosAsientosCSV = request.getParameter("numeroAsiento");
             if (numerosAsientosCSV != null && !numerosAsientosCSV.trim().isEmpty()) {
                 request.setAttribute("numeroAsiento", numerosAsientosCSV);
                 if (ses != null) {
                     ses.setAttribute("numeroAsiento", numerosAsientosCSV);
+                    ses.setAttribute("pdfNumeroAsiento", numerosAsientosCSV);
                 }
             }
 
@@ -316,7 +307,6 @@ public class srvPromocion extends HttpServlet {
             }
             request.setAttribute("cantidadPasajeros", cantidadPasajeros);
 
-            // Solo validamos estrictamente si el JSP mandó cantidadPasajeros
             if (cantStr != null && !cantStr.isEmpty()) {
                 if (cantidadPasajeros > 0 && idAsientos.size() != cantidadPasajeros) {
                     request.setAttribute("ok", false);
@@ -346,11 +336,41 @@ public class srvPromocion extends HttpServlet {
             request.setAttribute("mascota",  mascota);
             request.setAttribute("total",    total);
 
-            // Nombre del paquete
+            // ===== Datos para el comprobante PDF (sesión) =====
+            if (ses != null) {
+                // Detalle de compra: usamos el carrito como "compra reciente"
+                Object carritoObj = ses.getAttribute("carrito");
+                if (carritoObj instanceof List<?>) {
+                    @SuppressWarnings("unchecked")
+                    List<Paquete> compraReciente =
+                            new ArrayList<>((List<Paquete>) carritoObj);
+                    ses.setAttribute("compraReciente", compraReciente);
+                }
+
+                ses.setAttribute("pdfSubtotal", subtotal);
+                ses.setAttribute("pdfExtras",   extras);
+                ses.setAttribute("pdfSeguro",   seguro);
+                ses.setAttribute("pdfMascota",  mascota);
+                ses.setAttribute("pdfTotal",    total);
+                ses.setAttribute("totalPagado", total);
+
+                // N° de operación para el PDF
+                String orderId = (String) ses.getAttribute("orderId");
+                if (orderId == null || orderId.trim().isEmpty()) {
+                    orderId = "ORD-" + System.currentTimeMillis();
+                    ses.setAttribute("orderId", orderId);
+                }
+            }
+
+            // ===== Nombre del paquete (para la vista y para el PDF) =====
             if (idPaquete != null) {
                 Paquete px = paqdao.get(idPaquete);
                 if (px != null) {
                     request.setAttribute("nombrePaquete", px.getNombrePaquete());
+                    if (ses != null) {
+                        ses.setAttribute("pdfNombrePaquete", px.getNombrePaquete());
+                        ses.setAttribute("pdfPrecioPaquete", px.getPrecioPaquete());
+                    }
                 }
             }
 
@@ -415,9 +435,7 @@ public class srvPromocion extends HttpServlet {
             }
 
             if (!reservasCreadas.isEmpty()) {
-                // Para compatibilidad con vistas que solo muestran una
                 request.setAttribute("idReserva", reservasCreadas.get(0));
-                // Y también todas (por si luego quieres mostrarlas)
                 request.setAttribute("reservasIds", reservasCreadas);
             }
 
