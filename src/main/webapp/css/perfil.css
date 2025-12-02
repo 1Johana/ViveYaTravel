@@ -9,6 +9,8 @@ body {
     display: flex;
     height: 100vh;
 }
+
+/* --- SIDEBAR --- */
 .sidebar {
     width: 250px;
     background-color: #1e1e2f;
@@ -27,6 +29,7 @@ body {
     background: none;
     text-align: left;
     cursor: pointer;
+    font-size: 16px; /* Asegura tamaño legible */
 }
 .sidebar a:hover, .sidebar form button:hover {
     background-color: #2f2f45;
@@ -36,6 +39,8 @@ body {
     background-color: #0073aa;
     font-weight: bold;
 }
+
+/* --- CONTENIDO PRINCIPAL --- */
 .main-content {
     flex: 1;
     background-color: #ffffff;
@@ -44,14 +49,21 @@ body {
     transition: display 0.2s ease;
 }
 
-/* --- 1. ARREGLO DE LAYOUT (Avatar y Nombre) --- */
+/* --- HEADER DEL PERFIL (Avatar + Nombre) --- */
 .profile-header {
-    display: flex;         /* ¡ESTO ARREGLA EL LAYOUT! */
-    align-items: center;   /* Alinea verticalmente avatar y texto */
-    gap: 25px;         /* Espacio entre avatar y texto */
+    display: flex;         /* CRÍTICO: Alinea avatar y texto horizontalmente */
+    align-items: center;   
+    gap: 25px;             
     margin-bottom: 30px;
 }
 
+/* Contenedor relativo para el menú del avatar */
+.avatar-container {
+    position: relative;
+    flex-shrink: 0;
+}
+
+/* El Círculo de la Foto */
 .profile-photo {
     width: 120px;
     height: 120px;
@@ -64,56 +76,39 @@ body {
     box-shadow: 0 0 10px rgba(0, 115, 170, 0.2);
     transition: transform 0.3s, box-shadow 0.3s;
     overflow: hidden;
-    flex-shrink: 0;
+    position: relative; /* Para el overlay */
 }
 .profile-photo:hover {
     transform: scale(1.05);
     box-shadow: 0 0 10px rgba(0, 115, 170, 0.5);
 }
 
-/* --- 2. ARREGLO DE VISTA PREVIA INFERIOR --- */
-#preview {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    margin-top: 15px;
-    object-fit: cover;
-    border: 3px solid #0073aa;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-
-    /* ¡CLAVE! Oculto por defecto. JS lo muestra. */
-    display: none;
-}
-
-/* --- 3. ARREGLO DE MENÚ DE AVATAR Y CÁMARA --- */
-.avatar-container {
-    position: relative;
-    flex-shrink: 0;
-}
+/* Ícono de cámara sobre el avatar */
 .avatar-overlay {
     position: absolute;
-    bottom: 5px;
-    right: 5px;
-    width: 40px;
-    height: 40px;
-    background-color: rgba(0, 0, 0, 0.75);
+    bottom: 0;
+    right: 0;
+    width: 100%;       /* Cubre todo al hacer hover, o ajusta si quieres solo un icono */
+    height: 100%;      /* Cubre todo */
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro transparente */
     color: #fff;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 18px;
-    opacity: 0;
-    transition: opacity 0.2s ease, transform 0.2s ease;
+    font-size: 24px;
+    opacity: 0;        /* Oculto por defecto */
+    transition: opacity 0.2s ease;
 }
 .profile-photo:hover .avatar-overlay {
-    opacity: 1;
-    transform: scale(1.1);
+    opacity: 1;        /* Visible al pasar el mouse */
 }
+
+/* --- MENÚ DESPLEGABLE DEL AVATAR (Subir/Eliminar) --- */
 .avatar-menu {
     display: none;
     position: absolute;
-    top: 105%;
+    top: 110%; /* Debajo del avatar */
     left: 0;
     background: #fff;
     border-radius: 8px;
@@ -137,11 +132,11 @@ body {
     background-color: #f5f5f5;
 }
 .avatar-menu a i {
-    width: 15px;
+    width: 20px;
     text-align: center;
     color: #555;
 }
-.avatar-menu a:last-child {
+.avatar-menu a:last-child { /* Botón Eliminar */
     color: #c0392b;
 }
 .avatar-menu a:last-child i {
@@ -151,8 +146,7 @@ body {
     background-color: #fdecea;
 }
 
-
-/* --- SECCIÓN DE FORMULARIO (Sin cambios) --- */
+/* --- FORMULARIO DE EDICIÓN --- */
 .profile-section {
     margin-top: 30px;
     border-top: 1px solid #ddd;
@@ -190,7 +184,19 @@ body {
     background-color: #005f87;
 }
 
-/* --- ESTILOS DEL MODAL (Sin cambios) --- */
+/* --- VISTA PREVIA (Debajo del input oculto) --- */
+#preview {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    margin-top: 15px;
+    object-fit: cover;
+    border: 3px solid #ddd;
+    background-color: #f9f9f9;
+    display: none; /* Oculto hasta que se seleccione algo */
+}
+
+/* --- MODAL CAMBIAR CONTRASEÑA --- */
 .modal {
     display: none;
     position: fixed;
@@ -229,10 +235,8 @@ body {
     cursor: pointer;
     transition: color 0.2s ease;
 }
-.close-btn:hover,
-.close-btn:focus {
+.close-btn:hover {
     color: #333;
-    transform: rotate(90deg);
 }
 .modal-content form {
     display: grid;
@@ -244,49 +248,26 @@ body {
     font-weight: bold;
     margin-bottom: 5px;
     color: #555;
-    font-size: 0.95em;
 }
 .modal-content input[type="password"] {
     width: 100%;
     padding: 12px;
     border: 1px solid #ccc;
     border-radius: 6px;
-    font-size: 1em;
     box-sizing: border-box;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-.modal-content input[type="password"]:focus {
-    border-color: #0073aa;
-    box-shadow: 0 0 5px rgba(0, 115, 170, 0.3);
-    outline: none;
 }
 .modal-content .save-btn {
-    margin-top: 25px;
-    width: auto;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 12px 30px;
-    font-size: 1.1em;
-    border-radius: 8px;
-    background-color: #0073aa;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.2s ease, transform 0.2s ease;
+    margin-top: 20px;
+    width: 100%;
 }
-.modal-content .save-btn:hover {
-    background-color: #005f87;
-    transform: translateY(-2px);
-}
+
+/* Mensajes de validación */
 .msg {
     margin-top: 15px;
     padding: 10px;
     border-radius: 5px;
     font-weight: bold;
     text-align: center;
-    opacity: 1;
-    transition: opacity 0.4s ease;
 }
 .msg.error {
     background: #ffe1e1;
@@ -296,12 +277,14 @@ body {
     background: #e0ffe4;
     color: #007a33;
 }
+
+/* --- RESPONSIVE --- */
 @media (max-width: 768px) {
-    .modal-content {
-        max-width: 90%;
-        padding: 20px;
+    .profile-header {
+        flex-direction: column;
+        text-align: center;
     }
-    .modal-content h2 {
-        font-size: 1.5em;
+    .modal-content {
+        width: 95%;
     }
 }

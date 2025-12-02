@@ -1,259 +1,192 @@
-/* === FONDO === */
-body, html {
+/* =================================
+   LOGIN PREMIUM - DISEÑO CENTRADO (Glassmorphism)
+   ================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;600&display=swap');
+
+:root {
+    --color-primary: #003366;       /* Azul Institucional */
+    --color-accent: #F7B32B;        /* Dorado */
+    --color-white: #ffffff;
+    --font-title: 'Montserrat', sans-serif;
+    --font-body: 'Open Sans', sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
     margin: 0;
     padding: 0;
-    height: 100%;
-    font-family: Arial, sans-serif;
-    overflow: hidden;
-}
-
-.background-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    z-index: -3;
-}
-
-.background-container img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-}
-
-.background-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.2);
-    z-index: -2;
-}
-
-/* --- */
-
-/* === CONTENIDO PRINCIPAL === */
-.main-content-wrapper {
-    position: relative;
-    z-index: 10;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    font-family: var(--font-body);
     height: 100vh;
     width: 100%;
-    padding: 80px;
-    box-sizing: border-box;
-    color: white;
-}
-
-.welcome-area {
-    flex: 1;
-    max-width: 50%;
-    padding-right: 40px;
-}
-
-.welcome-text {
-    font-size: 4.5vw;
-    font-weight: bold;
-    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8);
-    margin: 0;
-}
-
-.login-area {
-    flex: 1;
-    max-width: 400px;
+    overflow: hidden; /* Sin barras de desplazamiento */
+    
+    /* CENTRADO ABSOLUTO */
     display: flex;
-    flex-direction: column;
     align-items: center;
+    justify-content: center;
+    
+    /* FONDO DE PANTALLA (Asegúrate de que la imagen exista) */
+    background: url('../img/viveya_fondologin.jpg') no-repeat center center/cover;
+    position: relative;
 }
 
-.login-box {
-    /* Mantenemos el estilo de la caja de login para el fondo semi-transparente */
+/* Capa oscura para que el texto blanco resalte */
+body::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(2, 12, 27, 0.85), rgba(0, 51, 102, 0.7));
+    z-index: 1;
+}
+
+/* --- TARJETA FLOTANTE DE VIDRIO --- */
+.login-card {
+    position: relative;
+    z-index: 2; /* Encima de la capa oscura */
+    
+    /* Efecto Vidrio */
     background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(3px);
-    border-radius: 12px;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+    
     width: 100%;
-    padding: 30px 40px;
-    /* Cambiamos el color de texto a blanco para que resalte sobre el fondo */
-    color: white; /* <--- CAMBIO: Color base de la caja a blanco */
-}
-
-/* --- */
-
-/* === TÍTULO: Inicio de Sesión === */
-.login-title {
-    font-size: 36px;
-    margin-bottom: 25px;
+    max-width: 420px; /* Ancho ideal */
+    padding: 50px 40px;
+    border-radius: 24px;
     text-align: center;
-    /* CAMBIO 1: Color anaranjado suave (#FFAB40) y más grueso (bold) */
-    color: #D9FFF1; /* Anaranjado suave */
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
-     font-family: 'DM Serif Display', serif; 
-    font-weight: bold; /* Letras más gruesas */
-}
-/* --- */
-
-.form-group {
-    margin-bottom: 20px;
-    text-align: left;
+    color: var(--color-white);
+    
+    /* Animación de entrada suave */
+    animation: floatUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-/* Etiqueta del campo (Correo Electrónico/Contraseña) */
-.form-label-custom {
-    display: block;
-    color: #ffffff; /* Blanco puro */
-    font-weight: 600;
-    margin-bottom: 5px;
+@keyframes floatUp {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- CABECERA --- */
+.login-header h2 {
+    font-family: var(--font-title);
+    font-size: 32px;
+    margin-bottom: 10px;
+    font-weight: 800;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+.login-header p {
     font-size: 15px;
-    letter-spacing: 0.3px;
-    font-family: 'Times New Roman', Times, serif;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 5); /* 🔹 sombra negra difuminada */
+    opacity: 0.9;
+    margin-bottom: 35px;
+    font-weight: 400;
 }
-/* --- */
 
-/* === CAMPOS DE ENTRADA (input) === */
-.form-control-custom {
+/* --- INPUTS MODERNOS --- */
+.input-group {
+    position: relative;
+    margin-bottom: 25px;
+}
+
+.input-group i {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-white);
+    font-size: 18px;
+    opacity: 0.8;
+    transition: 0.3s;
+}
+
+.input-group input {
     width: 100%;
-    padding: 8px 0;
-    /* Eliminamos el fondo y los bordes para dejar solo la línea inferior como la primera imagen */
-    border: none;
-    border-bottom: 2px solid rgba(255, 255, 255, 0.6); /* Línea inferior blanca suave */
-    background-color: transparent; /* Fondo transparente */
-    color: white; /* CAMBIO 3: Texto del input en blanco intenso */
-    font-size: 16px;
+    padding: 15px 20px 15px 50px; /* Espacio para el icono */
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50px; /* Redondos */
+    color: var(--color-white);
+    font-size: 15px;
+    font-family: var(--font-body);
     outline: none;
-    transition: border-bottom-color 0.3s;
+    transition: all 0.3s ease;
 }
 
-/* Estado Focus (cuando el usuario está escribiendo) */
-.form-control-custom:focus {
-    /* La línea inferior se vuelve más intensa al hacer focus */
-    border-bottom-color: white; /* Blanco intenso al enfocar */
+.input-group input::placeholder { color: rgba(255, 255, 255, 0.7); }
+
+.input-group input:focus {
+    background: rgba(255, 255, 255, 0.25);
+    border-color: var(--color-accent);
+    box-shadow: 0 0 20px rgba(247, 183, 49, 0.3);
+}
+.input-group input:focus + i {
+    color: var(--color-accent);
+    opacity: 1;
 }
 
-/* Aseguramos que el placeholder (texto de ejemplo) también sea visible */
-.form-control-custom::placeholder {
-    color: rgba(255, 255, 255, 0.4);
-}
-/* --- */
-
-
+/* --- BOTÓN "INGRESAR" (Estilo Turbo) --- */
 .btn-submit {
     width: 100%;
-    padding: 12px;
+    padding: 15px;
     border: none;
-    border-radius: 25px;
-    background-color: #00bcd4;
-    color: white;
-    font-size: 17px;
-    font-weight: bold;
+    border-radius: 50px;
+    
+    background: linear-gradient(to right, #F7B32B 0%, #FFD200 51%, #F7B32B 100%);
+    background-size: 200% auto;
+    
+    color: #003366;
+    font-family: var(--font-title);
+    font-weight: 800;
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
     cursor: pointer;
-    margin-top: 20px;
+    
+    box-shadow: 0 5px 20px rgba(247, 179, 43, 0.4);
+    transition: all 0.4s ease;
+    margin-top: 10px;
 }
 
 .btn-submit:hover {
-    background-color: #009bb1;
+    background-position: right center;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(247, 179, 43, 0.6);
 }
 
-/* Enlaces */
-.login-links {
-    margin-top: 20px;
-    text-align: center;
+/* --- FOOTER DE LA TARJETA --- */
+.login-footer {
+    margin-top: 30px;
+    font-size: 14px;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 15px;
 }
 
-.login-links a {
+.login-footer a {
+    color: rgba(255, 255, 255, 0.9);
     text-decoration: none;
-    color: #789AD4;
-    font-size: 15px;
-    font-weight: 600; /* Texto más grueso */
-    transition: color 0.3s ease;
+    transition: color 0.3s;
+    font-weight: 600;
 }
+.login-footer a:hover { color: var(--color-accent); }
 
-.login-links a:hover {
-    color: #334BFF;
-    text-decoration: underline;
-}
-
-/* === ALERTS (Opcional: asegurar que los mensajes de error/éxito se vean bien) === */
-.alert-messages {
+.divider {
+    height: 1px;
+    background: rgba(255,255,255,0.2);
     width: 100%;
-    margin-bottom: 15px;
-}
-.alert-messages {
-    position: absolute;           
-    top: 20px;                    /* Distancia desde la parte superior */
-    left: 50%;                    /* Centrado horizontal */
-    transform: translateX(-50%);  /* Ajuste exacto al centro */
-    z-index: 50;
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    pointer-events: none;         /* Evita interferir con clics */
 }
 
+/* Alertas */
+.alert-messages { width: 100%; margin-bottom: 20px; }
 .custom-alert {
-    width: auto;
-    min-width: 280px;
-    max-width: 400px;             /* Evita que se estire demasiado */
-    background-color: rgba(255, 255, 255, 0.95);
-    border-left: 5px solid #dc3545;  /* Rojo para error */
-    color: #333;
-    font-weight: 500;
-    box-shadow: 0 3px 8px rgba(0,0,0,0.2);
-    text-align: left;
-    padding: 10px 18px;
+    background: rgba(220, 53, 69, 0.9);
+    color: white;
+    padding: 10px;
     border-radius: 8px;
-    opacity: 1;
-    transition: opacity 0.6s ease;
-    pointer-events: all;          /* Permite cerrar si hay botón */
+    font-size: 14px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
 }
-/* --- */
-
-/* === RESPONSIVE === */
-@media (max-width: 768px) {
-    .main-content-wrapper {
-        flex-direction: column;
-        justify-content: center;
-        padding: 40px 20px;
-        text-align: center;
-    }
-
-    .welcome-area {
-        max-width: 100%;
-        padding: 0;
-        margin-bottom: 30px;
-    }
-
-    .welcome-text {
-        font-size: 7vw;
-    }
-}
-/* === RESPONSIVE === */
-@media (max-width: 768px) {
-    .main-content-wrapper {
-        flex-direction: column;
-        justify-content: center;
-        padding: 40px 20px;
-        text-align: center;
-    }
-
-    .welcome-area {
-        max-width: 100%;
-        padding: 0;
-        margin-bottom: 30px;
-    }
-
-    .welcome-text {
-        font-size: 7vw;
-    }
-}
-
-

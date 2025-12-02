@@ -1,29 +1,31 @@
 /* =================================
-   HEADER CSS - VERSIÓN "CRYSTAL CLEAR" (Más Transparente)
+   HEADER CSS - VERSIÓN FINAL (Premium + Móvil)
    ================================= */
 
 /* 1. IMPORTAR FUENTES */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap');
 
 :root {
-    --color-accent: #F7B32B;        /* Dorado */
+    /* Colores Exactos */
+    --color-bg-header: rgba(2, 12, 27, 0.95); /* Azul casi negro */
+    --color-accent: #F7B32B;                  /* Dorado */
     --color-white: #ffffff;
     --color-text-dark: #333333;
     --header-height: 80px;
+    
     --font-title: 'Montserrat', sans-serif;
     --font-body: 'Open Sans', sans-serif;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
-/* --- CONTENEDOR PRINCIPAL --- */
+/* --- LA BARRA PRINCIPAL --- */
 .main-header {
-    /* CAMBIO CLAVE: Mucha más transparencia (0.3 = 30% de color, 70% transparente) */
-    background-color: rgba(2, 12, 27, 0.3); 
+    background-color: var(--color-bg-header);
     
-    /* Aumentamos el desenfoque para que el texto se lea bien sobre el vidrio */
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
+    /* Efecto Vidrio Sutil */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     
     width: 100%;
     height: var(--header-height);
@@ -31,28 +33,28 @@
     top: 0;
     z-index: 10000;
     
-    /* Sombra más sutil para no oscurecer la imagen de abajo */
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); 
-    border-bottom: 1px solid rgba(255, 255, 255, 0.15); /* Borde un poco más visible */
+    /* Sombra idéntica a la foto */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     
     display: flex;
     align-items: center;
     font-family: var(--font-title);
 }
 
+/* --- CONTENEDOR CENTRADO --- */
 .header-container {
-    max-width: 1280px; /* <-- CAMBIA ESTO A 1100px o 1000px */
+    max-width: 1280px; 
     width: 100%;
     margin: 0 auto;
     padding: 0 30px;
+    
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-between; 
 }
 
-/* =========================================
-   GRUPO 1: IZQUIERDA (Logo + Menú)
-   ========================================= */
+/* --- GRUPO IZQUIERDA (Logo + Menú) --- */
 .header-left-group {
     display: flex;
     align-items: center;
@@ -62,70 +64,68 @@
 .logo img {
     height: 55px;
     width: auto;
-    transition: transform 0.3s ease;
     vertical-align: middle;
-    /* Sombra fuerte para que el logo no se pierda en fondos claros */
-    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.6));
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+    transition: transform 0.3s;
 }
-.logo img:hover { transform: scale(1.08); }
+.logo img:hover { transform: scale(1.05); }
 
-/* --- NAVEGACIÓN --- */
+/* --- MENÚ --- */
 .navbar ul {
     list-style: none; display: flex; align-items: center; gap: 30px; margin: 0; padding: 0;
 }
 
 .navbar a {
-    color: #ffffff; /* Blanco puro para máximo contraste */
+    color: rgba(255, 255, 255, 0.9);
     text-decoration: none;
     font-weight: 700; 
     font-size: 13px;
     text-transform: uppercase;
     letter-spacing: 1px;
-    transition: all 0.3s ease;
     position: relative;
-    padding: 10px 0;
-    
-    /* Sombra de texto REFORZADA: Vital para leerse sobre fotos claras */
-    text-shadow: 0 2px 5px rgba(0,0,0,0.8); 
+    padding: 12px 0;
+    transition: color 0.3s ease;
 }
 
-/* Línea dorada */
+/* La línea dorada debajo */
 .navbar a::after {
     content: ''; position: absolute; width: 0; height: 3px; bottom: 0; left: 0;
-    background-color: var(--color-accent); transition: width 0.3s ease;
+    background-color: var(--color-accent); 
+    transition: width 0.3s ease;
     box-shadow: 0 0 8px var(--color-accent);
 }
-.navbar a:hover::after { width: 100%; }
-.navbar a:hover {
-    color: var(--color-accent); /* El texto cambia a dorado al hover */
-    text-shadow: 0 0 15px rgba(0,0,0,0.9);
-}
 
-/* =========================================
-   GRUPO 2: DERECHA (Avatar + Carrito)
-   ========================================= */
+.navbar a:hover::after { width: 100%; }
+.navbar a:hover { color: var(--color-white); }
+
+
+/* --- GRUPO DERECHA (Avatar + Carrito) --- */
 .acciones-usuario {
     display: flex; align-items: center; gap: 25px;
 }
 
-/* --- CARRITO --- */
+/* Carrito */
 .carrito a {
-    position: relative; display: flex; align-items: center; justify-content: center;
+    display: flex; align-items: center; justify-content: center;
     width: 42px; height: 42px; border-radius: 50%;
     
-    /* Fondo un poco más visible para el botón */
-    background-color: rgba(0, 0, 0, 0.4); 
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    background-color: rgba(255, 255, 255, 0.1); 
+    border: 1px solid rgba(255, 255, 255, 0.2);
     
-    color: var(--color-white); transition: all 0.3s ease;
+    color: var(--color-white);
+    transition: all 0.3s ease;
 }
-.carrito i { font-size: 18px; filter: drop-shadow(0 2px 2px rgba(0,0,0,0.5)); }
+.carrito i { font-size: 18px; }
+
 .carrito a:hover {
-    background-color: var(--color-accent); color: #0f2027; border-color: var(--color-accent);
-    transform: translateY(-3px); box-shadow: 0 0 15px rgba(247, 179, 43, 0.6);
+    background-color: var(--color-accent);
+    color: #0f2027; 
+    border-color: var(--color-accent);
+    transform: translateY(-3px);
+    box-shadow: 0 0 15px rgba(247, 179, 43, 0.5);
 }
 
-/* --- USUARIO --- */
+/* Usuario */
 .usuario-container { position: relative; }
 
 .usuario-logueado {
@@ -137,83 +137,154 @@
 .username {
     font-size: 14px; font-weight: 700; text-align: right; line-height: 1.2;
     color: var(--color-white);
-    text-shadow: 0 2px 4px rgba(0,0,0,0.8); /* Sombra fuerte */
 }
 .username small {
     display: block; font-family: var(--font-body); font-size: 10px;
-    font-weight: 600; opacity: 1; text-transform: uppercase; letter-spacing: 1px;
+    font-weight: 600; opacity: 0.9; text-transform: uppercase; letter-spacing: 1px;
 }
 
 .avatar {
     width: 46px; height: 46px; border-radius: 50%; object-fit: cover;
     border: 2px solid rgba(255, 255, 255, 0.9);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-    transition: transform 0.3s, border-color 0.3s;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
 }
-.usuario-logueado:hover .avatar { transform: scale(1.05); border-color: var(--color-accent); }
 
-/* --- MENÚS DESPLEGABLES --- */
+/* --- MENÚS DESPLEGABLES (Ajuste "Pegado") --- */
 .dropdown { position: relative; }
-
 .submenu, .dropdown-menu {
-    display: none; position: absolute; top: 140%;
+    display: none; position: absolute; 
+    top: 100%; /* Empieza pegado al borde inferior */
+    margin-top: 10px; /* Pequeño margen */
+    
     background: var(--color-white);
-    min-width: 200px; border-radius: 8px; padding: 10px 0;
-    z-index: 1000; box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-    overflow: hidden; opacity: 0; transform: translateY(15px);
+    min-width: 200px; border-radius: 8px;
+    padding: 5px 0; z-index: 1000;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    overflow: hidden; 
+    opacity: 0; transform: translateY(10px);
     transition: all 0.3s ease;
 }
-.submenu { left: 0; } .dropdown-menu { right: 0; top: 160%; }
-.submenu::before, .dropdown-menu::before {
-    content: ""; position: absolute; top: -6px; width: 12px; height: 12px;
-    background: var(--color-white); transform: rotate(45deg);
-}
-.submenu::before { left: 20px; } .dropdown-menu::before { right: 20px; }
+.submenu { left: 0; } .dropdown-menu { right: 0; }
 
 .dropdown:hover .submenu, .usuario-logueado:hover .dropdown-menu {
-    display: block; opacity: 1; transform: translateY(0); top: 110%; visibility: visible;
+    display: block; opacity: 1; transform: translateY(0); visibility: visible;
 }
 
 .submenu li a, .dropdown-menu a {
-    display: flex; align-items: center; gap: 10px; padding: 12px 25px;
+    display: flex; align-items: center; gap: 10px; padding: 10px 20px;
     color: var(--color-text-dark); font-family: var(--font-body);
-    font-size: 14px; font-weight: 600; text-decoration: none;
+    font-size: 13px; font-weight: 600; text-decoration: none;
     transition: background 0.2s; border-left: 3px solid transparent;
-    text-shadow: none;
 }
 .submenu li a:hover, .dropdown-menu a:hover {
     background-color: #f8f9fa; color: #003366;
-    border-left-color: var(--color-accent); padding-left: 30px;
+    border-left-color: var(--color-accent); padding-left: 25px;
 }
 .dropdown-menu .logout {
-    color: #c0392b; border-top: 1px solid #eee; margin-top: 5px; padding-top: 15px;
+    color: #c0392b; border-top: 1px solid #eee; margin-top: 5px; padding-top: 10px;
 }
 .dropdown-menu .logout:hover {
-    background-color: #fff5f5; color: #a93226; border-left-color: #e74c3c;
+    background-color: #fff5f5; color: #a93226; border-left-color: #c0392b;
 }
 .dropdown-menu i, .submenu i { width: 18px; text-align: center; color: #888; }
 
-/* Botón Login */
+/* Botón Login (Invitado) */
 .btn-login {
-    font-family: var(--font-title); color: var(--color-white); text-decoration: none;
-    font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 1px;
-    border: 2px solid rgba(255, 255, 255, 0.8); /* Borde más visible */
-    border-radius: 30px; padding: 10px 25px; transition: all 0.3s ease;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    text-shadow: 0 2px 4px rgba(0,0,0,0.8); /* Sombra fuerte */
+    color: var(--color-white); text-decoration: none; font-weight: 700; font-size: 13px;
+    text-transform: uppercase; border: 2px solid rgba(255,255,255,0.6); border-radius: 30px;
+    padding: 8px 20px; transition: all 0.3s ease;
 }
 .btn-login:hover {
-    background: var(--color-white); color: #0f2027;
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.6); text-shadow: none;
+    background: var(--color-white); color: #003366; border-color: var(--color-white);
 }
 
-/* Responsive */
-.menu-toggle { display: none; }
+
+/* --- BOTÓN HAMBURGUESA (Móvil) --- */
+.menu-toggle {
+    display: none; /* Oculto en PC */
+    background: none;
+    border: none;
+    color: var(--color-white);
+    font-size: 24px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    padding: 5px;
+}
+.menu-toggle:hover {
+    color: var(--color-accent);
+}
+
+/* ... (todo tu código anterior se queda igual) ... */
+
+/* --- BOTÓN HAMBURGUESA (Por defecto oculto) --- */
+.menu-toggle {
+    display: none;
+    font-size: 26px;
+    color: var(--color-white);
+    cursor: pointer;
+    margin-right: 15px;
+    transition: color 0.3s;
+}
+.menu-toggle:hover { color: var(--color-accent); }
+
+/* --- RESPONSIVE DESIGN (Móvil) --- */
 @media (max-width: 980px) {
     .header-left-group { gap: 20px; }
     .navbar a { font-size: 12px; }
-    .username { display: none; }
+    .username { display: none; } /* En tablets ocultamos el nombre */
 }
+
 @media (max-width: 768px) {
-    .navbar { display: none; }
+    /* 1. Mostrar el botón hamburguesa */
+    .menu-toggle { display: block; }
+
+    /* 2. El menú se convierte en un panel desplegable */
+    .navbar {
+        position: absolute;
+        top: 100%; /* Justo debajo del header */
+        left: 0;
+        width: 100%;
+        background-color: rgba(2, 12, 27, 0.98); /* Fondo oscuro sólido */
+        backdrop-filter: blur(15px);
+        padding: 20px;
+        border-top: 1px solid rgba(255,255,255,0.1);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        
+        /* Oculto por defecto */
+        display: none; 
+        flex-direction: column;
+    }
+
+    /* Clase mágica que JS activará */
+    .navbar.active {
+        display: flex;
+        animation: slideDown 0.3s ease forwards;
+    }
+
+    /* 3. Ajustar la lista para que sea vertical */
+    .navbar ul {
+        flex-direction: column;
+        width: 100%;
+        gap: 0;
+    }
+
+    .navbar ul li { width: 100%; }
+
+    .navbar a {
+        display: block;
+        padding: 15px 0;
+        font-size: 15px;
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+        width: 100%;
+    }
+    
+    /* Ajuste de espacios */
+    .header-left-group { gap: 10px; }
+    .logo img { height: 40px; } /* Logo un poco más chico en móvil */
+}
+
+/* Animación suave de entrada */
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
 }

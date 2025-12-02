@@ -131,7 +131,7 @@
 
             function abrirModal() {
                 modal.style.display = "flex";
-                mainContent.style.display = "none";
+                mainContent.style.display = "block";
             }
 
             function cerrarModal() {
