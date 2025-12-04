@@ -21,10 +21,12 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 
 public class srvReportePDF extends HttpServlet {
+
     private static final long serialVersionUID = 1L;
 
     usuarioDAO usdao = new usuarioDAO();
     List<usuario> repUsuario = new ArrayList<>();
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("application/pdf");

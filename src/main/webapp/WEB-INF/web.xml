@@ -40,6 +40,10 @@
         <servlet-name>srvReportePDF</servlet-name>
         <servlet-class>com.mycompany.viveyatravel.controladores.srvReportePDF</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SRVInternacional</servlet-name>
+        <servlet-class>com.mycompany.viveyatravel.controladores.SRVInternacional</servlet-class>
+    </servlet>
     <!-- SERVLET srvPago ELIMINADO DEL WEB.XML -->
     <servlet>
         <servlet-name>srvReserva</servlet-name>
@@ -98,6 +102,10 @@
         <url-pattern>/srvReportePDF</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>SRVInternacional</servlet-name>
+        <url-pattern>/SRVInternacional</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>srvReserva</servlet-name>
         <url-pattern>/srvReserva</url-pattern>
     </servlet-mapping>
@@ -105,6 +113,7 @@
         <servlet-name>ComprobantePDFServlet</servlet-name>
         <url-pattern>/ComprobantePDFServlet</url-pattern>
     </servlet-mapping>
+    
     <session-config>
         <session-timeout>30</session-timeout>
     </session-config>

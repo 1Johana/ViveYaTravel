@@ -53,7 +53,7 @@ YjEzMC1lYTE2ZDA2NzVlZTI7]]>
 		</box>
 		<conditionalStyle>
 			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
-			<style backcolor="#D    8D8D8"/>
+			<style backcolor="#D8D8D8"/>
 		</conditionalStyle>
 	</style>
 	<subDataset name="tableDataset" uuid="f13e6d36-5148-4ecc-bbe3-3035def80980">
