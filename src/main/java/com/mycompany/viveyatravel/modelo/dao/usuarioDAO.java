@@ -33,11 +33,14 @@ import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.ss.usermodel.Drawing;
 import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Picture;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.util.CellRangeAddress;
 
 public class usuarioDAO {
 
@@ -354,130 +357,171 @@ public class usuarioDAO {
     }
 
     public ByteArrayInputStream exportarExcel() throws IOException {
-        // Obtener lista de usuarios 
         List<usuario> repUsuario = repUsuario();
 
-        // Crear el libro y hoja de Excel
+        // 1. Crear libro y hoja
         Workbook libro = new HSSFWorkbook();
+        Sheet hoja = libro.createSheet("Reporte de Usuarios");
         ByteArrayOutputStream flujo = new ByteArrayOutputStream();
-        Sheet hoja = libro.createSheet("Usuarios");
 
-        // Datos de la empresa
-        String nom = "Vive Ya Travel";
-        String ruc = "987654321324";
-        String cel = "987654321";
-        String logoURL = "https://www.viveyatravel.com/imagenes/logo-web-vive-ya-travel-2.png";
+        // --- DEFINICIÓN DE ESTILOS (CLAVE PARA EL LOOK CORPORATIVO) ---
+        // Estilo Título Principal (Empresa)
+        CellStyle styleTitulo = libro.createCellStyle();
+        Font fontTitulo = libro.createFont();
+        fontTitulo.setBold(true);
+        fontTitulo.setFontHeightInPoints((short) 20);
+        fontTitulo.setColor(IndexedColors.DARK_BLUE.getIndex());
+        fontTitulo.setFontName("Arial");
+        styleTitulo.setFont(fontTitulo);
+        styleTitulo.setAlignment(HorizontalAlignment.CENTER);
 
-        // Descargar el logo desde la URL y ajustar el tamaño
-        URL url = new URL(logoURL);
-        InputStream is = url.openStream();
-        byte[] bytes = IOUtils.toByteArray(is);
-        is.close();
-
-        int logoHeight = 150; // Altura de la imagen
-        int logoWidth = 250; // Ancho de la imagen
-
-        int pictureIdx = libro.addPicture(bytes, Workbook.PICTURE_TYPE_PNG);
-        CreationHelper helper = libro.getCreationHelper();
-        Drawing drawing = hoja.createDrawingPatriarch();
-        ClientAnchor anchor = helper.createClientAnchor();
-        anchor.setCol1(0);
-        anchor.setRow1(0);
-        anchor.setCol2(1);
-        anchor.setRow2(4);
-
-        // Crear la imagen y ajustar tamaño
-        Picture pict = drawing.createPicture(anchor, pictureIdx);
-        pict.resize(1.0, 1.0); // Redimensionar al tamaño original de la imagen
-        pict.resize(logoWidth / pict.getImageDimension().getWidth(), logoHeight / pict.getImageDimension().getHeight());
-
-        // Establecer el encabezado 
-        Row headerRow = hoja.createRow(0);
-        Cell cellEmpresa = headerRow.createCell(2);
-        cellEmpresa.setCellValue(nom);
-        CellStyle styleEmpresa = libro.createCellStyle();
-        Font fontEmpresa = libro.createFont();
-        fontEmpresa.setFontHeightInPoints((short) 18);
-        fontEmpresa.setBold(true);
-        styleEmpresa.setFont(fontEmpresa);
-        cellEmpresa.setCellStyle(styleEmpresa);
-
-        Row rucRow = hoja.createRow(1);
-        Cell cellRucLabel = rucRow.createCell(2);
-        cellRucLabel.setCellValue("R.U.C:");
+        // Estilo Etiquetas (RUC, Teléfono)
         CellStyle styleLabel = libro.createCellStyle();
         Font fontLabel = libro.createFont();
         fontLabel.setBold(true);
+        fontLabel.setColor(IndexedColors.GREY_80_PERCENT.getIndex());
         styleLabel.setFont(fontLabel);
-        cellRucLabel.setCellStyle(styleLabel);
+        styleLabel.setAlignment(HorizontalAlignment.RIGHT);
 
-        Cell cellRucValue = rucRow.createCell(3);
-        cellRucValue.setCellValue(ruc);
+        // Estilo Cabecera de Tabla (Fondo oscuro, texto blanco)
+        CellStyle styleCabecera = libro.createCellStyle();
+        styleCabecera.setFillForegroundColor(IndexedColors.DARK_BLUE.getIndex());
+        styleCabecera.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        Font fontCabecera = libro.createFont();
+        fontCabecera.setBold(true);
+        fontCabecera.setColor(IndexedColors.WHITE.getIndex());
+        fontCabecera.setFontHeightInPoints((short) 12);
+        styleCabecera.setFont(fontCabecera);
+        styleCabecera.setAlignment(HorizontalAlignment.CENTER);
+        styleCabecera.setVerticalAlignment(VerticalAlignment.CENTER);
+        styleCabecera.setBorderBottom(BorderStyle.THIN);
+        styleCabecera.setBorderTop(BorderStyle.THIN);
+        styleCabecera.setBorderLeft(BorderStyle.THIN);
+        styleCabecera.setBorderRight(BorderStyle.THIN);
 
-        Row telRow = hoja.createRow(2);
-        Cell cellTelLabel = telRow.createCell(2);
-        cellTelLabel.setCellValue("Teléfono:");
-        cellTelLabel.setCellStyle(styleLabel);
+        // Estilo Datos (Bordes finos)
+        CellStyle styleDatos = libro.createCellStyle();
+        styleDatos.setBorderBottom(BorderStyle.THIN);
+        styleDatos.setBorderTop(BorderStyle.THIN);
+        styleDatos.setBorderLeft(BorderStyle.THIN);
+        styleDatos.setBorderRight(BorderStyle.THIN);
+        styleDatos.setAlignment(HorizontalAlignment.LEFT);
 
-        Cell cellTelValue = telRow.createCell(3);
-        cellTelValue.setCellValue(cel);
+        // Estilo Datos Centrados (Para IDs, DNI, Telf)
+        CellStyle styleDatosCenter = libro.createCellStyle();
+        styleDatosCenter.cloneStyleFrom(styleDatos);
+        styleDatosCenter.setAlignment(HorizontalAlignment.CENTER);
 
-        // Crear la fila de cabecera y poner los títulos
-        Row cabecera = hoja.createRow(4);
+        // --- LOGO E INFORMACIÓN ---
+        try {
+            String logoURL = "https://www.viveyatravel.com/imagenes/logo-web-vive-ya-travel-2.png";
+            URL url = new URL(logoURL);
+            InputStream is = url.openStream();
+            byte[] bytes = IOUtils.toByteArray(is);
+            is.close();
+
+            int pictureIdx = libro.addPicture(bytes, Workbook.PICTURE_TYPE_PNG);
+            CreationHelper helper = libro.getCreationHelper();
+            Drawing drawing = hoja.createDrawingPatriarch();
+            ClientAnchor anchor = helper.createClientAnchor();
+
+            // Posicionar logo (Columnas 0-1, Filas 0-3)
+            anchor.setCol1(0);
+            anchor.setRow1(0);
+            anchor.setCol2(2); // Ocupa hasta la columna 2
+            anchor.setRow2(4); // Ocupa hasta la fila 4
+
+            Picture pict = drawing.createPicture(anchor, pictureIdx);
+            // Ajuste manual para que no se deforme demasiado, depende de tu logo
+            pict.resize(0.8);
+        } catch (Exception e) {
+            System.out.println("No se pudo cargar el logo: " + e.getMessage());
+        }
+
+        // Datos Empresa (Centrados y combinados)
+        Row rowTitulo = hoja.createRow(1);
+        Cell cellTitulo = rowTitulo.createCell(2);
+        cellTitulo.setCellValue("VIVE YA TRAVEL S.A.C.");
+        cellTitulo.setCellStyle(styleTitulo);
+
+        // Combinar celdas para el título (Fila 1, Col 2 a 5)
+        hoja.addMergedRegion(new CellRangeAddress(1, 1, 2, 5));
+
+        // Datos Adicionales
+        Row rowRuc = hoja.createRow(2);
+        Cell cellRucL = rowRuc.createCell(2);
+        cellRucL.setCellValue("R.U.C:");
+        cellRucL.setCellStyle(styleLabel);
+        Cell cellRucV = rowRuc.createCell(3);
+        cellRucV.setCellValue("20601234567"); // Puse un RUC ficticio válido de ejemplo
+
+        Row rowTel = hoja.createRow(3);
+        Cell cellTelL = rowTel.createCell(2);
+        cellTelL.setCellValue("Teléfono:");
+        cellTelL.setCellStyle(styleLabel);
+        Cell cellTelV = rowTel.createCell(3);
+        cellTelV.setCellValue("987 654 321");
+
+        // --- TABLA DE DATOS ---
+        int filaInicio = 5;
+        Row headerRow = hoja.createRow(filaInicio);
+        headerRow.setHeightInPoints(25); // Altura de cabecera más alta
+
         String[] titulos = {"ID", "NOMBRE", "APELLIDO", "TELÉFONO", "DNI", "CORREO"};
 
-        // Crear estilo para la cabecera
-        CellStyle estiloCabecera = libro.createCellStyle();
-        estiloCabecera.setFillForegroundColor(IndexedColors.PALE_BLUE.getIndex());
-        estiloCabecera.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-        estiloCabecera.setBorderTop(BorderStyle.THIN);
-        estiloCabecera.setBorderBottom(BorderStyle.THIN);
-        estiloCabecera.setBorderLeft(BorderStyle.THIN);
-        estiloCabecera.setBorderRight(BorderStyle.THIN);
-        Font font = libro.createFont();
-        font.setBold(true);
-        estiloCabecera.setFont(font);
-
-        // Llenar la cabecera con los títulos
         for (int i = 0; i < titulos.length; i++) {
-            Cell cell = cabecera.createCell(i);
+            Cell cell = headerRow.createCell(i);
             cell.setCellValue(titulos[i]);
-            // Aplicar el estilo
-            cell.setCellStyle(estiloCabecera);
+            cell.setCellStyle(styleCabecera);
         }
 
-        // Estilo para las celdas de datos
-        CellStyle estiloCelda = libro.createCellStyle();
-        estiloCelda.setFillForegroundColor(IndexedColors.WHITE1.getIndex());
-        estiloCelda.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-        estiloCelda.setBorderTop(BorderStyle.THIN);
-        estiloCelda.setBorderBottom(BorderStyle.THIN);
-        estiloCelda.setBorderLeft(BorderStyle.THIN);
-        estiloCelda.setBorderRight(BorderStyle.THIN);
+        // Agregar AutoFiltro (Muy útil para usuarios)
+        hoja.setAutoFilter(new CellRangeAddress(filaInicio, filaInicio, 0, titulos.length - 1));
 
-        // Llenar la hoja con los datos de los usuarios
-        for (int i = 0; i < repUsuario.size(); i++) {
-            usuario us = repUsuario.get(i);
-            Row fd = hoja.createRow(i + 5); // Empezar desde la fila siguiente a la cabecera
-            fd.createCell(0).setCellValue(us.getIdUsuario());
-            fd.createCell(1).setCellValue(us.getNombre());
-            fd.createCell(2).setCellValue(us.getApellido());
-            fd.createCell(3).setCellValue(us.getNroCelular());
-            fd.createCell(4).setCellValue(us.getNroDni());
-            fd.createCell(5).setCellValue(us.getCorreoElectronico());
+        // Llenar datos
+        int rowNum = filaInicio + 1;
+        for (usuario us : repUsuario) {
+            Row row = hoja.createRow(rowNum++);
 
-            // Aplicar estilo a cada celda de la fila de datos
-            for (int j = 0; j < titulos.length; j++) {
-                fd.getCell(j).setCellStyle(estiloCelda);
-            }
+            // ID (Centrado)
+            Cell c0 = row.createCell(0);
+            c0.setCellValue(us.getIdUsuario());
+            c0.setCellStyle(styleDatosCenter);
+
+            // Nombre (Izquierda)
+            Cell c1 = row.createCell(1);
+            c1.setCellValue(us.getNombre());
+            c1.setCellStyle(styleDatos);
+
+            // Apellido (Izquierda)
+            Cell c2 = row.createCell(2);
+            c2.setCellValue(us.getApellido());
+            c2.setCellStyle(styleDatos);
+
+            // Teléfono (Centrado)
+            Cell c3 = row.createCell(3);
+            c3.setCellValue(us.getNroCelular());
+            c3.setCellStyle(styleDatosCenter);
+
+            // DNI (Centrado)
+            Cell c4 = row.createCell(4);
+            c4.setCellValue(us.getNroDni());
+            c4.setCellStyle(styleDatosCenter);
+
+            // Correo (Izquierda)
+            Cell c5 = row.createCell(5);
+            c5.setCellValue(us.getCorreoElectronico());
+            c5.setCellStyle(styleDatos);
         }
 
-        // Ajustar tamaño de columnas
+        // Ajustar columnas automáticamente
         for (int i = 0; i < titulos.length; i++) {
             hoja.autoSizeColumn(i);
+            // Dar un poco de aire extra al ancho automático
+            int currentWidth = hoja.getColumnWidth(i);
+            hoja.setColumnWidth(i, (int) (currentWidth * 1.2));
         }
 
-        // Escribir el libro en el flujo de salida
         libro.write(flujo);
         libro.close();
 
@@ -488,7 +532,7 @@ public class usuarioDAO {
         // Obtener lista de usuarios 
         List<usuario> repUsuario = repUsuario();
         // Ruta del archivo JRXML
-        String jrxmlFilePath = context.getRealPath("./reporteJasper/usuarios1.jrxml");
+        String jrxmlFilePath = context.getRealPath("/reporteJasper/usuarios1.jrxml");
 
         if (jrxmlFilePath == null) {
             throw new JRException("No se pudo obtener la ruta real del archivo JRXML");

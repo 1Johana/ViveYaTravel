@@ -3,91 +3,91 @@
 <html lang="es">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
-    <!-- Enlace correcto al CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&display=swap" rel="stylesheet">
-    <link href="/ViveYaTravel/css/inicioSesion.css" rel="stylesheet" type="text/css"/> 
-    <title>Inicio de Sesión</title>
-
+    <title>Iniciar Sesión | Vive Ya Travel</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+    
+    <link href="${pageContext.request.contextPath}/css/inicioSesion.css?v=FINAL" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 
-    <!-- FONDO + CAPA OSCURA -->
-    <div class="background-container">
-        <img src="${pageContext.request.contextPath}/img/viveya_fondologin.jpg" alt="fondo">
-    </div>
-    <div class="background-overlay"></div>
-
-    <!-- CONTENIDO PRINCIPAL -->
-    <div class="main-content-wrapper">
-
-        <div class="welcome-area">
-            <h1 class="welcome-text">Bienvenido a <br> VIVE YA TRAVEL</h1>
+    <div class="login-card">
+        
+        <div class="login-header">
+            <h2>¡Bienvenido!</h2>
+            <p>Inicia sesión para continuar tu aventura</p>
         </div>
 
-        <div class="login-area">
-            <div class="alert-messages">
-                <%
-                    String registroExito = request.getParameter("registro");
-                    if ("exito".equals(registroExito)) {
-                %>  
-                <div class="alert alert-success custom-alert" role="alert">
-                    <strong>¡Listo!</strong> Se ha registrado correctamente.
+        <div class="alert-messages">
+            <% 
+                String registroExito = request.getParameter("registro");
+                if ("exito".equals(registroExito)) { 
+            %>  
+                <div class="custom-alert" style="background: rgba(40, 167, 69, 0.9);">
+                    <i class="fa-solid fa-check-circle"></i> ¡Registro exitoso!
                 </div>
-                <%
-                    }
-                    String credencialesError = (String) request.getAttribute("msjeCredenciales");
-                    if (credencialesError != null) {
-                %>  
-                <div class="alert alert-danger custom-alert" role="alert">
-                    <strong>¡Error!</strong> Correo electrónico o contraseña incorrectas.
+            <% 
+                }
+                String credencialesError = (String) request.getAttribute("msjeCredenciales");
+                if (credencialesError != null) { 
+            %>  
+                <div class="custom-alert">
+                    <i class="fa-solid fa-circle-exclamation"></i> Datos incorrectos
                 </div>
-                <%
-                    }
-                %>
+            <% } %>
+        </div>
+
+        <form action="${pageContext.request.contextPath}/srvUsuario?accion=verificar" method="post">
+            
+            <div class="input-group">
+                <i class="fa-solid fa-envelope"></i>
+                <input type="text" name="correo" placeholder="Correo Electrónico" required autocomplete="off">
             </div>
 
-            <div class="login-box">
-                <h1 class="login-title">Inicio de Sesión</h1> 
-                <form action="${pageContext.request.contextPath}/srvUsuario?accion=verificar" method="post" class="login-form"> 
-                    
-                    <div class="form-group">
-                        <label for="correo" class="form-label-custom">Correo Electrónico</label>
-                        <input type="text" name="correo" id="correo" class="form-control-custom" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="clave" class="form-label-custom">Contraseña</label>
-                        <input type="password" name="clave" id="clave" class="form-control-custom" required>
-                    </div>
-                    
-                    <input type="submit" name="verificar" id="Verificar" value="Iniciar" class="btn-submit">
-                    
-                    <div class="login-links">
-                        <a href="${pageContext.request.contextPath}/vista/cambioClave.jsp" class="link-forgot">¿Olvidaste tu contraseña?</a>
-                        <a href="${pageContext.request.contextPath}/vista/registrar.jsp" class="link-create">Crear cuenta</a>
-                        <a href="${pageContext.request.contextPath}/vista/index.jsp" class="link-return">Volver al inicio</a>
-                    </div>
-                </form>
+            <div class="input-group">
+                <i class="fa-solid fa-lock"></i>
+                <input type="password" name="clave" placeholder="Contraseña" required>
             </div>
-        </div> 
+            
+            <input type="submit" value="INGRESAR" class="btn-submit">
+            
+        </form>
 
-    </div> 
+        <div class="login-footer">
+            <a href="${pageContext.request.contextPath}/vista/cambioClave.jsp">¿Olvidaste tu contraseña?</a>
+            
+            <div class="divider"></div>
+            
+            <p style="margin:0; opacity:0.7;">¿Aún no tienes cuenta?</p>
+            <a href="${pageContext.request.contextPath}/vista/registrar.jsp" style="color: #F7B32B; font-size: 16px;">
+                Regístrate aquí <i class="fa-solid fa-arrow-right"></i>
+            </a>
+            
+            <a href="${pageContext.request.contextPath}/vista/index.jsp" style="margin-top: 10px; font-size: 12px; opacity: 0.6;">
+                <i class="fa-solid fa-house"></i> Volver al inicio
+            </a>
+        </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    
+    </div>
+
     <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const alertBox = document.querySelector(".custom-alert");
-        if (alertBox) {
-            setTimeout(() => {
-                alertBox.style.opacity = "0";
-                setTimeout(() => alertBox.remove(), 900);
-            }, 2000);
-        }
-    });
-</script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const alertas = document.querySelectorAll(".custom-alert");
+            
+            if (alertas.length > 0) {
+                setTimeout(() => {
+                    alertas.forEach(alerta => {
+                        alerta.style.transition = "opacity 0.5s ease, transform 0.5s ease";
+                        alerta.style.opacity = "0";
+                        alerta.style.transform = "translateY(-10px)"; // Efecto de subir al desaparecer
+                        
+                        // Eliminar del DOM después de la animación
+                        setTimeout(() => alerta.remove(), 500);
+                    });
+                }, 3000); // Espera 3 segundos antes de desaparecer
+            }
+        });
+    </script>
 
 </body>
 </html>

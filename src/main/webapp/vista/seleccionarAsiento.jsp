@@ -15,6 +15,7 @@
   <title>Seleccionar Asiento y Pagar</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="${pageContext.request.contextPath}/css/header.css?v=FINAL" rel="stylesheet" type="text/css"/>
 
   <style>
     body { background:#f8f9fa; font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans"; }

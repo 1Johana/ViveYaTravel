@@ -51,22 +51,22 @@ public class srvReporteUsuarios extends HttpServlet {
                     out.close();
                     flujo.close();
                     break;
-                    
+
                 case "pdf":
                     try {
-                    //Llenar el reporte con datos
-                    JasperPrint jasperPrint = usdao.exportarPDF(getServletContext());
-                    
-                    //Configurar la respuesta HTTP
-                    response.setContentType("application/pdf");
-                    response.setCharacterEncoding("UTF-8");
-                    response.setHeader("Content-Disposition", "inline; filename=reporte.pdf");
-                    
-                    //Esportar el reporte a la salida del servlet
-                    JasperExportManager.exportReportToPdfStream(jasperPrint, response.getOutputStream());
-                } catch (JRException e) {
-                    throw new ServletException(e);
-                }
+                        //Llenar el reporte con datos
+                        JasperPrint jasperPrint = usdao.exportarPDF(getServletContext());
+
+                        //Configurar la respuesta HTTP
+                        response.setContentType("application/pdf");
+                        response.setCharacterEncoding("UTF-8");
+                        response.setHeader("Content-Disposition", "inline; filename=reporte.pdf");
+
+                        //Esportar el reporte a la salida del servlet
+                        JasperExportManager.exportReportToPdfStream(jasperPrint, response.getOutputStream());
+                    } catch (JRException e) {
+                        throw new ServletException(e);
+                    }
                     break;
             }
 

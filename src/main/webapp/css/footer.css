@@ -1,47 +1,91 @@
+/* =================================
+   FOOTER CSS - VERSIÓN MEJORADA (Premium)
+   ================================= */
+
+/* Importamos las mismas fuentes del Header para consistencia */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap');
+
+:root {
+    /* Paleta de Colores Coherente con el Header */
+    --footer-bg: #020C1B;        /* Azul casi negro (Premium) */
+    --footer-text: #a8b2d1;      /* Gris azulado (Mejor lectura que el blanco puro) */
+    --footer-title: #ffffff;     /* Blanco para títulos */
+    --color-accent: #F7B32B;     /* Dorado */
+    
+    --font-title: 'Montserrat', sans-serif;
+    --font-body: 'Open Sans', sans-serif;
+}
+
 /* Estilos generales */
 body {
     margin: 0;
     padding: 0;
-    font-family: Arial, sans-serif;
+    font-family: var(--font-body); /* Fuente moderna */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 /* Estilos para el footer */
 footer {
-    background-color: lightslategray;
-    color: #fff;
-    padding: 25px 0; /* Agregué más padding para mayor altura */
+    background-color: var(--footer-bg); /* Fondo oscuro elegante */
+    color: var(--footer-text);
+    padding: 60px 0 20px; /* Más espacio arriba */
+    font-size: 14px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05); /* Borde sutil arriba */
+    margin-top: auto;
 }
 
 .contFooter {
     display: flex;
     justify-content: space-between;
-    align-items: stretch;
+    align-items: flex-start; /* Alineación superior para que se vea ordenado */
     max-width: 1300px;
     margin: 0 auto;
     flex-wrap: wrap;
-    gap: 30px; /* Agregué un espacio entre columnas para un mejor diseño */
+    gap: 40px; /* Más espacio entre columnas */
+    padding: 0 30px;
 }
 
 /* Estilos de los títulos h3 */
 .contFooter h3 {
-    font-size: 24px;
-    font-weight: bold;
-    color: lightblue;
-    margin-bottom: 20px;
+    font-family: var(--font-title);
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--footer-title); /* Blanco */
+    margin-bottom: 25px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+}
+
+/* Línea decorativa debajo de los títulos (Toque Pro) */
+.contFooter h3::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -10px;
+    width: 40px;
+    height: 3px;
+    background-color: var(--color-accent); /* Línea dorada */
+    border-radius: 2px;
 }
 
 /* Estilos para cada columna */
 .empresa, .informacion, .cuenta, .contacto {
-    margin-bottom: 10px;
+    margin-bottom: 20px;
     text-align: left;
+    flex: 1; /* Distribución equitativa */
     min-width: 200px;
 }
 
 /* Estilos para el slogan y el texto */
 .empresa p {
-    font-size: 16px;
-    line-height: 2;
-    margin-bottom: 10px; /* Ajuste del espacio */
+    font-size: 15px;
+    line-height: 1.8; /* Mejor lectura */
+    margin-bottom: 20px;
+    color: var(--footer-text);
+    max-width: 300px; /* Evita que el texto se estire demasiado */
 }
 
 /* Estilos para los iconos sociales */
@@ -54,18 +98,27 @@ footer {
 }
 
 .social-icons li a {
-    width: 35px;
-    height: 35px;
+    width: 40px; /* Un poco más grandes */
+    height: 40px;
     display: flex;
     justify-content: center;
     align-items: center;
     border-radius: 50%;
-    border: 1px solid lightblue;
-    transition: background-color 0.3s;
+    
+    /* Borde y fondo sutil */
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--color-white);
+    
+    text-decoration: none;
+    transition: all 0.3s ease;
 }
 
 .social-icons li a:hover {
-    background-color: lightblue;
+    background-color: var(--color-accent); /* Fondo dorado al hover */
+    color: #020C1B; /* Icono oscuro */
+    transform: translateY(-3px); /* Efecto flotante */
+    border-color: var(--color-accent);
 }
 
 /* Estilos de las listas de enlaces */
@@ -76,80 +129,76 @@ ul {
 }
 
 ul li {
-    margin-bottom: 25px;
+    margin-bottom: 12px; /* Espacio ajustado */
 }
 
 ul li a {
     text-decoration: none;
-    color: #fff;
-    transition: color 0.3s;
+    color: var(--footer-text);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
+/* Efecto hover en enlaces */
 ul li a:hover {
-    color: lightblue;
+    color: var(--color-accent); /* Texto dorado */
+    transform: translateX(5px); /* Se mueve a la derecha */
 }
-/* 📱 Responsive Design */
+
+/* Íconos pequeños dentro de los enlaces (opcional, si los usas en HTML) */
+ul li a i {
+    font-size: 12px;
+    color: var(--color-accent);
+}
+
+/* 📱 Responsive Design (Mantenemos tu lógica pero mejorada) */
 
 /* Tablets medianas (≤1024px) */
 @media (max-width: 1024px) {
     .contFooter {
-        flex-wrap: wrap;
-        justify-content: space-between;
-        gap: 25px;
-    }
-
-    .contFooter h3 {
-        font-size: 18px;
-    }
-
-    .empresa p {
-        font-size: 15px;
+        gap: 30px;
     }
 }
 
 /* Pantallas pequeñas / móviles (≤768px) */
 @media (max-width: 768px) {
     footer {
-        padding: 20px 0;
+        padding: 40px 0;
+        text-align: center;
     }
 
     .contFooter {
         flex-direction: column;
         align-items: center;
-        text-align: center;
-        gap: 30px;
+        gap: 40px;
     }
 
-    .empresa,
-    .informacion,
-    .cuenta,
-    .contacto {
-        min-width: 100%;
+    .contFooter h3::after {
+        left: 50%;
+        transform: translateX(-50%); /* Centrar la línea decorativa */
+    }
+
+    .empresa, .informacion, .cuenta, .contacto {
+        width: 100%;
+        text-align: center;
+        align-items: center;
+    }
+    
+    .empresa p {
+        margin: 0 auto 20px auto; /* Centrar el texto descriptivo */
     }
 
     .social-icons {
         justify-content: center;
-    }
-
-    .metodos-pago {
-        justify-content: center;
-        flex-wrap: wrap;
     }
 }
 
 /* Pantallas muy pequeñas (≤480px) */
 @media (max-width: 480px) {
     .contFooter h3 {
-        font-size: 17px;
-    }
-
-    .empresa p {
-        font-size: 14px;
-    }
-
-    .social-icons li a {
-        width: 28px;
-        height: 28px;
+        font-size: 16px;
     }
 }
 
