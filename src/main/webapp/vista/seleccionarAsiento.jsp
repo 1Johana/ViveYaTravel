@@ -109,6 +109,8 @@
     <!-- Hidden para que el backend reciba los totales -->
     <input type="hidden" name="subtotal" id="subtotalHidden" value="${subtotal}"/>
     <input type="hidden" name="total" id="totalHidden" value="${subtotal}"/>
+    <!-- 💰 Precio base por pasajero (se usa en JS para multiplicar por la cantidad de pasajeros) -->
+    <input type="hidden" id="precioBase" value="${subtotal}"/>
 
     <!-- ========== DOS COLUMNAS ========== -->
     <div class="layout">
@@ -319,6 +321,7 @@
   const extrasTotal = document.getElementById('extrasTotal');
   const subtotalHidden = document.getElementById('subtotalHidden');
   const totalHidden = document.getElementById('totalHidden');
+  const precioBaseInput = document.getElementById('precioBase');
 
   // Pasajeros (+ / -)
   let cantidadPasajeros = 1;
@@ -331,6 +334,38 @@
 
   // Asientos seleccionados
   const seleccionados = new Set();
+
+  function recalcularExtras() {
+    const seguro = document.getElementById('chkSeguro');
+    const mascota = document.getElementById('chkMascota');
+    const s = seguro && seguro.checked ? parseFloat(seguro.dataset.precio) : 0;
+    const m = mascota && mascota.checked ? parseFloat(mascota.dataset.precio) : 0;
+    const extras = s + m;
+
+    const subtotal = parseFloat(subtotalHidden.value || '0');
+    const total = subtotal + extras;
+
+    extrasLabel.textContent = extras.toFixed(2);
+    totalLabel.textContent = total.toFixed(2);
+
+    // Enviar al backend
+    seguroPrecio.value = s.toFixed(2);
+    mascotaPrecio.value = m.toFixed(2);
+    extrasTotal.value  = extras.toFixed(2);
+    totalHidden.value  = total.toFixed(2);
+  }
+
+  // 🔁 Subtotal en función de la cantidad de pasajeros
+  function recalcularSubtotalPasajeros() {
+    const precioBase = parseFloat(precioBaseInput.value || '0'); // precio por pasajero
+    const nuevoSubtotal = precioBase * cantidadPasajeros;
+
+    subtotalHidden.value = nuevoSubtotal.toFixed(2);
+    document.getElementById('subtotalLabel').textContent = nuevoSubtotal.toFixed(2);
+
+    // Recalcular total con los extras actuales
+    recalcularExtras();
+  }
 
   function actualizarCantidadPasajeros(nuevaCantidad) {
     if (nuevaCantidad < MIN_PASAJEROS) nuevaCantidad = MIN_PASAJEROS;
@@ -348,6 +383,7 @@
     }
 
     actualizarResumenAsientos();
+    recalcularSubtotalPasajeros();
   }
 
   if (btnMasPasajeros && btnMenosPasajeros && cantidadPasajerosInput) {
@@ -390,26 +426,6 @@
     btnPagar.disabled = (seleccionados.size !== cantidadPasajeros);
   }
 
-  function recalcularExtras() {
-    const seguro = document.getElementById('chkSeguro');
-    const mascota = document.getElementById('chkMascota');
-    const s = seguro && seguro.checked ? parseFloat(seguro.dataset.precio) : 0;
-    const m = mascota && mascota.checked ? parseFloat(mascota.dataset.precio) : 0;
-    const extras = s + m;
-
-    const subtotal = parseFloat(subtotalHidden.value || '0');
-    const total = subtotal + extras;
-
-    extrasLabel.textContent = extras.toFixed(2);
-    totalLabel.textContent = total.toFixed(2);
-
-    // Enviar al backend
-    seguroPrecio.value = s.toFixed(2);
-    mascotaPrecio.value = m.toFixed(2);
-    extrasTotal.value  = extras.toFixed(2);
-    totalHidden.value  = total.toFixed(2);
-  }
-
   document.querySelectorAll('.extra').forEach(x => x.addEventListener('change', recalcularExtras));
 
   // Selección de asientos (multi, hasta cantidadPasajeros)
@@ -450,7 +466,8 @@
   });
 
   // Inicializar
-  recalcularExtras();
+  cantidadPasajerosInput.value = cantidadPasajeros;
+  recalcularSubtotalPasajeros(); // esto también llama a recalcularExtras()
   btnPagar.disabled = true;
 </script>
 </body>

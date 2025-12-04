@@ -85,6 +85,12 @@
                         <img src="${pageContext.request.contextPath}/img/tingomaria.jpg" alt="tingomaria">
                         <h4>Cueva de las Lechuzas</h4>
                     </div>
+                          <!-- GIF -->
+        <div style="margin-left: 20px;">
+            <img src="${pageContext.request.contextPath}/img/GIF INTEGRADOR.gif" 
+                 alt="Animación Vive Ya Travel"
+                 style="width:160px; height:auto;">
+        </div>
                 </div>
             </section>
             <section class="travel-section">

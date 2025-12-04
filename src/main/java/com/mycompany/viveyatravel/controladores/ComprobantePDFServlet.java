@@ -44,7 +44,6 @@ public class ComprobantePDFServlet extends HttpServlet {
         Double extras   = (Double) ses.getAttribute("pdfExtras");
         String asiento  = (String) ses.getAttribute("pdfNumeroAsiento");
 
-        // 🔹 Nombre del paquete guardado en sesión desde srvPromocion
         String nombrePaqueteSimple = (String) ses.getAttribute("pdfNombrePaquete");
 
         if (subtotal == null) subtotal = (total != null ? total : 0.0);
@@ -54,7 +53,6 @@ public class ComprobantePDFServlet extends HttpServlet {
         response.setContentType("application/pdf");
         response.setHeader("Content-Disposition", "attachment; filename=comprobante.pdf");
 
-        // Página A4 con márgenes
         Document doc = new Document(PageSize.A4, 40, 40, 40, 40);
 
         try {
@@ -64,12 +62,12 @@ public class ComprobantePDFServlet extends HttpServlet {
             doc.addCreationDate();
             doc.open();
 
-            // ======= PALETA DE COLORES =======
-            BaseColor primary   = new BaseColor(52, 152, 219);   // azul principal
-            BaseColor darkText  = new BaseColor(44, 62, 80);     // gris oscuro
-            BaseColor softGray  = new BaseColor(245, 247, 250);  // gris súper claro
-            BaseColor softCard  = new BaseColor(250, 252, 253);  // fondo "card"
-            BaseColor accent    = new BaseColor(46, 204, 113);   // verde acento
+            // ======= COLORES =======
+            BaseColor primary   = new BaseColor(52, 152, 219);
+            BaseColor darkText  = new BaseColor(44, 62, 80);
+            BaseColor softGray  = new BaseColor(245, 247, 250);
+            BaseColor softCard  = new BaseColor(250, 252, 253);
+            BaseColor accent    = new BaseColor(46, 204, 113);
             BaseColor borderSoft= new BaseColor(220, 224, 228);
 
             // ======= FUENTES =======
@@ -81,7 +79,7 @@ public class ComprobantePDFServlet extends HttpServlet {
             Font tablaBodyF    = FontFactory.getFont(FontFactory.HELVETICA, 9, darkText);
             Font totalFont     = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 11, darkText);
 
-            // ======= BARRA SUPERIOR (accent) =======
+            // ======= BARRA SUPERIOR =======
             PdfPTable topBar = new PdfPTable(1);
             topBar.setWidthPercentage(100);
             PdfPCell barCell = new PdfPCell(new Phrase(" "));
@@ -91,9 +89,9 @@ public class ComprobantePDFServlet extends HttpServlet {
             topBar.addCell(barCell);
             doc.add(topBar);
 
-            doc.add(new Paragraph(" ")); // espacio
+            doc.add(new Paragraph(" ")); 
 
-            // ======= HEADER COMO "CARD" =======
+            // ======= CARD HEADER =======
             PdfPTable headerWrapper = new PdfPTable(1);
             headerWrapper.setWidthPercentage(100);
 
@@ -107,7 +105,7 @@ public class ComprobantePDFServlet extends HttpServlet {
             header.setWidthPercentage(100);
             header.setWidths(new float[]{3f, 1.6f});
 
-            // Columna izquierda: info empresa
+            // -------- Columna izquierda --------
             PdfPCell left = new PdfPCell();
             left.setBorder(Rectangle.NO_BORDER);
             left.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -130,13 +128,12 @@ public class ComprobantePDFServlet extends HttpServlet {
                 left.addElement(seat);
             }
 
-            // Columna derecha: logo + chip de operación
+            // -------- Columna derecha (LOGO + chip) --------
             PdfPCell right = new PdfPCell();
             right.setBorder(Rectangle.NO_BORDER);
             right.setHorizontalAlignment(Element.ALIGN_RIGHT);
-            right.setVerticalAlignment(Element.ALIGN_MIDDLE);
 
-            // "Chip" con N° de operación
+            // CHIP del número de operación
             if (orderId != null && !orderId.trim().isEmpty()) {
                 PdfPTable chipTable = new PdfPTable(1);
                 chipTable.setWidthPercentage(80);
@@ -160,19 +157,24 @@ public class ComprobantePDFServlet extends HttpServlet {
                 right.addElement(chipTable);
             }
 
-            // Logo (opcional)
+            // ======= LOGO (usando realPath) =======
             try {
                 String logoPath = getServletContext().getRealPath("/img/logo.png");
-                Image logo = Image.getInstance(logoPath);
-                logo.scaleToFit(70, 70);
-                logo.setAlignment(Image.ALIGN_RIGHT);
+                if (logoPath != null) {
+                    Image logo = Image.getInstance(logoPath);
+                    logo.scaleToFit(70, 70);
+                    logo.setAlignment(Image.ALIGN_RIGHT);
 
-                Paragraph logoWrapperP = new Paragraph();
-                logoWrapperP.add(logo);
-                logoWrapperP.setSpacingBefore(8f);
-                right.addElement(logoWrapperP);
+                    Paragraph logoWrapperP = new Paragraph();
+                    logoWrapperP.add(logo);
+                    logoWrapperP.setSpacingBefore(8f);
+                    right.addElement(logoWrapperP);
+                } else {
+                    System.out.println("❌ No se pudo resolver realPath(/img/logo.png)");
+                }
             } catch (Exception e) {
-                // Si no hay logo, simplemente lo ignoramos
+                System.out.println("❌ Error cargando el logo:");
+                e.printStackTrace();
             }
 
             header.addCell(left);
@@ -182,14 +184,13 @@ public class ComprobantePDFServlet extends HttpServlet {
             headerWrapper.addCell(headerCard);
             doc.add(headerWrapper);
 
-            doc.add(new Paragraph(" ")); // espacio
+            doc.add(new Paragraph(" "));
 
-            // ======= TÍTULO SECCIÓN DETALLE =======
+            // ======= DETALLE =======
             Paragraph detalleTitle = new Paragraph("Detalle de la reserva", normalFont);
             detalleTitle.setSpacingAfter(4f);
             doc.add(detalleTitle);
 
-            // línea suave
             PdfPTable divider = new PdfPTable(1);
             divider.setWidthPercentage(100);
             PdfPCell dividerCell = new PdfPCell(new Phrase(" "));
@@ -197,78 +198,62 @@ public class ComprobantePDFServlet extends HttpServlet {
             dividerCell.setBorderColor(borderSoft);
             dividerCell.setBorderWidthBottom(0.8f);
             dividerCell.setFixedHeight(6f);
-            dividerCell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            dividerCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-            dividerCell.setPadding(0f);
             divider.addCell(dividerCell);
             doc.add(divider);
 
             doc.add(new Paragraph(" "));
 
-            // ======= TABLA DE ITEMS (estilo moderno) =======
+            // ======= TABLA =======
             if (compra != null && !compra.isEmpty()) {
 
                 PdfPTable tabla = new PdfPTable(4);
                 tabla.setWidthPercentage(100);
                 tabla.setSpacingBefore(5f);
-                tabla.setSpacingAfter(10f);
                 tabla.setWidths(new float[]{4f, 1.5f, 1.5f, 2f});
 
-                BaseColor headerBg = primary;
+                tabla.addCell(headerCell("Paquete", primary, tablaHeaderF));
+                tabla.addCell(headerCell("Precio (S/.)", primary, tablaHeaderF));
+                tabla.addCell(headerCell("Cantidad", primary, tablaHeaderF));
+                tabla.addCell(headerCell("Subtotal (S/.)", primary, tablaHeaderF));
 
-                // Encabezados
-                tabla.addCell(headerCell("Paquete", headerBg, tablaHeaderF));
-                tabla.addCell(headerCell("Precio (S/.)", headerBg, tablaHeaderF));
-                tabla.addCell(headerCell("Cantidad", headerBg, tablaHeaderF));
-                tabla.addCell(headerCell("Subtotal (S/.)", headerBg, tablaHeaderF));
-
-                // Filas "cebra"
                 boolean alternate = false;
-                BaseColor rowEven = BaseColor.WHITE;
-                BaseColor rowOdd  = softGray;
 
                 for (Paquete p : compra) {
-                    if (p == null) continue;
-
-                    BaseColor rowColor = alternate ? rowOdd : rowEven;
+                    BaseColor row = alternate ? softGray : BaseColor.WHITE;
                     alternate = !alternate;
 
                     PdfPCell c1 = bodyCell(p.getNombrePaquete(), tablaBodyF);
-                    c1.setBackgroundColor(rowColor);
+                    c1.setBackgroundColor(row);
                     tabla.addCell(c1);
 
                     PdfPCell c2 = bodyCell(String.format("%.2f", p.getPrecioPaquete()), tablaBodyF, Element.ALIGN_RIGHT);
-                    c2.setBackgroundColor(rowColor);
+                    c2.setBackgroundColor(row);
                     tabla.addCell(c2);
 
                     PdfPCell c3 = bodyCell(String.valueOf(p.getCantidad()), tablaBodyF, Element.ALIGN_CENTER);
-                    c3.setBackgroundColor(rowColor);
+                    c3.setBackgroundColor(row);
                     tabla.addCell(c3);
 
                     PdfPCell c4 = bodyCell(String.format("%.2f", p.getSubtotal()), tablaBodyF, Element.ALIGN_RIGHT);
-                    c4.setBackgroundColor(rowColor);
+                    c4.setBackgroundColor(row);
                     tabla.addCell(c4);
                 }
 
                 doc.add(tabla);
+
             } else {
-                // 🔹 Si tenemos el nombre del paquete en sesión, lo mostramos aquí
                 if (nombrePaqueteSimple != null && !nombrePaqueteSimple.trim().isEmpty()) {
-                    Paragraph paqueteP = new Paragraph(
-                            "Paquete: " + nombrePaqueteSimple,
-                            normalFont
-                    );
+                    Paragraph paqueteP = new Paragraph("Paquete: " + nombrePaqueteSimple, normalFont);
                     paqueteP.setSpacingAfter(10f);
                     doc.add(paqueteP);
                 } else {
-                    // Fallback viejo si no hubiera nada
                     Paragraph noItems = new Paragraph("No se encontraron ítems para esta compra.", normalFont);
                     noItems.setSpacingAfter(10f);
                     doc.add(noItems);
                 }
             }
 
-            // ======= RESUMEN DE TOTALES EN CARD =======
+            // ======= TOTAL =======
             PdfPTable totalesWrapper = new PdfPTable(1);
             totalesWrapper.setWidthPercentage(40);
             totalesWrapper.setHorizontalAlignment(Element.ALIGN_RIGHT);
@@ -283,46 +268,20 @@ public class ComprobantePDFServlet extends HttpServlet {
             totales.setWidthPercentage(100);
             totales.setWidths(new float[]{2f, 2f});
 
-            // Subtotal
-            PdfPCell subLabel = bodyCell("Subtotal", normalFont);
-            subLabel.setBorder(Rectangle.NO_BORDER);
-            subLabel.setPaddingBottom(4f);
+            totales.addCell(bodyCell("Subtotal", normalFont));
+            totales.addCell(bodyCell(String.format("S/. %.2f", subtotal), normalFont, Element.ALIGN_RIGHT));
 
-            PdfPCell subValue = bodyCell(String.format("S/. %.2f", subtotal), normalFont, Element.ALIGN_RIGHT);
-            subValue.setBorder(Rectangle.NO_BORDER);
-            subValue.setPaddingBottom(4f);
+            totales.addCell(bodyCell("Extras", normalFont));
+            totales.addCell(bodyCell(String.format("S/. %.2f", extras), normalFont, Element.ALIGN_RIGHT));
 
-            // Extras
-            PdfPCell extraLabel = bodyCell("Extras", normalFont);
-            extraLabel.setBorder(Rectangle.NO_BORDER);
-            extraLabel.setPaddingBottom(4f);
-
-            PdfPCell extraValue = bodyCell(String.format("S/. %.2f", extras), normalFont, Element.ALIGN_RIGHT);
-            extraValue.setBorder(Rectangle.NO_BORDER);
-            extraValue.setPaddingBottom(4f);
-
-            totales.addCell(subLabel);
-            totales.addCell(subValue);
-            totales.addCell(extraLabel);
-            totales.addCell(extraValue);
-
-            // TOTAL destacado
             PdfPCell totalLabelCell = new PdfPCell(new Phrase("TOTAL", totalFont));
-            totalLabelCell.setHorizontalAlignment(Element.ALIGN_LEFT);
             totalLabelCell.setBorder(Rectangle.TOP);
             totalLabelCell.setBorderColor(borderSoft);
-            totalLabelCell.setPaddingTop(6f);
-            totalLabelCell.setPaddingBottom(3f);
 
             PdfPCell totalValueCell = new PdfPCell(new Phrase(String.format("S/. %.2f", total), totalFont));
-            totalValueCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
             totalValueCell.setBorder(Rectangle.TOP);
             totalValueCell.setBorderColor(borderSoft);
-            totalValueCell.setPaddingTop(6f);
-            totalValueCell.setPaddingBottom(3f);
-
-            totalLabelCell.setBackgroundColor(BaseColor.WHITE);
-            totalValueCell.setBackgroundColor(BaseColor.WHITE);
+            totalValueCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 
             totales.addCell(totalLabelCell);
             totales.addCell(totalValueCell);
@@ -331,28 +290,18 @@ public class ComprobantePDFServlet extends HttpServlet {
             totalesWrapper.addCell(totalesCard);
             doc.add(totalesWrapper);
 
-            doc.add(new Paragraph(" "));
-
-            // ======= NOTA / INFORMACIÓN FINAL =======
+            // ======= NOTA FINAL =======
             Paragraph info = new Paragraph(
-                    "Este comprobante certifica la reserva realizada a través de la plataforma ViveYaTravel.\n" +
-                    "Por favor, preséntalo junto con tu documento de identidad el día del viaje.",
+                    "Este comprobante certifica la reserva realizada en ViveYaTravel.\n" +
+                    "Preséntalo junto con tu documento de identidad.",
                     normalFont
             );
-            info.setAlignment(Element.ALIGN_LEFT);
             info.setSpacingBefore(10f);
-            info.setSpacingAfter(10f);
             doc.add(info);
 
-            Paragraph gracias = new Paragraph("¡Gracias por confiar en ViveYaTravel! ✈🚌", subtituloFont);
+            Paragraph gracias = new Paragraph("¡Gracias por confiar en ViveYaTravel!", subtituloFont);
             gracias.setAlignment(Element.ALIGN_CENTER);
             doc.add(gracias);
-
-            Paragraph estado = new Paragraph("Estado: RESERVA CONFIRMADA", smallGrayFont);
-            estado.setAlignment(Element.ALIGN_CENTER);
-            estado.getFont().setColor(accent);
-            estado.setSpacingBefore(4f);
-            doc.add(estado);
 
         } catch (DocumentException e) {
             throw new IOException("Error generando el PDF", e);
@@ -361,7 +310,7 @@ public class ComprobantePDFServlet extends HttpServlet {
         }
     }
 
-    // ======= Helpers para celdas =======
+    // ======= Helpers =======
     private PdfPCell headerCell(String texto, BaseColor bg, Font font) {
         PdfPCell c = new PdfPCell(new Phrase(texto, font));
         c.setBackgroundColor(bg);
