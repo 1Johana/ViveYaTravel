@@ -413,7 +413,6 @@ public class usuarioDAO {
         styleDatosCenter.setAlignment(HorizontalAlignment.CENTER);
 
         // --- LOGO E INFORMACIÓN ---
-        // Descargar logo (Protegido con try-catch por si falla internet)
         try {
             String logoURL = "https://www.viveyatravel.com/imagenes/logo-web-vive-ya-travel-2.png";
             URL url = new URL(logoURL);
